@@ -27,7 +27,6 @@ public class TicketTypeController {
 											@RequestParam (name ="nombreEvento", required = true) String nombreEvento,
 										    @RequestParam (name ="fechaEvento", required = true) Date fechaEvento) {
 		
-
 		
 		TenantContext.setCurrentTenant(tenantName);
 		Long ticketId = ticketTypeService.createTicket(nombreEvento,fechaEvento);

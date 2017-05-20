@@ -77,7 +77,7 @@ public class MultitenantConfiguration {
 
         // crea el MultitenantDataSource que contiene un mapa con clave nombre del tenant 
         // y value los datos necesarios para la conexión 
-        // Tine que existir un defaul, No usar el defaul no es seguro !!!
+        // Tiene que existir un defaul, No usar el defaul no es seguro !!!
         MultitenantDataSource dataSource = new MultitenantDataSource();
         dataSource.setDefaultTargetDataSource(defaultDataSource());
         dataSource.setTargetDataSources(resolvedDataSources);
