@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.grupo6.config.MultitenantConfiguration;
 import com.grupo6.config.TenantContext;
+import com.grupo6.persistence.model.AdministradorTenant;
 import com.grupo6.service.TenantService;
 
 @Service
@@ -24,6 +25,7 @@ public class TenantServiceBean implements TenantService {
 	@Value("${tenatPath}")
 	private String tenatPath;
 
+	
 	@Autowired
 	private MultitenantConfiguration multitenantConfiguration;
 
@@ -79,4 +81,5 @@ public class TenantServiceBean implements TenantService {
 			ex.printStackTrace();
 		}
 	}
+
 }

@@ -59,15 +59,18 @@ CREATE TABLE `entrada` (
   `id_portero` int(11) DEFAULT NULL,
   `id_espectaculo` int(11) NOT NULL,
   `id_sector` int(11) DEFAULT NULL,
+  `id_realizacion_espectaculo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_entrada`),
   KEY `fk_entrada_espectaculo_idx` (`id_espectaculo`),
   KEY `fk_entrada_sector_idx` (`id_sector`),
+  KEY `fk_realizacion_espectaculo` (`id_realizacion_espectaculo`),
   KEY `fk_entrada_usuario_idx` (`id_usuario`),
   KEY `fk_entrada_vendedor_idx` (`id_vendedor`),
   KEY `fk_entrada_portero_idx` (`id_portero`),
   CONSTRAINT `fk_entrada_espectaculo` FOREIGN KEY (`id_espectaculo`) REFERENCES `espectaculo` (`id_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_entrada_portero` FOREIGN KEY (`id_portero`) REFERENCES `portero` (`id_portero`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_entrada_sector` FOREIGN KEY (`id_sector`) REFERENCES `sector` (`id_sector`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_realizacion_espectaculo` FOREIGN KEY (`id_realizacion_espectaculo`) REFERENCES `realizacion_espectaculo` (`id_realizacion_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_entrada_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_entrada_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id_vendedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -93,10 +96,12 @@ CREATE TABLE `espectaculo` (
   `id_espectaculo` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
-  `categoria` varchar(45) DEFAULT NULL,
   `id_tipo_espectaculo` int(11) DEFAULT NULL,
+  `id_realizacion_espectaculo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_espectaculo`),
   KEY `fk_tipo_espectaculo_idx` (`id_tipo_espectaculo`),
+  KEY `fk_espectaculo_realizacion_espectaculo_idx` (`id_realizacion_espectaculo`),
+  CONSTRAINT `fk_espectaculo_realizacion_espectaculo` FOREIGN KEY (`id_realizacion_espectaculo`) REFERENCES `realizacion_espectaculo` (`id_realizacion_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tipo_espectaculo` FOREIGN KEY (`id_tipo_espectaculo`) REFERENCES `tipo_espectaculo` (`id_tipo_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -226,17 +231,18 @@ LOCK TABLES `sala` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `sala_espectaculo`
+-- Table structure for table `realizacion_espectaculo`
 --
 
-DROP TABLE IF EXISTS `sala_espectaculo`;
+DROP TABLE IF EXISTS `realizacion_espectaculo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sala_espectaculo` (
-  `id_sala_espectaculo` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `realizacion_espectaculo` (
+  `id_realizacion_espectaculo` int(11) NOT NULL AUTO_INCREMENT,
   `id_espectaculo` int(11) NOT NULL,
+  `fecha` date DEFAULT NULL,
   `id_sala` int(11) NOT NULL,
-  PRIMARY KEY (`id_sala_espectaculo`),
+  PRIMARY KEY (`id_realizacion_espectaculo`),
   KEY `fk_sala_idx` (`id_sala`),
   KEY `fk_espectaculo_idx` (`id_espectaculo`),
   CONSTRAINT `fk_espectaculo` FOREIGN KEY (`id_espectaculo`) REFERENCES `espectaculo` (`id_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -245,12 +251,12 @@ CREATE TABLE `sala_espectaculo` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sala_espectaculo`
+-- Dumping data for table `realizacion_espectaculo`
 --
 
-LOCK TABLES `sala_espectaculo` WRITE;
-/*!40000 ALTER TABLE `sala_espectaculo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sala_espectaculo` ENABLE KEYS */;
+LOCK TABLES `realizacion_espectaculo` WRITE;
+/*!40000 ALTER TABLE `realizacion_espectaculo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `realizacion_espectaculo` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
