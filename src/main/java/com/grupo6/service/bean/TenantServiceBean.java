@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import com.grupo6.config.MultitenantConfiguration;
 import com.grupo6.config.TenantContext;
-import com.grupo6.persistence.model.AdministradorTenant;
 import com.grupo6.service.TenantService;
 
 @Service

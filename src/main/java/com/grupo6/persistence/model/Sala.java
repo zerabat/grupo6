@@ -13,6 +13,7 @@ public class Sala {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "sala")
 	private long id;
 
 	@Column(length = 50, nullable = false)

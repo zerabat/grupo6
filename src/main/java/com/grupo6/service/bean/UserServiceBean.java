@@ -1,5 +1,7 @@
 package com.grupo6.service.bean;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,12 @@ public class UserServiceBean implements UserService {
 	@Override
 	public void altaUsuario(Usuario dtos) {
 		usuarioRepository.save(dtos);
-		
+
+	}
+
+	@Override
+	public Optional<Usuario> loginEmailPassword(String email, String password) {
+		return usuarioRepository.findByEmail(email);
+
 	}
 }

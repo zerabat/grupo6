@@ -13,6 +13,7 @@ public class AdministradorTenant {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_administrador")
 	private long id;
 
 	@Column(length = 50, nullable = false)
