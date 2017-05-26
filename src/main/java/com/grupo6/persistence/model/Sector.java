@@ -17,6 +17,7 @@ public class Sector {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_sector")
 	private long id;
 
 	@Column(length = 50, nullable = false)

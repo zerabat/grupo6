@@ -13,6 +13,7 @@ public class TipoEspectaculo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_tipo_espectaculo")
 	private long id;
 
 	@Column(length = 50, nullable = false)

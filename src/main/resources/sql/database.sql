@@ -399,8 +399,9 @@ CREATE TABLE `vendedor` (
   `id_vendedor` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
   `cedula` varchar(45) NOT NULL,
-  `passoword` varchar(512) NOT NULL,
+  `password` varchar(512) NOT NULL,
   PRIMARY KEY (`id_vendedor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

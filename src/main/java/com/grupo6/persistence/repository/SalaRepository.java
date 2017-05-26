@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.grupo6.persistence.model.Sala;
 
 @Repository
-public interface SalaRepository extends BaseRepository <Sala, Integer>{
+public interface SalaRepository extends BaseRepository <Sala, Long>{
 
 }

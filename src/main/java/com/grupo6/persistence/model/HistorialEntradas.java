@@ -20,6 +20,7 @@ public class HistorialEntradas {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_historial_entradas")
 	private long id;
 
 	@JsonIgnore

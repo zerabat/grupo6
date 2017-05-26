@@ -13,6 +13,7 @@ public class Portero {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_portero")
 	private long id;
 
 	@Column(length = 50, nullable = false)

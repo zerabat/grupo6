@@ -65,7 +65,7 @@ public class AdministradorController {
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
 		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession()
-				.getAttribute("administradorTenat");
+				.getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
 		}
@@ -81,23 +81,12 @@ public class AdministradorController {
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
 		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession()
-				.getAttribute("administradorTenat");
+				.getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		administradorService.agregarPortero(portero);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
-
-	// @RequestMapping(path = "/agregarAdminATenat", method = RequestMethod.PUT)
-	// public ResponseEntity<?>
-	// agregarAdministradorATenant(@RequestHeader("X-TenantID") String
-	// tenantName,
-	// @RequestBody( AdministradorTenant adminTenant ) {
-	//
-	// TenantContext.setCurrentTenant(tenantName);
-	// tenatService.agregarAdministrador(adminTenant);
-	// return new ResponseEntity<Object>(HttpStatus.OK);
-	// }
 
 }

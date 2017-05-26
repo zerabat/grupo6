@@ -37,7 +37,7 @@ public class SectorController {
 
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
-		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession().getAttribute("administradorTenat");
+		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession().getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
 		}
@@ -55,7 +55,7 @@ public class SectorController {
 
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
-		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession().getAttribute("administradorTenat");
+		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession().getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<List<Sector>>(HttpStatus.NOT_ACCEPTABLE);
 		}

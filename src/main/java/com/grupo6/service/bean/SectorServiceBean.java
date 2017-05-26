@@ -24,15 +24,20 @@ public class SectorServiceBean implements SectorService {
 
 	@Override
 	public void altaSector(Sector sector) {
+		Optional<Sala> s = salaRepository.findOne(sector.getSala().getId());
+		sector.setSala(s.get());
 		sectorRepository.save(sector);		
 	}
 
 
 	@Override
 	public List<Sector> obtenerSectoresSala(String salaId) {
-		Optional<Sala> s = salaRepository.findOne(Integer.valueOf(salaId));
-		sectorRepository.findBySala(s.get());
-		return null;
+		
+		Optional<Sala> s = salaRepository.findOne(Long.valueOf(salaId));
+		List<Sector> sectores = sectorRepository.findBySalaId(Long.valueOf(salaId));
+		sectores.forEach(x -> x.setSala(s.get()));
+		return sectores;
+		
 	}
 
 
