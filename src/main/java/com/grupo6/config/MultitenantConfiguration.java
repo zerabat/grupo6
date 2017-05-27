@@ -32,14 +32,11 @@ public class MultitenantConfiguration {
 	private String tenatPath;
 
 
-    /**
-     * Defines the data source for the application
-     * @return
-     */
     @Bean
     @ConfigurationProperties(
             prefix = "spring.datasource"
     )
+    
     @PostConstruct
     public DataSource dataSource() {
 

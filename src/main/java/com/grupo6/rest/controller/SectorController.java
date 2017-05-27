@@ -17,16 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grupo6.config.TenantContext;
 import com.grupo6.persistence.model.AdministradorTenant;
-import com.grupo6.persistence.model.Sala;
 import com.grupo6.persistence.model.Sector;
-import com.grupo6.service.SalaService;
 import com.grupo6.service.SectorService;
 
 @RestController
 public class SectorController {
-
-	@Autowired
-	private SalaService salaService;
 
 	@Autowired
 	private SectorService sectorService;
