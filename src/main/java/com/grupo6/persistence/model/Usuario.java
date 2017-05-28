@@ -19,7 +19,7 @@ public class Usuario {
 	@Column(length = 50, nullable = false)
 	private String email;
 	
-	@Column(length = 50, nullable = false)
+	@Column(length = 50, nullable = true)
 	private String password;
 	
 	@Column(length = 50, nullable = false)
@@ -30,6 +30,9 @@ public class Usuario {
 	
 	@Column(length = 50, nullable = false)
 	private String cedula;
+
+	@Column(name= "gmail_token", length = 50, nullable = true)
+	private String gmailToken;
 
 	public long getId() {
 		return id;
@@ -77,6 +80,14 @@ public class Usuario {
 
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
+	}
+
+	public String getGmailToken() {
+		return gmailToken;
+	}
+
+	public void setGmailToken(String gmailToken) {
+		this.gmailToken = gmailToken;
 	}
 
 }

@@ -43,7 +43,7 @@ public class UserController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/loginUsuarioFinal/", method = RequestMethod.POST)
+	@RequestMapping(path = "/loginUsuarioFinal/", method = RequestMethod.PUT)
 	public ResponseEntity<?> loginUsuarioFinal(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
 			@RequestParam(name = "password", required = true) String password) {
@@ -65,24 +65,21 @@ public class UserController {
 
 	@RequestMapping(path = "/loginUsuarioFinalGmail/", method = RequestMethod.POST)
 	public ResponseEntity<?> loginUsuarioFinalGmail(@RequestHeader("X-TenantID") String tenantName,
-			@RequestBody String data, HttpServletRequest request){
+			HttpServletRequest request, @RequestParam(name = "email", required = false) String email,
+			@RequestParam(name = "id", required = false) String id) {
 
 		TenantContext.setCurrentTenant(tenantName);
-		
-//		JSONObject json = new JSONObject(data);
-//		String email = json.getString("email");
-//		String id = json.getString("id");
-		
-//		Optional<Usuario> usuario = userService.loginEmailPassword(email, id);
-//		if (usuario.isPresent()) {
-//			if (usuario.get().getPassword().equals(id)) {
-//				HttpSession sesion = request.getSession();
-//				sesion.setAttribute("usuario", usuario);
-//				return new ResponseEntity<Object>(HttpStatus.OK);
-//			}
-//		} else {
-//			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
-//		}
+
+		Optional<Usuario> usuario = userService.altaOLoginConGmail(id, email);
+		if (usuario.isPresent()) {
+			if (usuario.get().getPassword().equals(id)) {
+				HttpSession sesion = request.getSession();
+				sesion.setAttribute("usuario", usuario);
+				return new ResponseEntity<Object>(HttpStatus.OK);
+			}
+		} else {
+			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
 	}
 

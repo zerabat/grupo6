@@ -9,5 +9,7 @@ public interface UserService {
 	void altaUsuario(Usuario dtos);
 
 	Optional<Usuario> loginEmailPassword(String email, String password);
+	
+	Optional<Usuario> altaOLoginConGmail(String id, String email);
 
 }
