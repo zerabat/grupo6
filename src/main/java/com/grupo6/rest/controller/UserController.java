@@ -43,7 +43,7 @@ public class UserController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/loginUsuarioFinal/", method = RequestMethod.PUT)
+	@RequestMapping(path = "/loginUsuarioFinal/", method = RequestMethod.POST)
 	public ResponseEntity<?> loginUsuarioFinal(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
 			@RequestParam(name = "password", required = true) String password) {
@@ -63,6 +63,26 @@ public class UserController {
 		return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
 	}
 
+	@RequestMapping(path = "/loginUsuarioFinalGmail/", method = RequestMethod.POST)
+	public ResponseEntity<?> loginUsuarioFinalGmail(@RequestHeader("X-TenantID") String tenantName,
+			HttpServletRequest request, @RequestParam(name = "email", required = false) String email,
+			@RequestParam(name = "id", required = false) String id) {
+
+		TenantContext.setCurrentTenant(tenantName);
+
+		Optional<Usuario> usuario = userService.loginEmailPassword(email, id);
+		if (usuario.isPresent()) {
+			if (usuario.get().getPassword().equals(id)) {
+				HttpSession sesion = request.getSession();
+				sesion.setAttribute("usuario", usuario);
+				return new ResponseEntity<Object>(HttpStatus.OK);
+			}
+		} else {
+			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+	}
+
 	@RequestMapping(path = "/pruebalogin/", method = RequestMethod.PUT)
 	public ResponseEntity<?> buscarEvento(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 			@RequestParam(name = "email", required = true) String email,
@@ -70,7 +90,7 @@ public class UserController {
 
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
-		Optional <Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
+		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
 		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
 		} else {
