@@ -65,21 +65,24 @@ public class UserController {
 
 	@RequestMapping(path = "/loginUsuarioFinalGmail/", method = RequestMethod.POST)
 	public ResponseEntity<?> loginUsuarioFinalGmail(@RequestHeader("X-TenantID") String tenantName,
-			HttpServletRequest request, @RequestParam(name = "email", required = false) String email,
-			@RequestParam(name = "id", required = false) String id) {
+			@RequestBody String data, HttpServletRequest request){
 
 		TenantContext.setCurrentTenant(tenantName);
-
-		Optional<Usuario> usuario = userService.loginEmailPassword(email, id);
-		if (usuario.isPresent()) {
-			if (usuario.get().getPassword().equals(id)) {
-				HttpSession sesion = request.getSession();
-				sesion.setAttribute("usuario", usuario);
-				return new ResponseEntity<Object>(HttpStatus.OK);
-			}
-		} else {
-			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
-		}
+		
+//		JSONObject json = new JSONObject(data);
+//		String email = json.getString("email");
+//		String id = json.getString("id");
+		
+//		Optional<Usuario> usuario = userService.loginEmailPassword(email, id);
+//		if (usuario.isPresent()) {
+//			if (usuario.get().getPassword().equals(id)) {
+//				HttpSession sesion = request.getSession();
+//				sesion.setAttribute("usuario", usuario);
+//				return new ResponseEntity<Object>(HttpStatus.OK);
+//			}
+//		} else {
+//			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+//		}
 		return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
 	}
 

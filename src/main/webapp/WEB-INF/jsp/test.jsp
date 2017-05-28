@@ -56,31 +56,32 @@
 
 	<script>
 		function onSignIn(googleUser) {
+			debugger;
 			var profile = googleUser.getBasicProfile();
 			console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
 			console.log('Name: ' + profile.getName());
 			console.log('Image URL: ' + profile.getImageUrl());
 			console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-			 var xhttp = new XMLHttpRequest();
-			    xhttp.open("POST", "/loginUsuarioFinalGmail/", false);
-			    xhttp.setRequestHeader("Content-type", "application/json");
-			    xhttp.send();
-			    var response = JSON.parse(xhttp.responseText);
 			    
-			    	  var xhttp = new XMLHttpRequest();
-			    	  xhttp.onreadystatechange = function() {
-			    	    if (this.readyState == 4 && this.status == 200) {
-			    	      document.getElementById("demo").innerHTML = this.responseText;
-			    	    }
-			    	  };
-			    	  xhttp.open("POST", "/loginUsuarioFinalGmail/", true);
-			    	  xhttp.setRequestHeader("X-TenantID", "tenant2");
-			    	  var data= { 
-		    		        "id": profile.getId(), 
-		    		        "email":  profile.getEmail()
-		    		    },
-			    	  data= JSON.stringify(data)
-			    	  xhttp.send(data);
+	    	  var xhttp = new XMLHttpRequest();
+	    	  xhttp.open("POST", "/loginUsuarioFinalGmail/");
+	    	  
+	    	  xhttp.onreadystatechange = function() {
+	    	    if (this.readyState == 4 && this.status == 200) {
+	    	      document.getElementById("demo").innerHTML = this.responseText;
+	    	    }
+	    	  };
+	    	  xhttp.setRequestHeader("X-TenantID", "tenant2");
+	    	  xhttp.setRequestHeader("Content-type", "application/json");
+	    	  var data= { 
+	    		        "id": profile.getId(), 
+	    		        "email":  profile.getEmail()
+	    	  },
+		   	  data= JSON.stringify(data)
+	    	  
+	    	  
+	    	  debugger;
+	    	  xhttp.send(data);
 			    
 			    	  
 // 			    	  $.ajax({
