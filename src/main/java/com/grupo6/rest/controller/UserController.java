@@ -72,13 +72,9 @@ public class UserController {
 
 		Optional<Usuario> usuario = userService.altaOLoginConGmail(id, email);
 		if (usuario.isPresent()) {
-			if (usuario.get().getPassword().equals(id)) {
 				HttpSession sesion = request.getSession();
 				sesion.setAttribute("usuario", usuario);
 				return new ResponseEntity<Object>(HttpStatus.OK);
-			}
-		} else {
-			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
 	}

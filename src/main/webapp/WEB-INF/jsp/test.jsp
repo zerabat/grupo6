@@ -36,24 +36,24 @@
 	<script>
 		function onSignIn(googleUser) {
 			var profile = googleUser.getBasicProfile();
-			console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+			console.log('ID: ' + profile.getId()); // habría que usar un token 
 			console.log('Name: ' + profile.getName());
 			console.log('Image URL: ' + profile.getImageUrl());
-			console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+			console.log('Email: ' + profile.getEmail()); // podría ser null
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("demo").innerHTML = this.responseText;
+// 					document.getElementById("demo").innerHTML = this.responseText;
 				}
 			};
 			var urlAndParams = "/loginUsuarioFinalGmail/"
-			
-				urlAndParams += "?id=" + profile.getId();
+				
+			urlAndParams += "?id=" + profile.getId();
 			urlAndParams += "&email=" + profile.getEmail();
 			console.log(urlAndParams)
 			xhttp.open("POST", urlAndParams,
 					true);
-			xhttp.setRequestHeader("X-TenantID", "tenant2");
+			xhttp.setRequestHeader("X-TenantID", window.location.pathname.split( '/' )[1]);
 // 	    	  var data= { 
 //   		        "id": profile.getId(), 
 //   		        "email":  profile.getEmail()
