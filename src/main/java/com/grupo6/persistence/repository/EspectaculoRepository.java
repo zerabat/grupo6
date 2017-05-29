@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.grupo6.persistence.model.Espectaculo;
 
 @Repository
-public interface EspectaculoRepository extends BaseRepository <Espectaculo, Integer>{
+public interface EspectaculoRepository extends BaseRepository <Espectaculo, Long>{
 
 	@EntityGraph("Espectaculo.Full")
 	@Override

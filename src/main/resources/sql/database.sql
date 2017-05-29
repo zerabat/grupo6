@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `entrada`;
 CREATE TABLE `entrada` (
   `id_entrada` int(11) NOT NULL,
   `numero_asiento` int(11) NOT NULL,
-  `fecha_compra` date NOT NULL,
+  `fecha_compra` date DEFAULT NULL,
   `precio` int(11) NOT NULL,
   `id_vendedor` int(11) DEFAULT NULL,
   `id_usuario` int(11) NOT NULL,
