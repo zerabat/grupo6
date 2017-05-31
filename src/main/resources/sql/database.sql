@@ -50,12 +50,12 @@ DROP TABLE IF EXISTS `entrada`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `entrada` (
-  `id_entrada` int(11) NOT NULL,
+  `id_entrada` int(11) NOT NULL AUTO_INCREMENT,
   `numero_asiento` int(11) NOT NULL,
   `fecha_compra` date DEFAULT NULL,
   `precio` int(11) NOT NULL,
   `id_vendedor` int(11) DEFAULT NULL,
-  `id_usuario` int(11) NOT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
   `id_portero` int(11) DEFAULT NULL,
   `id_espectaculo` int(11) NOT NULL,
   `id_sector` int(11) DEFAULT NULL,
@@ -146,29 +146,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `historial_entradas`
 --
-
-DROP TABLE IF EXISTS `historial_entradas`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `historial_entradas` (
-  `id_historial_entradas` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `fecha_compra` varchar(45) NOT NULL,
-  `id_vendedor` int(11) DEFAULT NULL,
-  `id_portero` int(11) DEFAULT NULL,
-  `fecha_verificacion` date DEFAULT NULL,
-  `id_entrada` int(11) NOT NULL,
-  PRIMARY KEY (`id_historial_entradas`),
-  KEY `fk_histentr_usuario_idx` (`id_usuario`),
-  KEY `fk_histentr_entrada_idx` (`id_entrada`),
-  KEY `fk_histentr_portero_idx` (`id_portero`),
-  KEY `fk_histentr_vendedor_idx` (`id_vendedor`),
-  CONSTRAINT `fk_histentr_entrada` FOREIGN KEY (`id_entrada`) REFERENCES `entrada` (`id_entrada`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_histentr_portero` FOREIGN KEY (`id_portero`) REFERENCES `portero` (`id_portero`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_histentr_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_histentr_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id_vendedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `historial_entradas`

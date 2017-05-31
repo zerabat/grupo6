@@ -28,8 +28,8 @@ public class MultitenantConfiguration {
     @Autowired
     private DataSourceProperties properties;
     
-	@Value("${tenatPath}")
-	private String tenatPath;
+	@Value("${tenantPath}")
+	private String tenantPath;
 
 
     @Bean
@@ -43,7 +43,7 @@ public class MultitenantConfiguration {
     	// De acá leemos los archivos de propiedades con los datos 
     	// de la base que va a usar cada tenant cuando se crea un nuevo 
     	// hay que crear un archivo de propiedades nuevo y llamar a este servicio 
-        File[] files = Paths.get(tenatPath).toFile().listFiles();
+        File[] files = Paths.get(tenantPath).toFile().listFiles();
         Map<Object,Object> resolvedDataSources = new HashMap<>();
 
         for(File propertyFile : files) {

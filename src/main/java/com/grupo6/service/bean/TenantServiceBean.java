@@ -21,8 +21,8 @@ import com.grupo6.service.TenantService;
 @Service
 public class TenantServiceBean implements TenantService {
 
-	@Value("${tenatPath}")
-	private String tenatPath;
+	@Value("${tenantPath}")
+	private String tenantPath;
 
 	
 	@Autowired
@@ -40,7 +40,7 @@ public class TenantServiceBean implements TenantService {
 			// no guardar archivo de propiedades porque no se puede escapear el
 			// ":"
 
-			String path = tenatPath + "/" + tenantName + ".properties";
+			String path = tenantPath + "/" + tenantName + ".properties";
 			String content = new String();
 			content += "name=" + tenantName + System.lineSeparator();
 			content += "datasource.username=root" + System.lineSeparator();

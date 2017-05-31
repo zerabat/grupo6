@@ -102,6 +102,21 @@ public class EspectaculoController {
 	}
 	
 
+	@RequestMapping(path = "/verRealizacionesDeEspectaculo/", method = RequestMethod.GET)
+	public ResponseEntity<List<RealizacionEspectaculoDTO>> verRealizacionesDeEspectaculo(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
+			@RequestParam(name = "email", required = true) String email, @RequestParam(name = "idEspectaculo", required = true) String id ) {
+
+		TenantContext.setCurrentTenant(tenantName);
+		@SuppressWarnings("unchecked")
+		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
+		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
+			return new ResponseEntity<List<RealizacionEspectaculoDTO>>(HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+		List <RealizacionEspectaculoDTO> realizaciones  = realizacionEspectaculoService.verRealizacionesDeEspectaculo(id);
+		return new ResponseEntity<List <RealizacionEspectaculoDTO>>(realizaciones,HttpStatus.OK);
+	}
+	
 
 	@RequestMapping(path = "/obtenerEspectaculosUsuario/", method = RequestMethod.GET)
 	public ResponseEntity<List<EspectaculoDTO>> obtenerEspectaculosUsr(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
