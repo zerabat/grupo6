@@ -1,0 +1,141 @@
+/*----Estilos LOGIN----*/
+body{
+  font-size: 16px;
+  font-weight: 300;
+  color: #fff;
+  line-height: 30px;
+  text-align: center;
+  background-color: #2c3e50;
+}
+
+strong{
+  font-weight: 500;
+}
+
+a, a:hover, a:focus{
+  text-decoration: none;
+}
+
+h1, h2{
+  margin-top: 10px;
+  font-size: 38px;
+  font-weight: 100;
+  line-height: 50px;
+}
+
+h3{
+  font-size: 22px;
+  font-weight: 300;
+}
+
+.content{
+  padding: 50px 0 170px 0;
+  margin: 20px 0 10px 0;
+  opacity: 0.9;
+}
+
+.form-cont{
+  margin-top: 35px;
+}
+
+.form-top{
+  overflow: hidden;
+  padding: 0 25px 15px 25px;
+  background: rgba(0,0,0,0.35);
+  -moz-border-radius: 10px 10px 0 0;
+  -webkit-border-radius: 10px 10px 0 0;
+  border-radius: 10px 10px 0 0;
+}
+
+.form-top-left{
+  float: left;
+  width: 75%;
+  padding-top: 25px;
+  text-align: left;
+}
+
+.form-top-left p{
+  opacity: 0.9;
+}
+
+.form-top-right{
+  float: right;
+  width: 25%;
+  padding-top: 10px;
+  font-size: 60px;
+  text-align: right;
+  opacity: 0.5;
+}
+
+.form-bottom{
+  padding: 25px 25px 30px 25px;
+  background: rgba(0, 0, 0, 0.3);
+  -moz-border-radius: 0 0 10px 10px;
+  -webkit-border-radius: 0 0 10px 10px;
+  border-radius: 0 0 10px 10px;
+}
+
+.form-bottom .btn{
+  width: 100%
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+textarea .form-control:focus{
+  background: #fff;
+  border: 2px solid #1AAE88;
+}
+
+button.btn{
+  background: #1AAE88;
+  border: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 40px;
+  -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+}
+
+button.btn:hover, button.btn:active{
+  opacity: 0.8;
+  color: #fff;
+  border: 0;
+}
+
+button.btn:focus {
+  opacity: 0.8;
+  color: #fff;
+  background: #de615e;
+  border: solid #de615e;
+  border: 0;
+}
+
+.google-login{
+  margin-top: 35px;
+}
+
+.google-login-button{
+  margin-top: 25px;
+}
+
+.btn-social{
+  display: inline-block;
+  height: 50px;
+  margin: 5px;
+  padding: 15px 20px 0 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #fff;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 16px;
+  color: #fff;
+  -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+
+}
+
+.btn-social:hover, .btn-social:focus, .btn-social:active:focus{
+  outline: 0;
+  opacity: 0.8;
+  background: rgba(255, 0, 0, 0.5);
+  color: #fff;
+}
