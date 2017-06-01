@@ -1,25 +1,12 @@
 package com.grupo6.rest.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.grupo6.config.TenantContext;
-import com.grupo6.persistence.model.AdministradorTenant;
-import com.grupo6.persistence.model.Portero;
-import com.grupo6.persistence.model.Vendedor;
-import com.grupo6.service.AdministradorService;
 
 @RestController
 public class PorteroController {
 
-	@Autowired
-	private AdministradorService administradorService;
+//	@Autowired
+//	private AdministradorService administradorService;
 
 //	@RequestMapping(path = "/altaAdministradorTenat/", method = RequestMethod.PUT)
 //	public ResponseEntity<?> altaAdministradorTenat(
