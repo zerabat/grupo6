@@ -14,6 +14,9 @@ public class RealizacionEspectaculoDTO {
 
 	private long idEspectaculo;
 
+	public RealizacionEspectaculoDTO(){
+		
+	}
 	public RealizacionEspectaculoDTO(RealizacionEspectaculo x) {
 		this.id = x.getId();
 		this.fecha = x.getFecha();

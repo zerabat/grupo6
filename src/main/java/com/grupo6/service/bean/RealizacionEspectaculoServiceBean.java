@@ -34,6 +34,7 @@ import com.grupo6.persistence.repository.EspectaculoRepository;
 import com.grupo6.persistence.repository.RealizacionEspectaculoRepository;
 import com.grupo6.persistence.repository.SalaRepository;
 import com.grupo6.persistence.repository.SectorRepository;
+import com.grupo6.rest.dto.EntradaDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
 import com.grupo6.service.RealizacionEspectaculoService;
 
@@ -177,6 +178,13 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 			ret.add(new RealizacionEspectaculoDTO(x));
 		});
 		return ret;
+	}
+
+
+	@Override
+	public EntradaDTO comprarEntradaEspectaculo(Long idRealizacion, String idSector, String email) {
+		
+		return null;
 	}
 
 }
