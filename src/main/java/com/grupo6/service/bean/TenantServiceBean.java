@@ -62,8 +62,8 @@ public class TenantServiceBean implements TenantService {
 				stmt = con.createStatement();
 				stmt.executeUpdate(query);
 
-				// vuelvo a settear los datasources para que toma la conección
-				// del tenat que se está creando
+				// vuelvo a settear los datasources para que toma la conexión
+				// del tenant que se está creando
 				multitenantConfiguration.dataSource();
 				// seteo el tenant actual
 				TenantContext.setCurrentTenant(tenantName);
@@ -72,6 +72,7 @@ public class TenantServiceBean implements TenantService {
 				con = multitenantConfiguration.dataSource().getConnection();
 				rdp.addScript(new ClassPathResource("sql/database.sql"));
 				rdp.populate(con);
+				multitenantConfiguration.dataSource();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

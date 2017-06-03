@@ -25,15 +25,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	// @RequestMapping(path = "/crearNuevoTenat", method = RequestMethod.PUT)
-	// public ResponseEntity<?> createTicket(@RequestParam(name =
-	// "nombreTenant", required = true) String nombreTenat) {
-	//
-	// // TenantContext.setCurrentTenant(tenantName);
-	// tenatService.createTenat(nombreTenat);
-	// return new ResponseEntity<Object>(HttpStatus.OK);
-	// }
-
 	@RequestMapping(path = "/altaUsuarioFinal/", method = RequestMethod.PUT)
 	public ResponseEntity<?> altaAdministradorTenant(@RequestHeader("X-TenantID") String tenantName,
 			@RequestBody Usuario dtos) {
@@ -52,7 +43,8 @@ public class UserController {
 
 		Optional<Usuario> usuario = userService.loginEmailPassword(email, password);
 		if (usuario.isPresent()) {
-			if (usuario.get().getPassword().equals(password)) {
+			String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
+			if (usuario.get().getPassword().equals(sha256hex)) {
 				HttpSession sesion = request.getSession();
 				sesion.setAttribute("usuario", usuario);
 				return new ResponseEntity<Object>(HttpStatus.OK);

@@ -27,6 +27,9 @@ public class AdministradorServiceBean implements AdministradorService {
 
 	@Override
 	public void agregarAdministrador(AdministradorTenant dtos) {
+
+		String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(dtos.getPassowd());
+		dtos.setPassowd(sha256hex);
 		administradorRepository.save(dtos);
 
 	}

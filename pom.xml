@@ -131,6 +131,12 @@
 			<version>1.4</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.directory.studio</groupId>
+			<artifactId>org.apache.commons.codec</artifactId>
+			<version>1.8</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>

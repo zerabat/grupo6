@@ -17,6 +17,8 @@ public class UserServiceBean implements UserService {
 
 	@Override
 	public void altaUsuario(Usuario dtos) {
+		String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(dtos.getPassword());
+		dtos.setPassword(sha256hex);
 		usuarioRepository.save(dtos);
 
 	}
@@ -30,10 +32,10 @@ public class UserServiceBean implements UserService {
 	@Override
 	public Optional<Usuario> altaOLoginConGmail(String id, String email) {
 		Optional<Usuario> usr = usuarioRepository.findByEmail(email);
-		if(usr.get().getGmailToken() == null ){
+		if (usr.get().getGmailToken() == null) {
 			usr.get().setGmailToken(id);
 			usuarioRepository.save(usr.get());
-		}else if (!usr.get().getGmailToken().equals(id)){
+		} else if (!usr.get().getGmailToken().equals(id)) {
 			return Optional.empty();
 		}
 		return usr;

@@ -27,17 +27,7 @@ public class AdministradorController {
 	@Autowired
 	private AdministradorService administradorService;
 
-	@RequestMapping(path = "/altaAdministradorTenat/", method = RequestMethod.PUT)
-	public ResponseEntity<?> altaAdministradorTenat(@RequestHeader("X-TenantID") String tenantName,
-			@RequestBody AdministradorTenant dtos) {
-
-		// TODO crear superadministrador que crea todos los tenant
-
-		TenantContext.setCurrentTenant(tenantName);
-		administradorService.agregarAdministrador(dtos);
-		return new ResponseEntity<Object>(HttpStatus.OK);
-	}
-
+	
 	@RequestMapping(path = "/loginAdministradorTenant/", method = RequestMethod.PUT)
 	public ResponseEntity<?> loginAdministradorTenant(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
@@ -47,7 +37,8 @@ public class AdministradorController {
 
 		Optional<AdministradorTenant> adminT = administradorService.login(email);
 		if (adminT.isPresent()) {
-			if (adminT.get().getPassowd().equals(password)) {
+			String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
+			if (adminT.get().getPassowd().equals(sha256hex)) {
 				HttpSession sesion = request.getSession();
 				sesion.setAttribute("administradorTenant", adminT);
 				return new ResponseEntity<Object>(HttpStatus.OK);
