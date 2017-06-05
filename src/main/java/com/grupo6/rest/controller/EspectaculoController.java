@@ -126,7 +126,7 @@ public class EspectaculoController {
 			@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 			@RequestParam(name = "email", required = true) String email,
 			@RequestParam(name = "idRealizacion", required = true) Long idRealizacion,
-			@RequestParam(name = "email", required = true) String idSector) {
+			@RequestParam(name = "idSector", required = true) String idSector) {
 
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")

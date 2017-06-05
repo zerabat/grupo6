@@ -183,7 +183,8 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 
 	@Override
 	public EntradaDTO comprarEntradaEspectaculo(Long idRealizacion, String idSector, String email) {
-		
+		Entrada ent = new Entrada();
+//		entradaRepository.findAllBy
 		return null;
 	}
 

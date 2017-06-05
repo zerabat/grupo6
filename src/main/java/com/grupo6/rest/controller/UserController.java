@@ -34,7 +34,7 @@ public class UserController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/loginUsuarioFinal/", method = RequestMethod.PUT)
+	@RequestMapping(path = "/loginUsuarioFinal/", method = RequestMethod.POST)
 	public ResponseEntity<?> loginUsuarioFinal(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
 			@RequestParam(name = "password", required = true) String password) {
