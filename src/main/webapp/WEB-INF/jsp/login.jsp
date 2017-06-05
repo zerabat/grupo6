@@ -6,16 +6,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesion</title>
-    
+    <title>Iniciar sesión</title>
+
 	<c:url value="/css/bootstrap.css" var="bootstrapCSS" />
     <link rel="stylesheet" href="${bootstrapCSS}">
 	<c:url value="/css/estilos.css" var="estilos" />
     <link rel="stylesheet" href="${estilos}">
-	<c:url value="/css/font-awesome.min.css" var="fontAwesome" />
-    <link rel="stylesheet" href="${fontAwesome}">
+
   </head>
-  
+
   <body>
   <div class="content">
     <div class="container">
@@ -35,17 +34,15 @@
             </div>
           </div>
           <div class="form-bottom">
-          <spring:url value="/users" var="userActionUrl" />
-
-			<form:form class="form-horizontal" method="post" action="${loginUsuarioFinal}">
+			<form role="form" class="" action="" method="post">
               <div class="form-group">
-                <input type="text" name="email" placeholder="E-mail" class="form-control">
+                <input type="text"  id="email"  name="email" placeholder="E-mail" class="form-control">
               </div>
               <div class="form-group">
-                <input type="password" name="password" placeholder="Contraseña" class="form-control">
+                <input type="password"  id="password" name="password" placeholder="Contraseña" class="form-control">
               </div>
-              <button type="submit" class="btn">Entrar</button>
-            </form:form>
+              <button type="submit" class="btn" onclick="valida();">Entrar</button>
+            </form>
           </div>
        </div>
       </div>
@@ -54,7 +51,7 @@
           <h3>Ingresa también con: </h3>
           <div class="google-login-button">
             <a href="#" class="btn-social">
-              <i class="fa fa-envelope" > Gmail</i>
+              <i class="glyphicon glyphicon-envelope" > Gmail</i>
             </a>
 
 
@@ -67,6 +64,27 @@
   </div>
 
     <!-- Scripts -->
+    <script>
+    function valida(){
+    var email = document.getElementById('email');
+    var password = document.getElementById("password");
+
+    if((email.value == "")||(password.value == "")){
+        window.alert("Los campos E-mail y contraseña no pueden estar vacios");
+    }else{
+    	var urlAndParams = "/loginUsuarioFinal/";
+    		urlAndParams += "?email=" + email.value;
+		urlAndParams += "&password=" + password.value;
+		console.log(urlAndParams);
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("post", urlAndParams,true);
+		xhttp.setRequestHeader("X-TenantID", window.location.pathname.split( '/' )[1]);
+		xhttp.send();
+		}
+
+	}
+    </script>
 	<c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
 	<c:url value="/js/bootstrap.min.js" var="bootstrapJS" />
     <script src="${jqueryJS}"></script>
