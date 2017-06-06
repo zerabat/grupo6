@@ -17,7 +17,7 @@ public class IndexViewController {
 	}
 	
 	@RequestMapping(path = "/login")
-	public String login(@PathVariable String tenantId, Map<String, Object> model) {
+	public String login( Map<String, Object> model) {
 		return "login";
 	}
 	
