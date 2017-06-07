@@ -20,6 +20,10 @@ public class EspectaculoDTO {
 		this.idTipoEspectaculo  = e.getTipoEspectaculo().getId();
 	}
 	
+
+	public EspectaculoDTO(){
+	}
+	
 	public long getId() {
 		return id;
 	}

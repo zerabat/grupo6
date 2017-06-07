@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +30,13 @@ import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.RealizacionEspectaculo;
 import com.grupo6.persistence.model.Sala;
 import com.grupo6.persistence.model.Sector;
+import com.grupo6.persistence.model.Usuario;
 import com.grupo6.persistence.repository.EntradaRepository;
 import com.grupo6.persistence.repository.EspectaculoRepository;
 import com.grupo6.persistence.repository.RealizacionEspectaculoRepository;
 import com.grupo6.persistence.repository.SalaRepository;
 import com.grupo6.persistence.repository.SectorRepository;
-import com.grupo6.rest.dto.EntradaDTO;
+import com.grupo6.persistence.repository.UsuarioRepository;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
 import com.grupo6.service.RealizacionEspectaculoService;
 
@@ -56,6 +58,9 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 	@Autowired
 	EntradaRepository entradaRepository;
 
+	@Autowired
+	UsuarioRepository usuarioRepository ;
+	
 	@Value("${qrPath}")
 	private String qrPath;
 
@@ -182,10 +187,21 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 
 
 	@Override
-	public EntradaDTO comprarEntradaEspectaculo(Long idRealizacion, String idSector, String email) {
-		Entrada ent = new Entrada();
-//		entradaRepository.findAllBy
-		return null;
+	public Optional<Entrada> comprarEntradaEspectaculo(Long idRealizacion, String idSector, String email) {
+		 Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(idRealizacion,idSector).findFirst();
+		if (ent.isPresent()){
+			ent.get().setFechaCompra(new Date());
+			Optional<Usuario> u = usuarioRepository.findByEmail(email);
+			if (u.isPresent()){
+				ent.get().setUsuario(u.get());
+			}else{
+				return null;
+			}
+			return ent;
+		}else{
+			return null;
+		}
+			
 	}
 
 }

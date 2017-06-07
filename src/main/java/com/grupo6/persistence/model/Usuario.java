@@ -19,7 +19,7 @@ public class Usuario {
 	@Column(length = 50, nullable = false)
 	private String email;
 	
-	@Column(length = 50, nullable = true)
+	@Column(length = 512, nullable = true)
 	private String password;
 	
 	@Column(length = 50, nullable = false)
@@ -31,7 +31,7 @@ public class Usuario {
 	@Column(length = 50, nullable = false)
 	private String cedula;
 
-	@Column(name= "gmail_token", length = 50, nullable = true)
+	@Column(name= "gmail_token", length = 512, nullable = true)
 	private String gmailToken;
 
 	public long getId() {

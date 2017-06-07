@@ -16,11 +16,19 @@ public class UserServiceBean implements UserService {
 	private UsuarioRepository usuarioRepository;
 
 	@Override
-	public void altaUsuario(Usuario dtos) {
-		String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(dtos.getPassword());
-		dtos.setPassword(sha256hex);
-		usuarioRepository.save(dtos);
-
+	public Optional<Usuario> altaUsuario(Usuario dtos) {
+		if (dtos.getGmailToken().isEmpty() && dtos.getGmailToken().length() < 3){
+			String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(dtos.getPassword());
+			dtos.setPassword(sha256hex);
+		}else {
+			String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(dtos.getGmailToken());
+			dtos.setGmailToken(sha256hex);
+		}
+		if (usuarioRepository.findByEmail(dtos.getEmail()).isPresent()){
+			return null;
+		}else{
+			return Optional.of(usuarioRepository.save(dtos));
+		}
 	}
 
 	@Override

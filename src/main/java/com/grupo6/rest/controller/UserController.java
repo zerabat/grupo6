@@ -26,12 +26,18 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping(path = "/altaUsuarioFinal/", method = RequestMethod.PUT)
-	public ResponseEntity<?> altaAdministradorTenant(@RequestHeader("X-TenantID") String tenantName,
+	public ResponseEntity<?> altaUsuarioGmailOpasswd(@RequestHeader("X-TenantID") String tenantName,
 			@RequestBody Usuario dtos) {
-
+		
+		// si el campo gmail token está vacío lo usamos el password, sino el token
 		TenantContext.setCurrentTenant(tenantName);
-		userService.altaUsuario(dtos);
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		Optional<Usuario> u = userService.altaUsuario(dtos);
+		if (u.isPresent()){
+			return new ResponseEntity<Object>(HttpStatus.OK);
+		}else{
+			return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+		}
+		
 	}
 
 	@RequestMapping(path = "/loginUsuarioFinal/", method = RequestMethod.GET)
@@ -71,20 +77,20 @@ public class UserController {
 		return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
 	}
 
-	@RequestMapping(path = "/pruebalogin/", method = RequestMethod.PUT)
-	public ResponseEntity<?> buscarEvento(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
-			@RequestParam(name = "email", required = true) String email,
-			@RequestParam(name = "busqueda", required = true) String busqueda) {
-
-		TenantContext.setCurrentTenant(tenantName);
-		@SuppressWarnings("unchecked")
-		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
-		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
-		} else {
-			return new ResponseEntity<Object>(HttpStatus.OK);
-		}
-	}
+//	@RequestMapping(path = "/pruebalogin/", method = RequestMethod.PUT)
+//	public ResponseEntity<?> buscarEvento(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
+//			@RequestParam(name = "email", required = true) String email,
+//			@RequestParam(name = "busqueda", required = true) String busqueda) {
+//
+//		TenantContext.setCurrentTenant(tenantName);
+//		@SuppressWarnings("unchecked")
+//		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
+//		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
+//			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
+//		} else {
+//			return new ResponseEntity<Object>(HttpStatus.OK);
+//		}
+//	}
 
 	// @RequestMapping(path = "/agregarAdminATenat", method = RequestMethod.PUT)
 	// public ResponseEntity<?>

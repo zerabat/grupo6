@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grupo6.config.TenantContext;
 import com.grupo6.persistence.model.AdministradorTenant;
+import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.Usuario;
-import com.grupo6.rest.dto.EntradaDTO;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
 import com.grupo6.service.EspectaculoService;
@@ -39,7 +39,7 @@ public class EspectaculoController {
 
 	@RequestMapping(path = "/altaEspectaculo/", method = RequestMethod.PUT)
 	public ResponseEntity<?> altaEspectaculo(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
-			@RequestParam(name = "email", required = true) String email, @RequestBody Espectaculo espectaculo) {
+			@RequestParam(name = "email", required = true) String email, @RequestBody EspectaculoDTO espectaculo) {
 
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
@@ -122,7 +122,7 @@ public class EspectaculoController {
 	}
 
 	@RequestMapping(path = "/comprarEntradaEspectaculo/", method = RequestMethod.GET)
-	public ResponseEntity<EntradaDTO> comprarEntradaEspectaculo(
+	public ResponseEntity<Entrada> comprarEntradaEspectaculo(
 			@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 			@RequestParam(name = "email", required = true) String email,
 			@RequestParam(name = "idRealizacion", required = true) Long idRealizacion,
@@ -132,11 +132,16 @@ public class EspectaculoController {
 		@SuppressWarnings("unchecked")
 		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
 		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
-			return new ResponseEntity<EntradaDTO>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
 
-		EntradaDTO entr = realizacionEspectaculoService.comprarEntradaEspectaculo(idRealizacion,idSector,email);
-		return new ResponseEntity<EntradaDTO>(entr, HttpStatus.OK);
+		Optional<Entrada> entr = realizacionEspectaculoService.comprarEntradaEspectaculo(idRealizacion,idSector,email);
+		if (entr.isPresent()){
+			return new ResponseEntity<Entrada>(entr.get(), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Entrada>(HttpStatus.GONE);
+		}
+		
 	}
 
 	@RequestMapping(path = "/obtenerEspectaculosUsuario/", method = RequestMethod.GET)

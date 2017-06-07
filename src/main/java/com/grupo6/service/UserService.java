@@ -6,7 +6,7 @@ import com.grupo6.persistence.model.Usuario;
 
 public interface UserService {
 
-	void altaUsuario(Usuario dtos);
+	Optional<Usuario> altaUsuario(Usuario dtos);
 
 	Optional<Usuario> loginEmailPassword(String email, String password);
 	

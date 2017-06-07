@@ -17,6 +17,8 @@ import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.grupo6.rest.dto.EspectaculoDTO;
+
 @Entity
 @Table(name = "espectaculo")
 @NamedEntityGraph(name = "Espectaculo.Full", attributeNodes = {

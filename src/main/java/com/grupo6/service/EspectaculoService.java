@@ -7,7 +7,7 @@ import com.grupo6.rest.dto.EspectaculoDTO;
 
 public interface EspectaculoService {
 
-	void agregarEspectaculo(Espectaculo espectaculo);
+	void agregarEspectaculo(EspectaculoDTO espectaculo);
 
 	void modificarEspectaculo(Espectaculo espectaculo);
 

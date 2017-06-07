@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `administrador`;
 CREATE TABLE `administrador` (
   `id_administrador` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(45) NOT NULL,
-  `passowd` varchar(45) NOT NULL,
+  `passowd` varchar(512) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `apellido` varchar(45) DEFAULT NULL,
   `cedula` varchar(45) DEFAULT NULL,
@@ -332,7 +332,7 @@ CREATE TABLE `tipo_espectaculo` (
   PRIMARY KEY (`id_tipo_espectaculo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
+insert into tipo_espectaculo(Deportes);
 --
 -- Dumping data for table `tipo_espectaculo`
 --
@@ -428,5 +428,11 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+
+insert into tipo_espectaculo values (1,'Deportes');
+insert into tipo_espectaculo values (2,'Cine');
+insert into tipo_espectaculo values (3,'Teatro');
+
 
 -- Dump completed on 2017-05-06 14:49:00

@@ -1,9 +1,9 @@
 package com.grupo6.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import com.grupo6.persistence.model.RealizacionEspectaculo;
-import com.grupo6.rest.dto.EntradaDTO;
+import com.grupo6.persistence.model.Entrada;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
 
 public interface RealizacionEspectaculoService {
@@ -12,6 +12,6 @@ public interface RealizacionEspectaculoService {
 
 	List<RealizacionEspectaculoDTO> verRealizacionesDeEspectaculo(String id);
 
-	EntradaDTO comprarEntradaEspectaculo(Long idRealizacion, String idSector, String email);
+	Optional<Entrada> comprarEntradaEspectaculo(Long idRealizacion, String idSector, String email);
 
 }

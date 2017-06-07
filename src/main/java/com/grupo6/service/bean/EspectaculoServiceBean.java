@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.Sala;
+import com.grupo6.persistence.model.TipoEspectaculo;
 import com.grupo6.persistence.repository.EspectaculoRepository;
 import com.grupo6.persistence.repository.SalaRepository;
+import com.grupo6.persistence.repository.TipoEspectaculoRepository;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.service.EspectaculoService;
 
@@ -23,15 +25,20 @@ public class EspectaculoServiceBean implements EspectaculoService {
 	@Autowired 
 	private SalaRepository salarepository;
 	
+	@Autowired
+	private TipoEspectaculoRepository tipoEspectaculoRepository;
+	
 	@Override
-	public void agregarEspectaculo(Espectaculo espectaculo) {
-		
-		Optional<Sala> s = salarepository.findOne(espectaculo.getRealizacionEspectaculo().stream().findFirst().get().getSala().getId());
-		espectaculo.getRealizacionEspectaculo().stream().forEach(x -> {
-			x.setSala(s.get());
-			x.setEspectaculo(espectaculo);
-		});
-		espectaculoRepository.save(espectaculo);
+	public void agregarEspectaculo(EspectaculoDTO espectaculo) {
+		Espectaculo e = new Espectaculo();
+		e.setDescripcion(espectaculo.getDescripcion());
+		e.setNombre(espectaculo.getNombre());
+		Optional <TipoEspectaculo>  tE = tipoEspectaculoRepository.findOne(espectaculo.getIdTipoEspectaculo());
+//		if (!tE.isPresent()){
+//			return null;
+//		}
+		e.setTipoEspectaculo(tE.get());
+		espectaculoRepository.save(e);
 	}
 
 
