@@ -34,7 +34,7 @@ public class SalaController {
 		@SuppressWarnings("unchecked")
 		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession().getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
 
 		salaService.altaSala(sala);
@@ -49,7 +49,7 @@ public class SalaController {
 		@SuppressWarnings("unchecked")
 		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession().getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
 
 		salaService.altaSala(sala);
@@ -64,7 +64,7 @@ public class SalaController {
 		@SuppressWarnings("unchecked")
 		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession().getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
-			return new ResponseEntity<List<Sala>>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<List<Sala>>(HttpStatus.FORBIDDEN);
 		}
 
 		List <Sala> salas = salaService.obtenerSalas();
