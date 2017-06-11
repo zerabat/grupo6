@@ -332,7 +332,7 @@ CREATE TABLE `tipo_espectaculo` (
   PRIMARY KEY (`id_tipo_espectaculo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-insert into tipo_espectaculo(Deportes);
+
 --
 -- Dumping data for table `tipo_espectaculo`
 --
