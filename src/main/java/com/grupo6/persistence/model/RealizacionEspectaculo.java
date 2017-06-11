@@ -1,6 +1,5 @@
 package com.grupo6.persistence.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -16,12 +15,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "realizacion_espectaculo")
-public class RealizacionEspectaculo implements Serializable {
+public class RealizacionEspectaculo {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

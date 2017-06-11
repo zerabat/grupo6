@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class QueryParserParamsServiceBean {
 
-	private static final String SEARCH_PATTERN = "([a-zA-Z0-9.]+?)(:|<|>)(((\\w|\\s|\\d|;)+?)|(\\d{4}--\\d{2}--\\d{2})+),";
+	private static final String SEARCH_PATTERN = "([a-zA-Z0-9.]+?)(:|<|>)(((\\w|\\s|\\d|;)+?)|(\\d{4}-[01]\\d-[0-3]\\d)+),";
 
 
 	public List<String> matchParams(String params, Function<String[], String> fn){

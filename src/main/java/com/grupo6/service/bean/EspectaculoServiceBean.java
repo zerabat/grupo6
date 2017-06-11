@@ -1,6 +1,7 @@
 package com.grupo6.service.bean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,9 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
-import com.grupo6.persistence.model.Sala;
 import com.grupo6.persistence.model.TipoEspectaculo;
 import com.grupo6.persistence.repository.EspectaculoRepository;
 import com.grupo6.persistence.repository.SalaRepository;
@@ -74,6 +73,18 @@ public class EspectaculoServiceBean implements EspectaculoService {
 	public Page<Espectaculo> findAll(Specification<Espectaculo> entradaSpecification, Pageable pageRequest) {
 		return this.espectaculoRepository.findAll(entradaSpecification, pageRequest);
 		
+	}
+	
+	@Override
+	public Page<Espectaculo> findAll(Pageable pageRequest, String busqueda) {
+		Date d = new Date();
+		return this.espectaculoRepository.findAllWithSearh(pageRequest,busqueda,d);
+	}
+
+	@Override
+	public Page<Espectaculo> findAllActivos(Pageable pageRequest) {
+		Date d = new Date();
+		return this.espectaculoRepository.findAllActivos(pageRequest,d);
 	}
 	
 	

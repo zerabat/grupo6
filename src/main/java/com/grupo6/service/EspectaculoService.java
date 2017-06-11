@@ -20,4 +20,8 @@ public interface EspectaculoService {
 	Page<Espectaculo> findAll(Pageable pageRequest);
 
 	Page<Espectaculo> findAll(Specification<Espectaculo> entradaSpecification, Pageable pageRequest);
+
+	Page<Espectaculo> findAll(Pageable pageRequest, String busqueda);
+
+	Page<Espectaculo> findAllActivos(Pageable pageRequest);
 }

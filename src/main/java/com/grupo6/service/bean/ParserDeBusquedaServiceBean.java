@@ -30,13 +30,17 @@ public class ParserDeBusquedaServiceBean<T> implements ParserDeBusquedaService<T
 	@Override
 	public Specification<T> parseParamns(String params, String operador) {
 		SpecificationBuilder<T> builder = new SpecificationBuilder<>(OperadorLogicoEnum.fromString(operador));
-		
+//		SpecificationBuilder<T> builderAND = new SpecificationBuilder<>(OperadorLogicoEnum.fromString("AND"));
 		List<Field> listaDecampos = ReflectionUtils.getAllFields(this.clazz);
 		List<String> listaNombreDeCampos = listaDecampos.stream().map(Field::getName).collect(Collectors.toList());
 		
 		serviceQ.matchParams(params, groups ->{
 			StringTokenizer tokenizer = new StringTokenizer(groups[0], "." );
 			if (this.isValidField(tokenizer, listaDecampos, listaNombreDeCampos)){
+//				if (groups[0].equalsIgnoreCase("realizacionEspectaculo.fecha")){
+					
+//					builderAND.with(groups[0],groups[1],groups[2]);
+//				}
 				builder.with(groups[0],groups[1],groups[2]);
 			}
 			return null;

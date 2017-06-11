@@ -1,5 +1,7 @@
 package com.grupo6.rest.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,13 +145,15 @@ public class EspectaculoController {
 
 		TenantContext.setCurrentTenant(tenantName);
 		if (StringUtils.isNotBlank(query)){
-			this.parserDeBusquedaService.setClass(Espectaculo.class);
-			Specification <Espectaculo> entradaSpecification = parserDeBusquedaService.parseParamns(this.crearQuery(query), operator);
-			Page<Espectaculo> pag = this.espectaculoService.findAll(entradaSpecification, PageUtils.getPageRequest(start, end, sortField,sortOrder));
+//			this.parserDeBusquedaService.setClass(Espectaculo.class);
+//			Specification <Espectaculo> espectaculoSpecificationBusqueda = parserDeBusquedaService.parseParamns(this.crearQuery(query), operator);
+//			Page<Espectaculo> pag = this.espectaculoService.findAll(espectaculoSpecificationBusqueda, PageUtils.getPageRequest(start, end, sortField,sortOrder));
+			
+			Page<Espectaculo> pag = this.espectaculoService.findAll(PageUtils.getPageRequest(start, end, sortField,sortOrder), query);
 			final Page<EspectaculoFullDTO> retPag = pag.map(this::mapearContenidoDePagina);
 			return new ResponseEntity<Page<EspectaculoFullDTO>>(retPag, HttpStatus.OK);
 		}else {
-			Page<Espectaculo> pag = this.espectaculoService.findAll(PageUtils.getPageRequest(start, end, sortField,sortOrder));
+			Page<Espectaculo> pag = this.espectaculoService.findAllActivos(PageUtils.getPageRequest(start, end, sortField,sortOrder));
 			final Page<EspectaculoFullDTO> retPag = pag.map(this::mapearContenidoDePagina);
 			return new ResponseEntity<Page<EspectaculoFullDTO>>(retPag, HttpStatus.OK);
 		}
@@ -206,10 +210,16 @@ public class EspectaculoController {
 	}
 	
 	private String crearQuery(String query) {
-		String ret = "nombre:" + query + ",descripcion:" + query + ",realizacionEspectaculo.sala.nombre:" + query ;
+		Date d = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String date = format.format(d);
+		
+		String ret = "nombre:" + query + ",descripcion:" + query + ",realizacionEspectaculo.sala.nombre:" + query 
+				+ ",tipoEspectaculo.nombre:" + query 
+		+ ",realizacionEspectaculo.fecha>" + date;
 		return ret;
 	}
-
+	
 	private EspectaculoFullDTO mapearContenidoDePagina(Espectaculo e) {
 		return new EspectaculoFullDTO(e);
 	}

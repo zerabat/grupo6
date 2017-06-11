@@ -1,7 +1,8 @@
 package com.grupo6.persistence.model;
 
-import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,7 +19,7 @@ import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.grupo6.rest.dto.EspectaculoDTO;
+import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 
 @Entity
 @Table(name = "espectaculo")
@@ -30,12 +31,8 @@ import com.grupo6.rest.dto.EspectaculoDTO;
             @NamedAttributeNode(value = "sala")
         })
     })
-public class Espectaculo implements Serializable{
+public class Espectaculo {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +52,7 @@ public class Espectaculo implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_realizacion_espectaculo")
 	private List<RealizacionEspectaculo> realizacionEspectaculo;
-	
+
 	public long getId() {
 		return id;
 	}
