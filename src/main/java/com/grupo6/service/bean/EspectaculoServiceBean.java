@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.Sala;
 import com.grupo6.persistence.model.TipoEspectaculo;
@@ -57,6 +61,19 @@ public class EspectaculoServiceBean implements EspectaculoService {
 			lDTO.add(eDTO);
 		});
 		return lDTO;
+	}
+
+
+	@Override
+	public Page<Espectaculo> findAll(Pageable pageRequest) {
+		return this.espectaculoRepository.findAll(pageRequest);
+	}
+
+
+	@Override
+	public Page<Espectaculo> findAll(Specification<Espectaculo> entradaSpecification, Pageable pageRequest) {
+		return this.espectaculoRepository.findAll(entradaSpecification, pageRequest);
+		
 	}
 	
 	

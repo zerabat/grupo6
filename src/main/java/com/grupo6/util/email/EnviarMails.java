@@ -1,4 +1,4 @@
-package com.grupo6.util;
+package com.grupo6.util.email;
 
 import java.util.Properties;
 

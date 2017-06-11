@@ -25,8 +25,17 @@ public class SectorServiceBean implements SectorService {
 	@Override
 	public void altaSector(Sector sector) {
 		Optional<Sala> s = salaRepository.findOne(sector.getSala().getId());
+		
 		sector.setSala(s.get());
-		sectorRepository.save(sector);		
+		sectorRepository.save(sector);
+		List<Sector> sectores = sectorRepository.findBySalaId(s.get().getId());
+		//actualizamos la cantidad de asientos en la sala
+		int cantTotalAsientos = 0;
+		for (Sector sec : sectores){
+			cantTotalAsientos += sec.getCapacidad();
+		}
+		s.get().setTotal_localidad(cantTotalAsientos);
+		salaRepository.save(s.get());
 	}
 
 

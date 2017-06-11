@@ -1,5 +1,6 @@
 package com.grupo6.persistence.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -29,7 +30,12 @@ import com.grupo6.rest.dto.EspectaculoDTO;
             @NamedAttributeNode(value = "sala")
         })
     })
-public class Espectaculo {
+public class Espectaculo implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,15 +54,7 @@ public class Espectaculo {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_realizacion_espectaculo")
-	private List<RealizacionEspectaculo> realizacionEspectaculo;// = new ArrayList<>();
-	
-//	@Exclude
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
-//	private List<Contact> contacts;
-//	Espectaculo(){
-//		this.realizacionEspectaculo = new ArrayList<RealizacionEspectaculo>();
-//	}
-
+	private List<RealizacionEspectaculo> realizacionEspectaculo;
 	
 	public long getId() {
 		return id;

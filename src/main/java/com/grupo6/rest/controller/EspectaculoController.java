@@ -5,7 +5,10 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,15 +24,21 @@ import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.Usuario;
 import com.grupo6.rest.dto.EspectaculoDTO;
+import com.grupo6.rest.dto.EspectaculoFullDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
 import com.grupo6.service.EspectaculoService;
+import com.grupo6.service.ParserDeBusquedaService;
 import com.grupo6.service.RealizacionEspectaculoService;
+import com.grupo6.util.page.PageUtils;
 
 @RestController
 public class EspectaculoController {
 
 	// @Autowired
 	// private AdministradorService administradorService;
+	
+	@Autowired
+	ParserDeBusquedaService parserDeBusquedaService; 
 
 	@Autowired
 	private EspectaculoService espectaculoService;
@@ -121,6 +130,32 @@ public class EspectaculoController {
 		return new ResponseEntity<List<RealizacionEspectaculoDTO>>(realizaciones, HttpStatus.OK);
 	}
 
+	@SuppressWarnings("unchecked")
+	@RequestMapping(path = "/verProximosEspectaculosYSusRealizaciones/", method = RequestMethod.GET)
+	public ResponseEntity<Page<EspectaculoFullDTO>> verProximosEspectaculosYRealizaciones(
+			@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
+			@RequestParam(name = "_start", required = true) int start,
+			@RequestParam(name = "_end", required = true) int end,
+			@RequestParam(name = "sort", required = false) String sortField,
+			@RequestParam(name = "order", required = false) String sortOrder,
+			@RequestParam(name = "_q", required = false) String query,
+			@RequestParam(name = "_q_operator", required = false) String operator) {
+
+		TenantContext.setCurrentTenant(tenantName);
+		if (StringUtils.isNotBlank(query)){
+			this.parserDeBusquedaService.setClass(Espectaculo.class);
+			Specification <Espectaculo> entradaSpecification = parserDeBusquedaService.parseParamns(this.crearQuery(query), operator);
+			Page<Espectaculo> pag = this.espectaculoService.findAll(entradaSpecification, PageUtils.getPageRequest(start, end, sortField,sortOrder));
+			final Page<EspectaculoFullDTO> retPag = pag.map(this::mapearContenidoDePagina);
+			return new ResponseEntity<Page<EspectaculoFullDTO>>(retPag, HttpStatus.OK);
+		}else {
+			Page<Espectaculo> pag = this.espectaculoService.findAll(PageUtils.getPageRequest(start, end, sortField,sortOrder));
+			final Page<EspectaculoFullDTO> retPag = pag.map(this::mapearContenidoDePagina);
+			return new ResponseEntity<Page<EspectaculoFullDTO>>(retPag, HttpStatus.OK);
+		}
+	}
+
+
 	@RequestMapping(path = "/comprarEntradaEspectaculo/", method = RequestMethod.GET)
 	public ResponseEntity<Entrada> comprarEntradaEspectaculo(
 			@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
@@ -169,6 +204,14 @@ public class EspectaculoController {
 		List<EspectaculoDTO> espectaculos = espectaculoService.obtenerEspectaculos();
 		return new ResponseEntity<List<EspectaculoDTO>>(espectaculos, HttpStatus.OK);
 	}
+	
+	private String crearQuery(String query) {
+		String ret = "nombre:" + query + ",descripcion:" + query + ",realizacionEspectaculo.sala.nombre:" + query ;
+		return ret;
+	}
 
-
+	private EspectaculoFullDTO mapearContenidoDePagina(Espectaculo e) {
+		return new EspectaculoFullDTO(e);
+	}
+	
 }
