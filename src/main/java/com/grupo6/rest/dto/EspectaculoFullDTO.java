@@ -14,7 +14,7 @@ public class EspectaculoFullDTO {
 	
 	private String descripcion;
 	
-	private TipoEspectaculo tipoEspectaculo;
+	private List<TipoEspectaculoDTO> tipoEspectaculo;
 
 	private List<RealizacionEspectaculoFullDTO> realizacionEspectaculo;
 	
@@ -23,7 +23,11 @@ public class EspectaculoFullDTO {
 		this.id = e.getId();
 		this.nombre = e.getNombre();
 		this.descripcion = e.getDescripcion();
-		this.tipoEspectaculo  = e.getTipoEspectaculo();
+		this.tipoEspectaculo  = new ArrayList<TipoEspectaculoDTO>();
+		e.getTipoEspectaculo().stream().forEach(te ->{
+			TipoEspectaculoDTO teDTO = new TipoEspectaculoDTO(te);
+			this.tipoEspectaculo.add(teDTO);
+		});
 		this.realizacionEspectaculo = new ArrayList<RealizacionEspectaculoFullDTO>();
 		e.getRealizacionEspectaculo().stream().forEach(r -> {
 			RealizacionEspectaculoFullDTO reFDTO = new RealizacionEspectaculoFullDTO(r); 
@@ -59,13 +63,12 @@ public class EspectaculoFullDTO {
 		this.descripcion = descripcion;
 	}
 
-
-	public TipoEspectaculo getTipoEspectaculo() {
+	public List<TipoEspectaculoDTO> getTipoEspectaculo() {
 		return tipoEspectaculo;
 	}
 
 
-	public void setTipoEspectaculo(TipoEspectaculo tipoEspectaculo) {
+	public void setTipoEspectaculo(List<TipoEspectaculoDTO> tipoEspectaculo) {
 		this.tipoEspectaculo = tipoEspectaculo;
 	}
 

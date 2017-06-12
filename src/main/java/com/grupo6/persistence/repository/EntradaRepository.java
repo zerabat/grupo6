@@ -9,6 +9,6 @@ import com.grupo6.persistence.model.Entrada;
 @Repository
 public interface EntradaRepository extends BaseRepository <Entrada, Integer>{
 
-	Stream<Entrada> findByRealizacionEspectaculoAndSector(Long idRealizacion, String idSector);
+	Stream<Entrada> findByRealizacionEspectaculoAndSector(Long idRealizacion, Long idSector);
 
 }

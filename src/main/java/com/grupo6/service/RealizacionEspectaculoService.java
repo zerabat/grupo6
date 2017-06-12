@@ -14,4 +14,8 @@ public interface RealizacionEspectaculoService {
 
 	Optional<Entrada> comprarEntradaEspectaculo(Long idRealizacion, String idSector, String email);
 
+	void desSuscribirse(Long idTrealizacionEspectaculo, String email);
+
+	void suscribirse(Long idRealizacionEspectaculo, String email);
+
 }

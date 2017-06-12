@@ -13,8 +13,6 @@ public interface EspectaculoService {
 
 	void agregarEspectaculo(EspectaculoDTO espectaculo);
 
-	void modificarEspectaculo(Espectaculo espectaculo);
-
 	List<EspectaculoDTO> obtenerEspectaculos();
 
 	Page<Espectaculo> findAll(Pageable pageRequest);
@@ -24,4 +22,16 @@ public interface EspectaculoService {
 	Page<Espectaculo> findAll(Pageable pageRequest, String busqueda);
 
 	Page<Espectaculo> findAllActivos(Pageable pageRequest);
+
+	void modificarEspectaculo(EspectaculoDTO espDTO);
+
+	List<EspectaculoDTO> obtenerEspectaculosOsuario(String email);
+
+	void desSuscribirseTipoEspectaculo(Long idTipoEspectaculo, String email);
+
+	void suscribirseTipoEspectaculo(Long idTipoEspectaculo, String email);
+
+	void desSuscribirseAEspectaculo(Long idEspectaculo, String email);
+
+	void suscribirseAEspectaculo(Long idEspectaculo, String email);
 }

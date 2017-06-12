@@ -30,17 +30,8 @@ CREATE TABLE `administrador` (
   `apellido` varchar(45) DEFAULT NULL,
   `cedula` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_administrador`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `administrador`
---
-
-LOCK TABLES `administrador` WRITE;
-/*!40000 ALTER TABLE `administrador` DISABLE KEYS */;
-/*!40000 ALTER TABLE `administrador` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `entrada`
@@ -70,20 +61,11 @@ CREATE TABLE `entrada` (
   CONSTRAINT `fk_entrada_espectaculo` FOREIGN KEY (`id_espectaculo`) REFERENCES `espectaculo` (`id_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_entrada_portero` FOREIGN KEY (`id_portero`) REFERENCES `portero` (`id_portero`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_entrada_sector` FOREIGN KEY (`id_sector`) REFERENCES `sector` (`id_sector`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_realizacion_espectaculo` FOREIGN KEY (`id_realizacion_espectaculo`) REFERENCES `realizacion_espectaculo` (`id_realizacion_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_entrada_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_entrada_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id_vendedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_entrada_vendedor` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id_vendedor`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_realizacion_espectaculo` FOREIGN KEY (`id_realizacion_espectaculo`) REFERENCES `realizacion_espectaculo` (`id_realizacion_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=501 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `entrada`
---
-
-LOCK TABLES `entrada` WRITE;
-/*!40000 ALTER TABLE `entrada` DISABLE KEYS */;
-/*!40000 ALTER TABLE `entrada` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `espectaculo`
@@ -96,24 +78,12 @@ CREATE TABLE `espectaculo` (
   `id_espectaculo` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
-  `id_tipo_espectaculo` int(11) DEFAULT NULL,
   `id_realizacion_espectaculo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_espectaculo`),
-  KEY `fk_tipo_espectaculo_idx` (`id_tipo_espectaculo`),
   KEY `fk_espectaculo_realizacion_espectaculo_idx` (`id_realizacion_espectaculo`),
-  CONSTRAINT `fk_espectaculo_realizacion_espectaculo` FOREIGN KEY (`id_realizacion_espectaculo`) REFERENCES `realizacion_espectaculo` (`id_realizacion_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tipo_espectaculo` FOREIGN KEY (`id_tipo_espectaculo`) REFERENCES `tipo_espectaculo` (`id_tipo_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_espectaculo_realizacion_espectaculo` FOREIGN KEY (`id_realizacion_espectaculo`) REFERENCES `realizacion_espectaculo` (`id_realizacion_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `espectaculo`
---
-
-LOCK TABLES `espectaculo` WRITE;
-/*!40000 ALTER TABLE `espectaculo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `espectaculo` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `espectaculo_tipo_pago`
@@ -135,21 +105,23 @@ CREATE TABLE `espectaculo_tipo_pago` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `espectaculo_tipo_pago`
+-- Table structure for table `espectaculo_tipoespectaculo`
 --
 
-LOCK TABLES `espectaculo_tipo_pago` WRITE;
-/*!40000 ALTER TABLE `espectaculo_tipo_pago` DISABLE KEYS */;
-/*!40000 ALTER TABLE `espectaculo_tipo_pago` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `historial_entradas`
---
-
---
--- Dumping data for table `historial_entradas`
---
+DROP TABLE IF EXISTS `espectaculo_tipoespectaculo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `espectaculo_tipoespectaculo` (
+  `id_espectaculo_tipoEspectaculo` int(11) NOT NULL,
+  `id_espectaculo` int(11) NOT NULL,
+  `id_tipoEspectaculo` int(11) NOT NULL,
+  PRIMARY KEY (`id_espectaculo_tipoEspectaculo`),
+  KEY `fk_EscpTEsp_TipoEspectaculo_idx` (`id_tipoEspectaculo`),
+  KEY `fk_EspTEsp_Espectaculo_idx` (`id_espectaculo`),
+  CONSTRAINT `fk_EscpTEsp_TipoEspectaculo` FOREIGN KEY (`id_tipoEspectaculo`) REFERENCES `tipo_espectaculo` (`id_tipo_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_EspTEsp_Espectaculo` FOREIGN KEY (`id_espectaculo`) REFERENCES `espectaculo` (`id_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `historial_entradas`
@@ -178,11 +150,6 @@ CREATE TABLE `historial_entradas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-LOCK TABLES `historial_entradas` WRITE;
-/*!40000 ALTER TABLE `historial_entradas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `historial_entradas` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `portero`
 --
@@ -201,40 +168,6 @@ CREATE TABLE `portero` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `portero`
---
-
-LOCK TABLES `portero` WRITE;
-/*!40000 ALTER TABLE `portero` DISABLE KEYS */;
-/*!40000 ALTER TABLE `portero` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sala`
---
-
-DROP TABLE IF EXISTS `sala`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sala` (
-  `id_sala` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) NOT NULL,
-  `direccion` varchar(45) NOT NULL,
-  `total_localidad` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_sala`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sala`
---
-
-LOCK TABLES `sala` WRITE;
-/*!40000 ALTER TABLE `sala` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sala` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `realizacion_espectaculo`
 --
 
@@ -251,17 +184,24 @@ CREATE TABLE `realizacion_espectaculo` (
   KEY `fk_espectaculo_idx` (`id_espectaculo`),
   CONSTRAINT `fk_espectaculo` FOREIGN KEY (`id_espectaculo`) REFERENCES `espectaculo` (`id_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_sala` FOREIGN KEY (`id_sala`) REFERENCES `sala` (`id_sala`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `realizacion_espectaculo`
+-- Table structure for table `sala`
 --
 
-LOCK TABLES `realizacion_espectaculo` WRITE;
-/*!40000 ALTER TABLE `realizacion_espectaculo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `realizacion_espectaculo` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `sala`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sala` (
+  `id_sala` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  `direccion` varchar(45) NOT NULL,
+  `total_localidad` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_sala`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `sector`
@@ -278,17 +218,8 @@ CREATE TABLE `sector` (
   PRIMARY KEY (`id_sector`),
   KEY `fk_sala_idx` (`id_sala`),
   CONSTRAINT `fk_sector_sala` FOREIGN KEY (`id_sala`) REFERENCES `sala` (`id_sala`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sector`
---
-
-LOCK TABLES `sector` WRITE;
-/*!40000 ALTER TABLE `sector` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sector` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `suscripcion_espectaculo`
@@ -302,22 +233,19 @@ CREATE TABLE `suscripcion_espectaculo` (
   `fecha` date DEFAULT NULL,
   `id_usuario` int(11) DEFAULT NULL,
   `id_espectaculo` int(11) DEFAULT NULL,
+  `id_realziacion_espectaculo` int(11) DEFAULT NULL,
+  `id_tipo_espectaculoco` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_suscripcion`),
   KEY `fk_suscEsp_espectaculo_idx` (`id_espectaculo`),
   KEY `fk_suscEsp_usuario_idx` (`id_usuario`),
+  KEY `fk_susc_Real_Espectaculo_idx` (`id_realziacion_espectaculo`),
+  KEY `fk_susc_Tipo_Espectaculo_idx` (`id_tipo_espectaculoco`),
   CONSTRAINT `fk_suscEsp_espectaculo` FOREIGN KEY (`id_espectaculo`) REFERENCES `espectaculo` (`id_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_suscEsp_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_suscEsp_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_susc_Real_Espectaculo` FOREIGN KEY (`id_realziacion_espectaculo`) REFERENCES `realizacion_espectaculo` (`id_realizacion_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_susc_Tipo_Espectaculo` FOREIGN KEY (`id_tipo_espectaculoco`) REFERENCES `tipo_espectaculo` (`id_tipo_espectaculo`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `suscripcion_espectaculo`
---
-
-LOCK TABLES `suscripcion_espectaculo` WRITE;
-/*!40000 ALTER TABLE `suscripcion_espectaculo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `suscripcion_espectaculo` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tipo_espectaculo`
@@ -330,17 +258,8 @@ CREATE TABLE `tipo_espectaculo` (
   `id_tipo_espectaculo` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`id_tipo_espectaculo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tipo_espectaculo`
---
-
-LOCK TABLES `tipo_espectaculo` WRITE;
-/*!40000 ALTER TABLE `tipo_espectaculo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tipo_espectaculo` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tipo_pago`
@@ -357,15 +276,6 @@ CREATE TABLE `tipo_pago` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tipo_pago`
---
-
-LOCK TABLES `tipo_pago` WRITE;
-/*!40000 ALTER TABLE `tipo_pago` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tipo_pago` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `usuario`
 --
 
@@ -378,20 +288,11 @@ CREATE TABLE `usuario` (
   `apellido` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `cedula` varchar(45) NOT NULL,
-  `password` varchar(512)  NULL,
-  `gmail_token` varchar(512) NULL,
+  `password` varchar(512) DEFAULT NULL,
+  `gmail_token` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `usuario`
---
-
-LOCK TABLES `usuario` WRITE;
-/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `vendedor`
@@ -410,15 +311,6 @@ CREATE TABLE `vendedor` (
   PRIMARY KEY (`id_vendedor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `vendedor`
---
-
-LOCK TABLES `vendedor` WRITE;
-/*!40000 ALTER TABLE `vendedor` DISABLE KEYS */;
-/*!40000 ALTER TABLE `vendedor` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -428,6 +320,7 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
 
 
 insert into tipo_espectaculo values (1,'Deportes');

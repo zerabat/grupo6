@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.google.zxing.BarcodeFormat;
@@ -30,14 +31,18 @@ import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.RealizacionEspectaculo;
 import com.grupo6.persistence.model.Sala;
 import com.grupo6.persistence.model.Sector;
+import com.grupo6.persistence.model.SuscripcionEspectaculo;
 import com.grupo6.persistence.model.Usuario;
 import com.grupo6.persistence.repository.EntradaRepository;
 import com.grupo6.persistence.repository.EspectaculoRepository;
 import com.grupo6.persistence.repository.RealizacionEspectaculoRepository;
 import com.grupo6.persistence.repository.SalaRepository;
 import com.grupo6.persistence.repository.SectorRepository;
+import com.grupo6.persistence.repository.SuscripcionEspectaculoRepository;
 import com.grupo6.persistence.repository.UsuarioRepository;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
+import com.grupo6.rest.dto.SalaDTO;
+import com.grupo6.rest.dto.SectorDTO;
 import com.grupo6.service.RealizacionEspectaculoService;
 
 @Service
@@ -61,26 +66,17 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 	@Autowired
 	UsuarioRepository usuarioRepository ;
 	
+	@Autowired
+	SuscripcionEspectaculoRepository suscripcionEspectaculoRepository;
+	
 	@Value("${qrPath}")
 	private String qrPath;
 
 	
-//	String qrCodeData = "student3232_2015_12_15_10_29_46_123";
-//    String filePath = "F:\\Opulent_ProjectsDirectory_2015-2016\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\AttendanceUsingQRCode\\QRCodes\\student3232_2015_12_15_10_29_46_123";
-//    String charset = "UTF-8"; // or "ISO-8859-1"
-//    Map<EncodeHintType, ErrorCorrectionLevel> hintMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
-//    hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-//
-//    createQRCode(qrCodeData, filePath, charset, hintMap, 200, 200);
-//    System.out.println("QR Code image created successfully!");
-//
-//    System.out.println("Data read from QR Code: "
-//        + readQRCode(filePath, charset, hintMap));
-
-    
-    
 	@Override
+	@Async
 	public void altaRealizacionEspectaculo(RealizacionEspectaculoDTO realizacionEspectaculoDTO) {
+		
 		// obtengo sala y espectaculo por los id del dto y guardo la realización
 		// en la base
 		Optional<Sala> s = salaRepository.findOne(realizacionEspectaculoDTO.getIdSala());
@@ -91,6 +87,7 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 		re.setEspectaculo(e.get());
 		re.setSala(s.get());
 		realizacionEspectaculoRepository.save(re);
+		
 		// genero todas las entradas de acuerdo a la capacidad de los sectores
 		// de las salas
 		List<Sector> sectores = sectorRepository.findBySalaId(realizacionEspectaculoDTO.getIdSala());
@@ -106,13 +103,18 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 		// donde van a ir las entradas
 
 		sectores.stream().forEach(sector -> {
+			int precio = 0;
+			for (SectorDTO secDTO : realizacionEspectaculoDTO.getSectores()){
+				if (secDTO.getId()==sector.getId()){
+					precio = secDTO.getPrecio();
+				}
+			}
 			for (int i = 0; i < sector.getCapacidad(); i++) {
 				Entrada entrada = new Entrada();
 				entrada.setId(0);
 				entrada.setEspectaculo(e.get());
 				entrada.setNumeroAsiento(i);
-				// hay que pasar los precios por sector
-				entrada.setPrecio(0);
+				entrada.setPrecio(precio);
 				entrada.setRealizacionEspectaculo(re);
 				entrada.setSector(sector);
 				// hasta ahí gurde la entrada
@@ -180,7 +182,20 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 		List<RealizacionEspectaculo> list = this.realizacionEspectaculoRepository.findByEspectaculo(espectaculoRepository.findOne(Long.parseLong(id)).get());
 		List<RealizacionEspectaculoDTO> ret = new ArrayList<RealizacionEspectaculoDTO>();
 		list.stream().forEach(x -> {
-			ret.add(new RealizacionEspectaculoDTO(x));
+			RealizacionEspectaculoDTO respDTO = new RealizacionEspectaculoDTO(x);
+			List<Sector>  sectores = sectorRepository.findBySalaId(x.getSala().getId());
+			sectores.stream().forEach(sec ->{
+				Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(Long.parseLong(id),sec.getId()).findFirst();
+				SectorDTO sectorDTO = new SectorDTO();
+				sectorDTO.setPrecio(ent.get().getPrecio());
+				sectorDTO.setCapacidad(sec.getCapacidad());
+				sectorDTO.setId(sec.getId());
+				sectorDTO.setNombre(sec.getNombre());
+				sectorDTO.setSala(new SalaDTO(sec.getSala()));
+			});
+			
+			ret.add(respDTO);
+			
 		});
 		return ret;
 	}
@@ -188,7 +203,8 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 
 	@Override
 	public Optional<Entrada> comprarEntradaEspectaculo(Long idRealizacion, String idSector, String email) {
-		 Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(idRealizacion,idSector).findFirst();
+		
+		Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(idRealizacion,Long.parseLong(idSector)).findFirst();
 		if (ent.isPresent()){
 			ent.get().setFechaCompra(new Date());
 			Optional<Usuario> u = usuarioRepository.findByEmail(email);
@@ -202,6 +218,29 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 			return null;
 		}
 			
+	}
+
+
+	@Override
+	public void desSuscribirse(Long idTrealizacionEspectaculo, String email) {
+		RealizacionEspectaculo re = realizacionEspectaculoRepository.findOne(idTrealizacionEspectaculo).get();
+		Usuario u = usuarioRepository.findByEmail(email).get();
+		Optional <SuscripcionEspectaculo> se = suscripcionEspectaculoRepository.findByUsuarioAndRealizacionEspectaculo(u, re);
+		if (se.isPresent()){
+			suscripcionEspectaculoRepository.delete(se.get());
+		}
+	}
+
+
+	@Override
+	public void suscribirse(Long idRealizacionEspectaculo, String email) {
+		RealizacionEspectaculo re = realizacionEspectaculoRepository.findOne(idRealizacionEspectaculo).get();
+		Usuario u = usuarioRepository.findByEmail(email).get();
+		Optional <SuscripcionEspectaculo> se = suscripcionEspectaculoRepository.findByUsuarioAndRealizacionEspectaculo(u, re);
+		if (!se.isPresent()){
+			suscripcionEspectaculoRepository.save(se.get());
+		}
+		
 	}
 
 }

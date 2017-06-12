@@ -1,8 +1,7 @@
 package com.grupo6.persistence.model;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,22 +11,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
-
 @Entity
 @Table(name = "espectaculo")
 @NamedEntityGraph(name = "Espectaculo.Full", attributeNodes = {
-        @NamedAttributeNode(value = "realizacionEspectaculo", subgraph = "Relizaciones"),
+        @NamedAttributeNode(value = "realizacionEspectaculo", subgraph = "Realizaciones"),
         @NamedAttributeNode(value = "tipoEspectaculo")
     }, subgraphs = {
-        @NamedSubgraph(name = "Relizaciones", attributeNodes = {
+        @NamedSubgraph(name = "Realizaciones", attributeNodes = {
             @NamedAttributeNode(value = "sala")
         })
     })
@@ -45,14 +42,19 @@ public class Espectaculo {
 	@Column(length = 50, nullable = false)
 	private String descripcion;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_tipo_espectaculo")
-	private TipoEspectaculo tipoEspectaculo;
+	private List<TipoEspectaculo> tipoEspectaculo;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_realizacion_espectaculo")
 	private List<RealizacionEspectaculo> realizacionEspectaculo;
 
+	public Espectaculo(){
+		this.tipoEspectaculo = new ArrayList<TipoEspectaculo>();
+		this.realizacionEspectaculo = new ArrayList<RealizacionEspectaculo>();
+	}
+	
 	public long getId() {
 		return id;
 	}
@@ -77,11 +79,11 @@ public class Espectaculo {
 		this.descripcion = descripcion;
 	}
 
-	public TipoEspectaculo getTipoEspectaculo() {
+	public List<TipoEspectaculo> getTipoEspectaculo() {
 		return tipoEspectaculo;
 	}
 
-	public void setTipoEspectaculo(TipoEspectaculo tipoEspectaculo) {
+	public void setTipoEspectaculo(List<TipoEspectaculo> tipoEspectaculo) {
 		this.tipoEspectaculo = tipoEspectaculo;
 	}
 

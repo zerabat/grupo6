@@ -1,29 +1,37 @@
 package com.grupo6.rest.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.grupo6.persistence.model.Espectaculo;
+import com.grupo6.persistence.model.TipoEspectaculo;
 
 public class EspectaculoDTO {
 
 	private long id;
 
 	private String nombre;
-	
-	private String descripcion;
-	
-	private long  idTipoEspectaculo;
 
-	public EspectaculoDTO(Espectaculo e){
+	private String descripcion;
+
+	private List<TipoEspectaculoDTO> tipoEspectaculo;
+
+	public EspectaculoDTO(Espectaculo e) {
 		this.id = e.getId();
 		this.nombre = e.getNombre();
 		this.descripcion = e.getDescripcion();
-		if (e.getTipoEspectaculo() != null)
-		this.idTipoEspectaculo  = e.getTipoEspectaculo().getId();
+		this.tipoEspectaculo = new ArrayList<TipoEspectaculoDTO>();
+		if (e.getTipoEspectaculo() != null && !e.getTipoEspectaculo().isEmpty()) {
+			for (TipoEspectaculo te : e.getTipoEspectaculo()) {
+				TipoEspectaculoDTO teDTO = new TipoEspectaculoDTO(te);
+				this.tipoEspectaculo.add(teDTO);
+			}
+		}
 	}
-	
 
-	public EspectaculoDTO(){
+	public EspectaculoDTO() {
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -48,12 +56,11 @@ public class EspectaculoDTO {
 		this.descripcion = descripcion;
 	}
 
-	public long getIdTipoEspectaculo() {
-		return idTipoEspectaculo;
+	public List<TipoEspectaculoDTO> getTipoEspectaculo() {
+		return tipoEspectaculo;
 	}
 
-	public void setIdTipoEspectaculo(long idTipoEspectaculo) {
-		this.idTipoEspectaculo = idTipoEspectaculo;
+	public void setTipoEspectaculo(List<TipoEspectaculoDTO> tipoEspectaculo) {
+		this.tipoEspectaculo = tipoEspectaculo;
 	}
-	
 }

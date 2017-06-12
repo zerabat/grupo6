@@ -37,5 +37,12 @@ public interface EspectaculoRepository extends BaseRepository <Espectaculo, Long
 			+ " JOIN  r.sala s "
 			+ " WHERE r.fecha > :hoy")
 	Page<Espectaculo> findAllActivos(Pageable pageRequest, @Param("hoy")  Date d);
+
+	@EntityGraph("Espectaculo.Full")
+	@Query ("SELECT e FROM Espectaculo e "
+			+ " JOIN  e.realizacionEspectaculo r "
+			+ " JOIN  r.sala s "
+			+ " WHERE r.fecha > :hoy")
+	List<Espectaculo> findAllActivos(Date date);
 	
 }
