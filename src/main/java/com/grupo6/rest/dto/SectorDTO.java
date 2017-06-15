@@ -8,7 +8,7 @@ public class SectorDTO {
 	
 	private int capacidad;
 	
-	private SalaDTO sala;
+//	private SalaDTO sala;
 	
 	private int precio;
 
@@ -36,13 +36,13 @@ public class SectorDTO {
 		this.capacidad = capacidad;
 	}
 
-	public SalaDTO getSala() {
-		return sala;
-	}
-
-	public void setSala(SalaDTO sala) {
-		this.sala = sala;
-	}
+//	public SalaDTO getSala() {
+//		return sala;
+//	}
+//
+//	public void setSala(SalaDTO sala) {
+//		this.sala = sala;
+//	}
 
 	public int getPrecio() {
 		return precio;

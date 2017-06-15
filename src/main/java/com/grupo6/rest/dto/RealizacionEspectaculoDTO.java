@@ -12,7 +12,7 @@ public class RealizacionEspectaculoDTO {
 
 	private Date fecha;
 	
-	private long idSala;
+//	private SalaDTO sala;
 
 	private long idEspectaculo;
 	
@@ -26,7 +26,7 @@ public class RealizacionEspectaculoDTO {
 	public RealizacionEspectaculoDTO(RealizacionEspectaculo x) {
 		this.id = x.getId();
 		this.fecha = x.getFecha();
-		this.idSala = x.getSala().getId();
+		this.sala = new SalaDTO (x.getSala());
 		this.idEspectaculo = x.getEspectaculo().getId();
 		this.sectores = new ArrayList<SectorDTO>();
 	}
@@ -46,14 +46,14 @@ public class RealizacionEspectaculoDTO {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-
-	public long getIdSala() {
-		return idSala;
-	}
-
-	public void setIdSala(long idSala) {
-		this.idSala = idSala;
-	}
+//
+//	public long getIdSala() {
+//		return idSala;
+//	}
+//
+//	public void setIdSala(long idSala) {
+//		this.idSala = idSala;
+//	}
 
 	public long getIdEspectaculo() {
 		return idEspectaculo;

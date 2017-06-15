@@ -1,5 +1,6 @@
 package com.grupo6.persistence.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -18,5 +19,9 @@ public interface SuscripcionEspectaculoRepository extends BaseRepository <Suscri
 	Optional<SuscripcionEspectaculo> findByUsuarioAndEspectaculo(Usuario u, Espectaculo e);
 
 	Optional<SuscripcionEspectaculo> findByUsuarioAndRealizacionEspectaculo(Usuario u, RealizacionEspectaculo re);
+
+	List<SuscripcionEspectaculo> findByEspectaculo(Espectaculo e);
+	
+	List<SuscripcionEspectaculo> findByRealizacionEspectaculo(RealizacionEspectaculo re);
 
 }

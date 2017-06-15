@@ -1,7 +1,7 @@
 package com.grupo6.persistence.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
@@ -21,8 +22,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "espectaculo")
 @NamedEntityGraph(name = "Espectaculo.Full", attributeNodes = {
-        @NamedAttributeNode(value = "realizacionEspectaculo", subgraph = "Realizaciones"),
-        @NamedAttributeNode(value = "tipoEspectaculo")
+        @NamedAttributeNode(value = "realizacionEspectaculo", subgraph = "Realizaciones")
+       ,@NamedAttributeNode(value = "tipoEspectaculo")
     }, subgraphs = {
         @NamedSubgraph(name = "Realizaciones", attributeNodes = {
             @NamedAttributeNode(value = "sala")
@@ -42,17 +43,19 @@ public class Espectaculo {
 	@Column(length = 50, nullable = false)
 	private String descripcion;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name = "id_tipo_espectaculo")
-	private List<TipoEspectaculo> tipoEspectaculo;
+	@ManyToMany
+	@JoinTable(name = "espectaculo_tipo_espectaculo",
+			joinColumns=@JoinColumn(name="id_espectaculo", referencedColumnName="id_espectaculo"),
+			inverseJoinColumns=@JoinColumn(name="id_tipo_espectaculo", referencedColumnName="id_tipo_espectaculo"))
+	private Set<TipoEspectaculo> tipoEspectaculo;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_realizacion_espectaculo")
-	private List<RealizacionEspectaculo> realizacionEspectaculo;
+	private Set<RealizacionEspectaculo> realizacionEspectaculo;
 
 	public Espectaculo(){
-		this.tipoEspectaculo = new ArrayList<TipoEspectaculo>();
-		this.realizacionEspectaculo = new ArrayList<RealizacionEspectaculo>();
+		this.tipoEspectaculo = new HashSet<TipoEspectaculo>();
+		this.realizacionEspectaculo = new HashSet<RealizacionEspectaculo>();
 	}
 	
 	public long getId() {
@@ -79,20 +82,20 @@ public class Espectaculo {
 		this.descripcion = descripcion;
 	}
 
-	public List<TipoEspectaculo> getTipoEspectaculo() {
+	public Set<TipoEspectaculo> getTipoEspectaculo() {
 		return tipoEspectaculo;
 	}
 
-	public void setTipoEspectaculo(List<TipoEspectaculo> tipoEspectaculo) {
+	public void setTipoEspectaculo(Set<TipoEspectaculo> tipoEspectaculo) {
 		this.tipoEspectaculo = tipoEspectaculo;
 	}
 
-	public List<RealizacionEspectaculo> getRealizacionEspectaculo() {
+	public Set<RealizacionEspectaculo> getRealizacionEspectaculo() {
 		return realizacionEspectaculo;
 	}
 
-	public void setRealizacionEspectaculo(List<RealizacionEspectaculo> realizacionEspectaculo) {
+	public void setRealizacionEspectaculo(Set<RealizacionEspectaculo> realizacionEspectaculo) {
 		this.realizacionEspectaculo = realizacionEspectaculo;
 	}
-	
+
 }

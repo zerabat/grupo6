@@ -132,6 +132,7 @@ public class EspectaculoServiceBean implements EspectaculoService {
 			SuscripcionEspectaculo s = new SuscripcionEspectaculo();
 			s.setTipoEspectaculo(te);
 			s.setUsuario(u);
+			s.setFecha(new Date());
 			suscripcionEspectaculoRepository.save(s);
 		} else {
 			// ya existe la suscripción no hago nada
@@ -158,7 +159,11 @@ public class EspectaculoServiceBean implements EspectaculoService {
 		Espectaculo e = espectaculoRepository.findOne(idEspectaculo).get();
 		Optional<SuscripcionEspectaculo> se = suscripcionEspectaculoRepository.findByUsuarioAndEspectaculo(u, e);
 		if (!se.isPresent()) {
-			suscripcionEspectaculoRepository.save(se.get());
+			SuscripcionEspectaculo s = new SuscripcionEspectaculo();
+			s.setUsuario(u);
+			s.setEspectaculo(e);
+			s.setFecha(new Date());
+			suscripcionEspectaculoRepository.save(s);
 		} else {
 			// ya existia la suscripcion
 		}

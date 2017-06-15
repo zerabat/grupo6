@@ -105,16 +105,16 @@ CREATE TABLE `espectaculo_tipo_pago` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `espectaculo_tipoespectaculo`
+-- Table structure for table `espectaculo_tipo_espectaculo`
 --
 
-DROP TABLE IF EXISTS `espectaculo_tipoespectaculo`;
+DROP TABLE IF EXISTS `espectaculo_tipo_espectaculo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `espectaculo_tipoespectaculo` (
-  `id_espectaculo_tipoEspectaculo` int(11) NOT NULL,
+CREATE TABLE `espectaculo_tipo_espectaculo` (
+  `id_espectaculo_tipo_espectaculo` int(11) NOT NULL,
   `id_espectaculo` int(11) NOT NULL,
-  `id_tipoEspectaculo` int(11) NOT NULL,
+  `id_tipospectaculo` int(11) NOT NULL,
   PRIMARY KEY (`id_espectaculo_tipoEspectaculo`),
   KEY `fk_EscpTEsp_TipoEspectaculo_idx` (`id_tipoEspectaculo`),
   KEY `fk_EspTEsp_Espectaculo_idx` (`id_espectaculo`),

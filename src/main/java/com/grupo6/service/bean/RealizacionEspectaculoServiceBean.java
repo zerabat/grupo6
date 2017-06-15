@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -79,7 +80,7 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 		
 		// obtengo sala y espectaculo por los id del dto y guardo la realización
 		// en la base
-		Optional<Sala> s = salaRepository.findOne(realizacionEspectaculoDTO.getIdSala());
+		Optional<Sala> s = salaRepository.findOne(realizacionEspectaculoDTO.getSala().getId());
 		Optional<Espectaculo> e = espectaculoRepository.findOne(realizacionEspectaculoDTO.getIdEspectaculo());
 		RealizacionEspectaculo re = new RealizacionEspectaculo();
 		re.setFecha(realizacionEspectaculoDTO.getFecha());
@@ -90,7 +91,7 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 		
 		// genero todas las entradas de acuerdo a la capacidad de los sectores
 		// de las salas
-		List<Sector> sectores = sectorRepository.findBySalaId(realizacionEspectaculoDTO.getIdSala());
+		List<Sector> sectores = sectorRepository.findBySalaId(realizacionEspectaculoDTO.getSala().getId());
 		String pathCarpetaQR = qrPath + "\\" + TenantContext.getCurrentTenant();
 
 		pathCarpetaQR += "\\" + e.get().getId();
@@ -177,6 +178,7 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 
 
 	@Override
+	@Transactional
 	public List<RealizacionEspectaculoDTO> verRealizacionesDeEspectaculo(String id) {
 
 		List<RealizacionEspectaculo> list = this.realizacionEspectaculoRepository.findByEspectaculo(espectaculoRepository.findOne(Long.parseLong(id)).get());
@@ -185,13 +187,14 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 			RealizacionEspectaculoDTO respDTO = new RealizacionEspectaculoDTO(x);
 			List<Sector>  sectores = sectorRepository.findBySalaId(x.getSala().getId());
 			sectores.stream().forEach(sec ->{
-				Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(Long.parseLong(id),sec.getId()).findFirst();
+				Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(x,sec).findFirst();
 				SectorDTO sectorDTO = new SectorDTO();
 				sectorDTO.setPrecio(ent.get().getPrecio());
 				sectorDTO.setCapacidad(sec.getCapacidad());
 				sectorDTO.setId(sec.getId());
 				sectorDTO.setNombre(sec.getNombre());
-				sectorDTO.setSala(new SalaDTO(sec.getSala()));
+//				sectorDTO.setSala(new SalaDTO(sec.getSala()));
+				respDTO.getSectores().add(sectorDTO);
 			});
 			
 			ret.add(respDTO);
@@ -204,7 +207,9 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 	@Override
 	public Optional<Entrada> comprarEntradaEspectaculo(Long idRealizacion, String idSector, String email) {
 		
-		Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(idRealizacion,Long.parseLong(idSector)).findFirst();
+		Optional<RealizacionEspectaculo> re = realizacionEspectaculoRepository.findOne(Long.parseLong(idSector));
+		Optional <Sector> sec = sectorRepository.findOne(Long.parseLong(idSector));
+		Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(re.get(),sec.get()).findFirst();
 		if (ent.isPresent()){
 			ent.get().setFechaCompra(new Date());
 			Optional<Usuario> u = usuarioRepository.findByEmail(email);
@@ -238,7 +243,11 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 		Usuario u = usuarioRepository.findByEmail(email).get();
 		Optional <SuscripcionEspectaculo> se = suscripcionEspectaculoRepository.findByUsuarioAndRealizacionEspectaculo(u, re);
 		if (!se.isPresent()){
-			suscripcionEspectaculoRepository.save(se.get());
+			SuscripcionEspectaculo s = new SuscripcionEspectaculo();
+			s.setRealizacionEspectaculo(re);
+			s.setUsuario(u);
+			s.setFecha(new Date());
+			suscripcionEspectaculoRepository.save(s);
 		}
 		
 	}

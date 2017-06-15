@@ -24,12 +24,10 @@ public class SuscripcionEspectaculo {
 
 	@Column(nullable = false)
 	private Date fecha;
-	
-	
+		
 	@ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_espectaculo")
