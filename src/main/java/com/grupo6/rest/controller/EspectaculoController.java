@@ -73,28 +73,6 @@ public class EspectaculoController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
-	// @RequestMapping(path = "/obtenerEspectaculosAdmin/", method =
-	// RequestMethod.GET)
-	// public ResponseEntity<List<EspectaculoDTO>>
-	// obtenerEspectaculosAdmin(@RequestHeader("X-TenantID") String tenantName,
-	// HttpServletRequest request, @RequestParam(name = "email", required =
-	// true) String email) {
-	//
-	// TenantContext.setCurrentTenant(tenantName);
-	// @SuppressWarnings("unchecked")
-	// Optional<AdministradorTenant> a = (Optional<AdministradorTenant>)
-	// request.getSession()
-	// .getAttribute("administradorTenant");
-	// if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
-	// return new ResponseEntity<List<EspectaculoDTO>>(HttpStatus.FORBIDDEN);
-	// }
-	//
-	// List<EspectaculoDTO> espectaculos =
-	// espectaculoService.obtenerEspectaculos();
-	// return new ResponseEntity<List<EspectaculoDTO>>(espectaculos,
-	// HttpStatus.OK);
-	// }
-
 	@RequestMapping(path = "/altaRelizacionEspectaculo/", method = RequestMethod.PUT)
 	public ResponseEntity<?> altaRealizacionEspectaculo(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,

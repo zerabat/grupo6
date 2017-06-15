@@ -18,6 +18,9 @@ public class SalaDTO {
 		this.direccion = sala.getDireccion();
 		this.total_localidad = sala.getTotal_localidad();
 	}
+	
+	public SalaDTO() {
+	}
 
 	public long getId() {
 		return id;
