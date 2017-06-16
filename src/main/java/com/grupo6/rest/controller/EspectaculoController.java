@@ -51,7 +51,6 @@ public class EspectaculoController {
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
-		TenantContext.setCurrentTenant(tenantName);
 		espectaculoService.agregarEspectaculo(espectaculo);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
