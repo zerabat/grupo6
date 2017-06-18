@@ -27,41 +27,41 @@ public interface EspectaculoRepository extends BaseRepository <Espectaculo, Long
 	
 	@EntityGraph("Espectaculo.Full")
 	@Query ("SELECT e FROM Espectaculo e "
-			+ " JOIN  e.realizacionEspectaculo r "
-			+ " JOIN  e.tipoEspectaculo te"
-			+ " JOIN  r.sala s "
+			+ " LEFT OUTER JOIN  e.realizacionEspectaculo r "
+			+ " LEFT OUTER JOIN  e.tipoEspectaculo te"
+			+ " LEFT OUTER JOIN  r.sala s "
 			+ " WHERE ( e.nombre like %:busqueda% or s.nombre like %:busqueda% or e.descripcion like %:busqueda%) and r.fecha > :hoy")
 	Page<Espectaculo> findAllWithSearh(Pageable pageRequest, @Param("busqueda") String busqueda, @Param("hoy")  Date d);
 	
 	@EntityGraph("Espectaculo.Full")
 	@Query ("SELECT e FROM Espectaculo e "
-			+ " JOIN  e.realizacionEspectaculo r "
-			+ " JOIN  e.tipoEspectaculo te"
-			+ " JOIN  r.sala s "
+			+ " LEFT OUTER JOIN  e.realizacionEspectaculo r "
+			+ " LEFT OUTER JOIN  e.tipoEspectaculo te"
+			+ " LEFT OUTER JOIN  r.sala s "
 			+ " WHERE r.fecha > :hoy")
 	Page<Espectaculo> findAllActivos(Pageable pageRequest, @Param("hoy")  Date d);
 
 	@EntityGraph("Espectaculo.Full")
 	@Query ("SELECT e FROM Espectaculo e "
-			+ " JOIN  e.realizacionEspectaculo r "
-			+ " JOIN  e.tipoEspectaculo te"
-			+ " JOIN  r.sala s "
+			+ " LEFT OUTER JOIN  e.realizacionEspectaculo r "
+			+ " LEFT OUTER JOIN  e.tipoEspectaculo te"
+			+ " LEFT OUTER JOIN  r.sala s "
 			+ " WHERE r.fecha > :hoy")
 	List<Espectaculo> findAllActivos(Date date);
 
 	@EntityGraph("Espectaculo.Full")
 	@Query ("SELECT e FROM Espectaculo e "
-			+ " JOIN  e.realizacionEspectaculo r "
-			+ " JOIN  e.tipoEspectaculo te"
-			+ " JOIN  r.sala s "
+			+ " LEFT OUTER JOIN  e.realizacionEspectaculo r "
+			+ " LEFT OUTER JOIN  e.tipoEspectaculo te"
+			+ " LEFT OUTER JOIN  r.sala s "
 			+ " WHERE r.fecha > :hoy and te.id = :idTipoEspec")
 	List<Espectaculo> finBytipoEspectaculo(@Param("idTipoEspec") long idTipoEspec, @Param("hoy")  Date d);
 	
 	@EntityGraph("Espectaculo.Full")
 	@Query ("SELECT e FROM Espectaculo e "
-			+ " JOIN  e.realizacionEspectaculo r "
-			+ " JOIN  e.tipoEspectaculo te"
-			+ " JOIN  r.sala s "
+			+ " LEFT OUTER JOIN  e.realizacionEspectaculo r "
+			+ " LEFT OUTER JOIN  e.tipoEspectaculo te"
+			+ " LEFT OUTER JOIN  r.sala s "
 			+ " WHERE r.fecha > :hoy and e.id = :idEspec")
 	Espectaculo findOneActive(@Param("idEspec") long idEspec, @Param("hoy")  Date d);
 	
