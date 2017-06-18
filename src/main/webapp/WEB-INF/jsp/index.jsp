@@ -8,7 +8,7 @@
 	
 	    <!-- Scripts -->
 		<c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
-		<c:url value="/js/jquery.dataTables.min.js" var="datatableJS" />
+		<c:url value="/js/jquery.dataTables.js" var="datatableJS" />
 		<c:url value="/js/bootstrap.min.js" var="bootstrapJS" />
 		<c:url value='/fullcalendar/lib/moment.min.js' var="momentJS" />
 	    <c:url value='/fullcalendar/fullcalendar.js' var="fullcalendarJS" />
@@ -21,33 +21,41 @@
 	    <script src="${esJS}" charset="utf-8"></script>
 
 	    <script type="text/javascript">
-		    $(document).ready(function() {
+	   	    $(document).ready(function() {
 			    // inicia el calendario
 			    $('#calendar').fullCalendar({
 			    })
-		    });
-	    </script>
-	    <script type="text/javascript">
-		    $(document).ready( function () {
-		        var table= $('#espectaculo').dataTable( {
+			    var table= $('#espectaculo').dataTable( {
 		            "ajax": {
-		                       "url": '/obtenerEspectaculos/',
+		                       "url": '/verProximosEspectaculosYSusRealizaciones/',
 		                       "dataType": 'json',
-		                       "dataSrc": "",
+		                       "dataSrc": "content",
 		                       "type": "GET",
+		                       "data": {
+										"_start":"1",
+										"_end":"1000"
+				                       },
 		                       "beforeSend": function(xhr){
 		                               var pathname = window.location.pathname;
 		                               xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
 		                       }
 		            },
-		            "columns" :  [
-		                            { "data": "id"},
+		            "columns" :  [ 
 		                            { "data": "nombre" },
-		                            { "data": "descripcion" },
-		                            { "data": "idTipoEspectaculo" }
+		                            { "data": "realizacionEspectaculo.0.sala.nombre" },
+//			                            { "data": "realizacionEspectaculo.0.fecha",
+//				                          "render": function (data) {
+//				                                var date = new Date(data);
+//				                                var month = date.getMonth() + 1;
+//				                                return date.getDate() + "/" + (month.length > 1 ? month : "0" + month) + "/" + date.getFullYear();
+//			                                	}
+		                            
+//			                          	},
+		                            { "data": "realizacionEspectaculo.0.sala.direccion" }
 		                        ]
 		        });
-		    });
+			});
+		   
 	    </script>
 		<!-- Scripts -->
 
@@ -113,7 +121,16 @@
 	    </header>
 
 	    <div class="container" id="principal">
-		    <!--Carrousel-->
+		<!--Barra de navegacion-->
+	        <div class="col-md-12 container" id="barraUbicacion">
+	            <section class="post "></section>
+	              <div class="paginado">
+	                  <ul class="breadcrumb">
+	                    <li class="active">Inicio</li>
+	                  </ul>
+	              </div>
+	        </div>
+        <!--Carrousel-->
 	        <div class="col-md-9">
 	            <div id="carousel_index" class="carousel slide" data-ride="carousel">
 	                <!--Indicador-->
@@ -197,10 +214,10 @@
 	                         <table class="table table-striped table-hover" id="espectaculo">
 	                            <thead>
 	                                <tr class="success">
-	                                	<th>id</th>
-                                    	<th>Evento</th>
-	                                    <th>Descripción</th>
-	                                    <th>Tipo de espectaculo</th>
+            	                     	<th>Evento</th>
+	                                    <th>Lugar</th>
+	                                    <!--  <th>Fecha</th>   -->
+	                                    <th>Direccion</th>  
 	                                </tr>
 	                            </thead>
 
@@ -210,12 +227,12 @@
 	                        </table>
 	                     </div>
 
-						<!--Paginacion-->
+						<!--Paginacion
 	                    <ul class="pagination pagination-sm">
 							<li class="disabled"><a href="#">&laquo;</a></li>
 							<li class="active"><a href="#">1</a></li>
 							<li><a href="#">&raquo;</a></li>
-	                    </ul>
+	                    </ul>-->
 	                </div>
 	            </div>
 	        </div>
