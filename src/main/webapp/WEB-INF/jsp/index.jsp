@@ -8,21 +8,45 @@
 	
 	    <!-- Scripts -->
 		<c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
+		<c:url value="/js/jquery.dataTables.min.js" var="datatableJS" />
 		<c:url value="/js/bootstrap.min.js" var="bootstrapJS" />
 		<c:url value='/fullcalendar/lib/moment.min.js' var="momentJS" />
 	    <c:url value='/fullcalendar/fullcalendar.js' var="fullcalendarJS" />
 	    <c:url value='/fullcalendar/locale/es.js' var="esJS" />
 	    <script src="${jqueryJS}"></script>
+	    <script src="${datatableJS}"></script>
 	    <script src="${bootstrapJS}"></script>
 	    <script src="${momentJS}"></script>
-	    <script src="${fullcalendarJS}"></script>
-	    <script src="${esJS}"></script>
+	    <script src="${fullcalendarJS}" charset="utf-8"></script>
+	    <script src="${esJS}" charset="utf-8"></script>
 
 	    <script type="text/javascript">
 		    $(document).ready(function() {
 			    // inicia el calendario
 			    $('#calendar').fullCalendar({
 			    })
+		    });
+	    </script>
+	    <script type="text/javascript">
+		    $(document).ready( function () {
+		        var table= $('#espectaculo').dataTable( {
+		            "ajax": {
+		                       "url": '/obtenerEspectaculos/',
+		                       "dataType": 'json',
+		                       "dataSrc": "",
+		                       "type": "GET",
+		                       "beforeSend": function(xhr){
+		                               var pathname = window.location.pathname;
+		                               xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+		                       }
+		            },
+		            "columns" :  [
+		                            { "data": "id"},
+		                            { "data": "nombre" },
+		                            { "data": "descripcion" },
+		                            { "data": "idTipoEspectaculo" }
+		                        ]
+		        });
 		    });
 	    </script>
 		<!-- Scripts -->
@@ -170,51 +194,18 @@
 
 	                 <div class="panel-body">
 	                     <div class="table-responsive">
-	                         <table class="table table-striped table-hover ">
+	                         <table class="table table-striped table-hover" id="espectaculo">
 	                            <thead>
 	                                <tr class="success">
-                                    	<th>Fecha</th>
-	                                    <th>Evento</th>
-	                                    <th>Lugar</th>
+	                                	<th>id</th>
+                                    	<th>Evento</th>
+	                                    <th>Descripción</th>
+	                                    <th>Tipo de espectaculo</th>
 	                                </tr>
 	                            </thead>
 
 	                            <tbody>
-	                              	<tr>
-		                                <td >12/06/2017</td>
-		                                <td><a href="#">prueba</a></td>
-		                                <td>Column content</td>
-	                              	</tr>
-
-	                              	<tr>
-		                                <td>28/06/2017</td>
-		                                <td>Column content</td>
-		                                <td>Column content</td>
-	                              	</tr>
-
-	                              <tr>
-	                                <td>11/08/2017</td>
-	                                <td>Column content</td>
-	                                <td>Column content</td>
-	                              </tr>
-
-	                              <tr>
-	                                <td>2</td>
-	                                <td>Column content</td>
-	                                <td>Column content</td>
-	                              </tr>
-
-	                              <tr>
-	                                <td>2</td>
-	                                <td>Column content</td>
-	                                <td>Column content</td>
-	                              </tr>
-
-	                              <tr>
-	                                <td>2</td>
-	                                <td>Column content</td>
-	                                <td>Column content</td>
-	                              </tr>
+	                             
 	                            </tbody>
 	                        </table>
 	                     </div>

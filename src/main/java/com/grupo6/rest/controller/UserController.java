@@ -49,17 +49,21 @@ public class UserController {
 
 		Optional<Usuario> usuario = userService.loginEmailPassword(email, password);
 		if (usuario.isPresent()) {
-			String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
-			if (usuario.get().getPassword().equals(sha256hex)) {
+			//String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
+			if (usuario.get().getPassword().equals(password)) {
 				HttpSession sesion = request.getSession();
 				sesion.setAttribute("usuario", usuario);
+				System.out.println("ok");
 				return new ResponseEntity<Object>(HttpStatus.OK);
 			}
 		} else {
+			System.out.println("NO_CONTENT");
 			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 		}
+		System.out.println("UNAUTHORIZED");
 		return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
 	}
+
 
 	@RequestMapping(path = "/loginUsuarioFinalGmail/", method = RequestMethod.POST)
 	public ResponseEntity<?> loginUsuarioFinalGmail(@RequestHeader("X-TenantID") String tenantName,

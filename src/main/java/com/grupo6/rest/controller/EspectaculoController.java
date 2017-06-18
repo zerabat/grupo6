@@ -198,7 +198,7 @@ public class EspectaculoController {
 
 		return new ResponseEntity<List<EspectaculoDTO>>(espectaculos, HttpStatus.OK);
 	}
-
+	
 
 	@RequestMapping(path = "/obtenerEspectaculos/", method = RequestMethod.GET)
 	public ResponseEntity<List<EspectaculoDTO>> obtenerEspectaculos(@RequestHeader("X-TenantID") String tenantName,

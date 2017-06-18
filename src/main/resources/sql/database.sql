@@ -430,9 +430,10 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 
-insert into tipo_espectaculo values (1,'Deportes');
-insert into tipo_espectaculo values (2,'Cine');
-insert into tipo_espectaculo values (3,'Teatro');
+insert into tipo_espectaculo (nombre) values ('Deportes');
+insert into tipo_espectaculo (nombre) values ('Música');
+insert into tipo_espectaculo (nombre) values ('Teatro');
+insert into tipo_espectaculo (nombre) values ('Cine');
 
 
 -- Dump completed on 2017-05-06 14:49:00
