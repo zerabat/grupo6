@@ -2,6 +2,8 @@ package com.grupo6.rest.dto;
 
 import java.util.Date;
 
+import com.grupo6.persistence.model.Entrada;
+
 public class EntradaDTO {
 
 	private long id;
@@ -23,6 +25,14 @@ public class EntradaDTO {
 	private Long idSector;
 
 	private Long idEspectaculo;
+
+	public EntradaDTO(Entrada ent){
+		this.id = ent.getId();
+		this.numeroAsiento = ent.getNumeroAsiento();
+		this.fechaCompra = ent.getFechaCompra();
+		this.idRealizacionEspectaculo = ent.getRealizacionEspectaculo().getId();
+//		this.idUsuario = 
+	}
 
 	public long getId() {
 		return id;
@@ -106,3 +116,4 @@ public class EntradaDTO {
 	
 	
 }
+

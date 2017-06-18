@@ -1,12 +1,20 @@
 package com.grupo6.service.bean;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.grupo6.persistence.model.Entrada;
+import com.grupo6.persistence.model.HistorialEntradas;
 import com.grupo6.persistence.model.Usuario;
+import com.grupo6.persistence.repository.EspectaculoRepository;
+import com.grupo6.persistence.repository.HistorialEntradasRepository;
+import com.grupo6.persistence.repository.RealizacionEspectaculoRepository;
 import com.grupo6.persistence.repository.UsuarioRepository;
+import com.grupo6.rest.dto.EntradaHistorialDTO;
 import com.grupo6.service.UserService;
 
 @Service
@@ -14,7 +22,17 @@ public class UserServiceBean implements UserService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private HistorialEntradasRepository historialEntradasRepository;
+	
+	@Autowired
+	private RealizacionEspectaculoRepository realizacionEspectaculoRepository;
 
+	@Autowired
+	private EspectaculoRepository espectaculoRepository;
+
+	
 	@Override
 	public Optional<Usuario> altaUsuario(Usuario dtos) {
 		if (dtos.getGmailToken().isEmpty() && dtos.getGmailToken().length() < 3){
@@ -47,5 +65,17 @@ public class UserServiceBean implements UserService {
 			return Optional.empty();
 		}
 		return usr;
+	}
+
+	@Override
+	public List<EntradaHistorialDTO> consultaHistorialCompras(String email) {
+		Optional<Usuario> user = usuarioRepository.findByEmail(email);
+		List <HistorialEntradas> entradas = historialEntradasRepository.findByUsuario(user);
+		List<EntradaHistorialDTO> entradasDTO = new ArrayList<EntradaHistorialDTO>();
+		for (HistorialEntradas ent : entradas){
+			EntradaHistorialDTO entradaDTO = new EntradaHistorialDTO(ent);
+			entradasDTO.add(entradaDTO);
+		}
+		return entradasDTO;
 	}
 }

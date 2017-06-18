@@ -49,11 +49,10 @@ public class EnviarMails {
 			multipart.addBodyPart(messageBodyPart);
 
 			messageBodyPart = new MimeBodyPart();
-//			String filename = "C:\\tenants\\qr\\tenant2\\7\\26\\tenant2.espectaculo1.26.1152" + ".png";
 			String filename = pathQR;
 			DataSource source = new FileDataSource(filename);
 			messageBodyPart.setDataHandler(new DataHandler(source));
-			messageBodyPart.setFileName(filename);
+			messageBodyPart.setFileName("Entrada.png");
 			multipart.addBodyPart(messageBodyPart);
 
 			message.setContent(multipart);

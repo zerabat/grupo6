@@ -128,7 +128,7 @@ DROP TABLE IF EXISTS `historial_entradas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `historial_entradas` (
-  `id_historial_entradas` int(11) NOT NULL,
+  `id_historial_entradas` int(11)  NOT NULL AUTO_INCREMENT,
   `id_usuario` int(11) NOT NULL,
   `fecha_compra` varchar(45) NOT NULL,
   `id_vendedor` int(11) DEFAULT NULL,

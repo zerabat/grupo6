@@ -49,7 +49,7 @@ public class Entrada {
 	private Sector sector;
 	
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_espectaculo")
 	private Espectaculo espectaculo;
 

@@ -24,4 +24,6 @@ public interface SuscripcionEspectaculoRepository extends BaseRepository <Suscri
 	
 	List<SuscripcionEspectaculo> findByRealizacionEspectaculo(RealizacionEspectaculo re);
 
+	List<SuscripcionEspectaculo> findByUsuario(Usuario usuario);
+
 }

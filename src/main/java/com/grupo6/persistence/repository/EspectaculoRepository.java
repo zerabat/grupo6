@@ -2,6 +2,7 @@ package com.grupo6.persistence.repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,5 +48,21 @@ public interface EspectaculoRepository extends BaseRepository <Espectaculo, Long
 			+ " JOIN  r.sala s "
 			+ " WHERE r.fecha > :hoy")
 	List<Espectaculo> findAllActivos(Date date);
+
+	@EntityGraph("Espectaculo.Full")
+	@Query ("SELECT e FROM Espectaculo e "
+			+ " JOIN  e.realizacionEspectaculo r "
+			+ " JOIN  e.tipoEspectaculo te"
+			+ " JOIN  r.sala s "
+			+ " WHERE r.fecha > :hoy and te.id = :idTipoEspec")
+	List<Espectaculo> finBytipoEspectaculo(@Param("idTipoEspec") long idTipoEspec, @Param("hoy")  Date d);
+	
+	@EntityGraph("Espectaculo.Full")
+	@Query ("SELECT e FROM Espectaculo e "
+			+ " JOIN  e.realizacionEspectaculo r "
+			+ " JOIN  e.tipoEspectaculo te"
+			+ " JOIN  r.sala s "
+			+ " WHERE r.fecha > :hoy and e.id = :idEspec")
+	Espectaculo findOneActive(@Param("idEspec") long idEspec, @Param("hoy")  Date d);
 	
 }

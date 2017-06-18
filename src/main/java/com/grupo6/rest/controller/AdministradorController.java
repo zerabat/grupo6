@@ -46,7 +46,7 @@ public class AdministradorController {
 		} else {
 			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 	}
 
 	@RequestMapping(path = "/altaVendedor/", method = RequestMethod.PUT)
@@ -58,7 +58,7 @@ public class AdministradorController {
 		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession()
 				.getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
 		TenantContext.setCurrentTenant(tenantName);
 		administradorService.agregarVendedor(vendedor);
@@ -74,7 +74,7 @@ public class AdministradorController {
 		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession()
 				.getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
 		administradorService.agregarPortero(portero);
 		return new ResponseEntity<Object>(HttpStatus.OK);

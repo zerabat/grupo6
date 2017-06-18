@@ -25,19 +25,19 @@ public class SuscripcionEspectaculo {
 	@Column(nullable = false)
 	private Date fecha;
 		
-	@ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_espectaculo")
 	private Espectaculo espectaculo;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_realziacion_espectaculo")
 	private RealizacionEspectaculo realizacionEspectaculo;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_tipo_espectaculoco")
 	private TipoEspectaculo tipoEspectaculo;
 

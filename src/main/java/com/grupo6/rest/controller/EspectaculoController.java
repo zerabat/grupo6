@@ -22,9 +22,11 @@ import com.grupo6.persistence.model.AdministradorTenant;
 import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.Usuario;
+import com.grupo6.rest.dto.EntradaDTO;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
+import com.grupo6.rest.dto.RealizacionEspectaculoDisponibilidadDTO;
 import com.grupo6.service.EspectaculoService;
 import com.grupo6.service.RealizacionEspectaculoService;
 import com.grupo6.util.page.PageUtils;
@@ -148,7 +150,7 @@ public class EspectaculoController {
 	/* APIS DE USUARIO */
 
 	@RequestMapping(path = "/comprarEntradaEspectaculo/", method = RequestMethod.GET)
-	public ResponseEntity<Entrada> comprarEntradaEspectaculo(@RequestHeader("X-TenantID") String tenantName,
+	public ResponseEntity<EntradaDTO> comprarEntradaEspectaculo(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
 			@RequestParam(name = "idRealizacion", required = true) Long idRealizacion,
 			@RequestParam(name = "idSector", required = true) String idSector) {
@@ -163,106 +165,13 @@ public class EspectaculoController {
 		Optional<Entrada> entr = realizacionEspectaculoService.comprarEntradaEspectaculo(idRealizacion, idSector,
 				email);
 		if (entr.isPresent()) {
-			return new ResponseEntity<Entrada>(entr.get(), HttpStatus.OK);
+			return new ResponseEntity<EntradaDTO>(this.mapearEntrada(entr.get()), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Entrada>(HttpStatus.GONE);
+			return new ResponseEntity<EntradaDTO>(HttpStatus.GONE);
 		}
 	}
 
-	/*
-	 * suscribirse y dessuscribirse de especataculos tipos de espectaculo y
-	 * realizaciones de espectaculo
-	 */
 
-	@RequestMapping(path = "/suscribirseEspectaculo/", method = RequestMethod.GET)
-	public ResponseEntity<?> suscribirseEntradaEspectaculo(@RequestHeader("X-TenantID") String tenantName,
-			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
-			@RequestParam(name = "idEspectaculo", required = true) Long idEspectaculo) {
-
-		TenantContext.setCurrentTenant(tenantName);
-		@SuppressWarnings("unchecked")
-		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
-		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
-		espectaculoService.suscribirseAEspectaculo(idEspectaculo, email);
-		return new ResponseEntity<Object>(HttpStatus.OK);
-	}
-
-	@RequestMapping(path = "/desSuscribirseEspectaculo/", method = RequestMethod.GET)
-	public ResponseEntity<?> desSuscribirseEntradaEspectaculo(@RequestHeader("X-TenantID") String tenantName,
-			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
-			@RequestParam(name = "idEspectaculo", required = true) Long idEspectaculo) {
-
-		TenantContext.setCurrentTenant(tenantName);
-		@SuppressWarnings("unchecked")
-		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
-		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
-		espectaculoService.desSuscribirseAEspectaculo(idEspectaculo, email);
-		return new ResponseEntity<Object>(HttpStatus.OK);
-	}
-
-	@RequestMapping(path = "/suscribirseTipoEspectaculo/", method = RequestMethod.GET)
-	public ResponseEntity<?> suscribirseTipoEspectaculo(@RequestHeader("X-TenantID") String tenantName,
-			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
-			@RequestParam(name = "idTipoEspectaculo", required = true) Long idTipoEspectaculo) {
-
-		TenantContext.setCurrentTenant(tenantName);
-		@SuppressWarnings("unchecked")
-		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
-		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
-		espectaculoService.suscribirseTipoEspectaculo(idTipoEspectaculo, email);
-		return new ResponseEntity<Object>(HttpStatus.OK);
-	}
-
-	@RequestMapping(path = "/desSuscribirseTipoEspectaculo/", method = RequestMethod.GET)
-	public ResponseEntity<?> desSuscribirseTipoEspectaculo(@RequestHeader("X-TenantID") String tenantName,
-			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
-			@RequestParam(name = "idTipoEspectaculo", required = true) Long idTipoEspectaculo) {
-
-		TenantContext.setCurrentTenant(tenantName);
-		@SuppressWarnings("unchecked")
-		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
-		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
-		espectaculoService.desSuscribirseTipoEspectaculo(idTipoEspectaculo, email);
-		return new ResponseEntity<Object>(HttpStatus.OK);
-	}
-
-	@RequestMapping(path = "/suscribirserealizacionEspectaculo/", method = RequestMethod.GET)
-	public ResponseEntity<?> suscribirserealizacionEspectaculo(@RequestHeader("X-TenantID") String tenantName,
-			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
-			@RequestParam(name = "idRealizacionEspectaculo", required = true) Long idRealizacionEspectaculo) {
-
-		TenantContext.setCurrentTenant(tenantName);
-		@SuppressWarnings("unchecked")
-		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
-		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
-		realizacionEspectaculoService.suscribirse(idRealizacionEspectaculo, email);
-		return new ResponseEntity<Object>(HttpStatus.OK);
-	}
-
-	@RequestMapping(path = "/desSuscribirseRealizacionEspectaculo/", method = RequestMethod.GET)
-	public ResponseEntity<?> desSuscribirseRealizacionEspectaculo(@RequestHeader("X-TenantID") String tenantName,
-			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
-			@RequestParam(name = "idTrealizacionEspectaculo", required = true) Long idTrealizacionEspectaculo) {
-
-		TenantContext.setCurrentTenant(tenantName);
-		@SuppressWarnings("unchecked")
-		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
-		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
-		realizacionEspectaculoService.desSuscribirse(idTrealizacionEspectaculo, email);
-		return new ResponseEntity<Object>(HttpStatus.OK);
-	}
 
 	/*
 	 * muestra segun las preferencias del usuario (Espectaculos tipos de
@@ -270,20 +179,28 @@ public class EspectaculoController {
 	 */
 
 	@RequestMapping(path = "/obtenerEspectaculosUsuario/", method = RequestMethod.GET)
-	public ResponseEntity<List<EspectaculoDTO>> obtenerEspectaculosUsr(@RequestHeader("X-TenantID") String tenantName,
+	public ResponseEntity<List<EspectaculoFullDTO>> obtenerEspectaculosUsuario(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "email", required = true) String email) {
 
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
-		Optional<Usuario> a = (Optional<Usuario>) request.getSession().getAttribute("usuario");
-		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
-			return new ResponseEntity<List<EspectaculoDTO>>(HttpStatus.NOT_ACCEPTABLE);
+		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
+		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
+			return new ResponseEntity<List<EspectaculoFullDTO>>(HttpStatus.FORBIDDEN);
 		}
-		List<EspectaculoDTO> espectaculos = espectaculoService.obtenerEspectaculosOsuario(email);
-		return new ResponseEntity<List<EspectaculoDTO>>(espectaculos, HttpStatus.OK);
+		List<EspectaculoFullDTO> espectaculos = espectaculoService.obtenerEspectaculosOsuario(email);
+		return new ResponseEntity<List<EspectaculoFullDTO>>(espectaculos, HttpStatus.OK);
 	}
 	
-	
+	@RequestMapping(path = "/consultaDisponibilidadDeLocalidades/", method = RequestMethod.GET)
+	public ResponseEntity<RealizacionEspectaculoDisponibilidadDTO> consultaDisponibilidadDeLocalidades(@RequestHeader("X-TenantID") String tenantName,
+			HttpServletRequest request, 
+			@RequestParam(name = "idRealizacion", required = true) Long idRealizacion) {
+
+		TenantContext.setCurrentTenant(tenantName);
+		RealizacionEspectaculoDisponibilidadDTO reDisp = realizacionEspectaculoService.consultaDisponibilidadDeLocalidades(idRealizacion);
+			return new ResponseEntity<RealizacionEspectaculoDisponibilidadDTO>(reDisp, HttpStatus.OK);
+	}
 	
 
 	@RequestMapping(path = "/obtenerEspectaculos/", method = RequestMethod.GET)
@@ -309,6 +226,10 @@ public class EspectaculoController {
 
 	private EspectaculoFullDTO mapearContenidoDePagina(Espectaculo e) {
 		return new EspectaculoFullDTO(e);
+	}
+	
+	private EntradaDTO mapearEntrada(Entrada ent) {
+		return new EntradaDTO(ent);
 	}
 
 }

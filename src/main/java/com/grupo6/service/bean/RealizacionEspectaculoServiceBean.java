@@ -11,6 +11,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
@@ -29,6 +30,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.grupo6.config.TenantContext;
 import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
+import com.grupo6.persistence.model.HistorialEntradas;
 import com.grupo6.persistence.model.RealizacionEspectaculo;
 import com.grupo6.persistence.model.Sala;
 import com.grupo6.persistence.model.Sector;
@@ -36,15 +38,19 @@ import com.grupo6.persistence.model.SuscripcionEspectaculo;
 import com.grupo6.persistence.model.Usuario;
 import com.grupo6.persistence.repository.EntradaRepository;
 import com.grupo6.persistence.repository.EspectaculoRepository;
+import com.grupo6.persistence.repository.HistorialEntradasRepository;
 import com.grupo6.persistence.repository.RealizacionEspectaculoRepository;
 import com.grupo6.persistence.repository.SalaRepository;
 import com.grupo6.persistence.repository.SectorRepository;
 import com.grupo6.persistence.repository.SuscripcionEspectaculoRepository;
 import com.grupo6.persistence.repository.UsuarioRepository;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
-import com.grupo6.rest.dto.SalaDTO;
+import com.grupo6.rest.dto.RealizacionEspectaculoDisponibilidadDTO;
 import com.grupo6.rest.dto.SectorDTO;
+import com.grupo6.rest.dto.SectorDisponibilidadDTO;
+import com.grupo6.rest.dto.SuscripcionEspectaculoDTO;
 import com.grupo6.service.RealizacionEspectaculoService;
+import com.grupo6.util.email.EnviarMails;
 
 @Service
 public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculoService {
@@ -68,7 +74,13 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 	UsuarioRepository usuarioRepository ;
 	
 	@Autowired
+	HistorialEntradasRepository historialEntradasRepository;
+	
+	@Autowired
 	SuscripcionEspectaculoRepository suscripcionEspectaculoRepository;
+	
+	@Autowired
+	EnviarMails enviarMails;
 	
 	@Value("${qrPath}")
 	private String qrPath;
@@ -103,18 +115,24 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 		// se crea la carpeta con el id del espectaculo y de la realización
 		// donde van a ir las entradas
 
-		sectores.stream().forEach(sector -> {
+		sectores.stream().forEach(sector -> { 
 			int precio = 0;
+			SectorDTO secDTO2 = null;
 			for (SectorDTO secDTO : realizacionEspectaculoDTO.getSectores()){
 				if (secDTO.getId()==sector.getId()){
 					precio = secDTO.getPrecio();
+					secDTO2 = secDTO;
 				}
 			}
-			for (int i = 0; i < sector.getCapacidad(); i++) {
+			if (secDTO2 == null){
+				System.out.println("Estan mal ingresados los sectores");
+				return;
+			}
+			for (int i = 0; i < secDTO2.getCapacidad(); i++) {
 				Entrada entrada = new Entrada();
 				entrada.setId(0);
 				entrada.setEspectaculo(e.get());
-				entrada.setNumeroAsiento(i);
+				entrada.setNumeroAsiento(i+1);
 				entrada.setPrecio(precio);
 				entrada.setRealizacionEspectaculo(re);
 				entrada.setSector(sector);
@@ -135,9 +153,9 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 				filePath += "\\" + e.get().getId();
 				filePath += "\\" + re.getId();
 				filePath += "\\" + textodelQR + "." + fileType;
-
+				
+				textodelQR = org.apache.commons.codec.digest.DigestUtils.sha256Hex(textodelQR);
 				int size = 250;
-
 				File myFile = new File(filePath);
 				try {
 
@@ -193,7 +211,6 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 				sectorDTO.setCapacidad(sec.getCapacidad());
 				sectorDTO.setId(sec.getId());
 				sectorDTO.setNombre(sec.getNombre());
-//				sectorDTO.setSala(new SalaDTO(sec.getSala()));
 				respDTO.getSectores().add(sectorDTO);
 			});
 			
@@ -205,16 +222,45 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 
 
 	@Override
+	@Transactional
 	public Optional<Entrada> comprarEntradaEspectaculo(Long idRealizacion, String idSector, String email) {
 		
-		Optional<RealizacionEspectaculo> re = realizacionEspectaculoRepository.findOne(Long.parseLong(idSector));
+		Optional<RealizacionEspectaculo> re = realizacionEspectaculoRepository.findOne(idRealizacion);
+		Optional<Espectaculo> e = espectaculoRepository.findOne(re.get().getEspectaculo().getId());
+		
 		Optional <Sector> sec = sectorRepository.findOne(Long.parseLong(idSector));
-		Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(re.get(),sec.get()).findFirst();
+		Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSectorAndUsuarioIsNull(re.get(),sec.get()).stream().findFirst();
 		if (ent.isPresent()){
-			ent.get().setFechaCompra(new Date());
 			Optional<Usuario> u = usuarioRepository.findByEmail(email);
 			if (u.isPresent()){
 				ent.get().setUsuario(u.get());
+				ent.get().setFechaCompra(new Date());
+				ent.get().setUsuario(u.get());
+				entradaRepository.save(ent.get());
+				historialEntradasRepository.save(new HistorialEntradas(ent.get()));
+				// hasta ahi guardo la entrada en la base con el usuario 
+				// que la comprpo y la fecha de compra 
+				
+				String textodelQR = (String) TenantContext.getCurrentTenant();
+				textodelQR += "." + e.get().getNombre();
+				textodelQR += "." + re.get().getId();
+				textodelQR += "." + ent.get().getId();
+
+				String fileType = "png";
+				String filePath = qrPath + "\\" + TenantContext.getCurrentTenant();
+
+				filePath += "\\" + e.get().getId();
+				filePath += "\\" + re.get().getId();
+				filePath += "\\" + textodelQR + "." + fileType;
+				
+				String asunto = "Sus entrada para el espectaculo " + e.get().getNombre();
+				String mensaje = "Usted ha adquirido una entrada para el espectaculo: " + e.get().getNombre() + "\n"
+						+ "que se realizará en la fecha: " + re.get().getFecha() + "\n"
+						+ "en la sala:" + re.get().getSala().getNombre() + "\n"
+						+ "Sector: " + ent.get().getSector().getNombre() + "\n"
+						+ "Número de asiento: " + ent.get().getNumeroAsiento() + "\n"
+						+ "ubicada en la dirección " + re.get().getSala().getDireccion() + "\n";
+				enviarMails.EnviarCooreoConQR(email, asunto, mensaje, filePath);
 			}else{
 				return null;
 			}
@@ -249,6 +295,42 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 			s.setFecha(new Date());
 			suscripcionEspectaculoRepository.save(s);
 		}
+		
+	}
+
+
+	@Override
+	public RealizacionEspectaculoDisponibilidadDTO consultaDisponibilidadDeLocalidades(Long idRealizacion) {
+		Optional<RealizacionEspectaculo> re = realizacionEspectaculoRepository.findOne(idRealizacion);
+		List<Sector> sectores = sectorRepository.findBySalaId(re.get().getSala().getId());
+		RealizacionEspectaculoDisponibilidadDTO reD = new RealizacionEspectaculoDisponibilidadDTO(re.get()); 
+		
+		for (Sector sec: sectores){
+			SectorDisponibilidadDTO  sdDTO = new SectorDisponibilidadDTO();
+			List <Entrada> entradasPorSector = entradaRepository.findByRealizacionEspectaculoAndSectorAndUsuarioIsNull(re.get(), sec);
+			Stream<Entrada> s  = entradaRepository.findByRealizacionEspectaculoAndSector(re.get(),sec);
+			sdDTO.setCapacidad((int) s.count());
+			sdDTO.setDisponibilidad(entradasPorSector.size());
+			sdDTO.setId(sec.getId());
+			sdDTO.setNombre(sec.getNombre());
+			sdDTO.setPrecio(s.findFirst().get().getPrecio());
+			reD.getSectores().add(sdDTO);
+		}
+		return reD;
+		
+	}
+
+
+	@Override
+	public List<SuscripcionEspectaculoDTO>  verSuscripcionUsuario(String email) {
+		Optional <Usuario> user = usuarioRepository.findByEmail(email);
+		List<SuscripcionEspectaculo> l= suscripcionEspectaculoRepository.findByUsuario(user.get());
+		List<SuscripcionEspectaculoDTO> ret = new ArrayList<SuscripcionEspectaculoDTO>();
+		for(SuscripcionEspectaculo se :l){
+			SuscripcionEspectaculoDTO seDTO  = new SuscripcionEspectaculoDTO(se);
+			ret.add(seDTO);
+		}
+		return ret;
 		
 	}
 

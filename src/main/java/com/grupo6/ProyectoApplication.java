@@ -13,7 +13,6 @@ public class ProyectoApplication extends SpringBootServletInitializer {
 		return application.sources(ProyectoApplication.class);
 	}
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoApplication.class, args);
 	}

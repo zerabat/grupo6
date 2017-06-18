@@ -1,6 +1,6 @@
 package com.grupo6.rest.dto;
 
-public class SectorDTO {
+public class SectorDisponibilidadDTO {
 
 	private long id;
 
@@ -9,6 +9,8 @@ public class SectorDTO {
 	private int capacidad;
 	
 	private int precio;
+	
+	private int disponibilidad;
 
 	public long getId() {
 		return id;
@@ -41,6 +43,13 @@ public class SectorDTO {
 	public void setPrecio(int precio) {
 		this.precio = precio;
 	}
-	
+
+	public int getDisponibilidad() {
+		return disponibilidad;
+	}
+
+	public void setDisponibilidad(int disponibilidad) {
+		this.disponibilidad = disponibilidad;
+	}
 	
 }

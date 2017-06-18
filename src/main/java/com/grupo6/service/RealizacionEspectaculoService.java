@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.grupo6.persistence.model.Entrada;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
+import com.grupo6.rest.dto.RealizacionEspectaculoDisponibilidadDTO;
+import com.grupo6.rest.dto.SuscripcionEspectaculoDTO;
 
 public interface RealizacionEspectaculoService {
 
@@ -17,5 +19,9 @@ public interface RealizacionEspectaculoService {
 	void desSuscribirse(Long idTrealizacionEspectaculo, String email);
 
 	void suscribirse(Long idRealizacionEspectaculo, String email);
+
+	RealizacionEspectaculoDisponibilidadDTO consultaDisponibilidadDeLocalidades(Long idRealizacion);
+
+	List<SuscripcionEspectaculoDTO> verSuscripcionUsuario(String email);
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.grupo6.persistence.model.RealizacionEspectaculo;
 
-public class RealizacionEspectaculoDTO {
+public class RealizacionEspectaculoDisponibilidadDTO {
 
 	private long id;
 
@@ -14,19 +14,19 @@ public class RealizacionEspectaculoDTO {
 	
 	private long idEspectaculo;
 	
-	private List<SectorDTO> sectores; 
+	private List<SectorDisponibilidadDTO> sectores; 
 	
 	private SalaDTO sala;
 
-	public RealizacionEspectaculoDTO(){
+	public RealizacionEspectaculoDisponibilidadDTO(){
 		
 	}
-	public RealizacionEspectaculoDTO(RealizacionEspectaculo x) {
+	public RealizacionEspectaculoDisponibilidadDTO(RealizacionEspectaculo x) {
 		this.id = x.getId();
 		this.fecha = x.getFecha();
 		this.sala = new SalaDTO (x.getSala());
 		this.idEspectaculo = x.getEspectaculo().getId();
-		this.sectores = new ArrayList<SectorDTO>();
+		this.sectores = new ArrayList<SectorDisponibilidadDTO>();
 	}
 
 	public long getId() {
@@ -44,14 +44,6 @@ public class RealizacionEspectaculoDTO {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-//
-//	public long getIdSala() {
-//		return idSala;
-//	}
-//
-//	public void setIdSala(long idSala) {
-//		this.idSala = idSala;
-//	}
 
 	public long getIdEspectaculo() {
 		return idEspectaculo;
@@ -60,10 +52,10 @@ public class RealizacionEspectaculoDTO {
 	public void setIdEspectaculo(long idEspectaculo) {
 		this.idEspectaculo = idEspectaculo;
 	}
-	public List<SectorDTO> getSectores() {
+	public List<SectorDisponibilidadDTO> getSectores() {
 		return sectores;
 	}
-	public void setSectores(List<SectorDTO> sectores) {
+	public void setSectores(List<SectorDisponibilidadDTO> sectores) {
 		this.sectores = sectores;
 	}
 	

@@ -24,22 +24,22 @@ public class HistorialEntradas {
 	private long id;
 
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 	
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_vendedor")
 	private Vendedor vendedor;
 	
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_portero")
 	private Portero portero;
 	
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_entrada")
 	private Entrada entrada;
 	
@@ -49,6 +49,17 @@ public class HistorialEntradas {
 	@Column(name="fecha_verificacion", nullable=true)
 	private Date fechaVerificacion;
 
+	public HistorialEntradas(){
+		
+	}
+	public HistorialEntradas(Entrada ent){
+		this.setEntrada(ent);
+		this.setFechaCompra(ent.getFechaCompra());
+		this.setFechaVerificacion(getFechaVerificacion());
+		this.setPortero(ent.getPortero());
+		this.setUsuario(ent.getUsuario());
+		this.setVendedor(ent.getVendedor());
+	}
 	public long getId() {
 		return id;
 	}
