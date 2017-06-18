@@ -18,10 +18,13 @@
     padding-left: 28px;
     padding-right: 30px;
 }
+#barraUbicacion{
+    margin-bottom: 10px;
+}
 #principal{
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 80px;
+    margin-top: 70px;
 }
 
 #calendario{
@@ -32,7 +35,62 @@
     padding-top: 40px;
     height: auto;
 }
+#principalInfo{
+    margin-top: 70px;
+}
+#imagenEspectaculo{
+margin-bottom: 21px;
+}
+@media (min-width: 768px) {
+    #imagenEspectaculo{
+    padding-bottom: 10px;
+    height: 350px;
+}
+}
+@media (min-width: 948px) {
+    #infoEspectaculo{
+    height: 350px;
+    padding-bottom: 10px;
+    margin-bottom: 21px;
+}}
+#map{
+    height: 250px;
+}
+#promocion{
+    height: 250px;
+}
+#mediosPagos{
+    height: 250px;
+}
+.breadcrumb{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.panelEspectaculo{
+        overflow-y: auto;
+        margin-bottom: 21px;
+        height: 190px;
+}
+@media (min-width: 948px) {
+    #panelEspectaculo{
+    height: 100%;
 
+}}
+#btnComprar{
+    font-size: 20px;
+}
+.form-bottom #btnComprar {
+    width: 100%;
+}
+
+.img-responsive-info,
+.thumbnail > img,
+.thumbnail a > img,
+ {
+  display: block;
+  max-width: 100%;
+
+}
 .navbar-brand h3{
     margin-top: -5px;
 }
@@ -44,7 +102,7 @@
   width: 335px;
   position:relative;
       top: -7px;
-      left: 89px;
+      left: 18%;
 }
 .banner h3{
     margin-top: 10px;
@@ -58,6 +116,19 @@
     padding-top: 20px;
 }
 
+/*tabla index espectaculos*/
+#espectaculo{
+    position: relative;
+    top: -20px;
+}
+
+#espectaculo_filter{
+    position: relative;
+    left: 569px;
+    top: -28px;
+    width: 29%;
+
+}
 
 /***********************************************************/
 
@@ -1175,7 +1246,7 @@ img {
 .carousel-inner > .item > a > img {
   display: block;
   max-width: 100%;
-  height: auto;
+  height: 300px;
 }
 .img-rounded {
   border-radius: 6px;
@@ -4745,7 +4816,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 .breadcrumb {
   padding: 8px 15px;
-  margin-bottom: 21px;
+  margin-bottom: 10px;
   list-style: none;
   background-color: #ecf0f1;
   border-radius: 4px;
@@ -6296,7 +6367,7 @@ button.close {
   height: auto;
 }
 .carousel-inner img {
-    max-height: 300px;
+    max-height: 350px;
 }
 .carousel-inner > .item {
   display: none;

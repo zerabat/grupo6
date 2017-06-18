@@ -17,12 +17,16 @@ public class IndexViewController {
 	}
 	
 	@RequestMapping(path = "/login")
-	public String login( Map<String, Object> model) {
+	public String login(Map<String, Object> model) {
 		return "login";
 	}
 	
 	@RequestMapping(path = "/register")
 	public String register(@PathVariable String tenantId, Map<String, Object> model) {
 		return "register";
+	}
+	@RequestMapping(path = "/infoEspectaculo")
+	public String infoEspectaculo(@PathVariable String tenantId, Map<String, Object> model) {
+		return "infoEspectaculo";
 	}
 }
