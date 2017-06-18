@@ -201,7 +201,6 @@ public class EspectaculoServiceBean implements EspectaculoService {
 			}
 			
 		});
-		System.out.println(realEspectList);
 		// elemino las realizaciones repetidas si las hubiera
 		Set<RealizacionEspectaculo> hs = new HashSet<>();
 		hs.addAll(realEspectList);

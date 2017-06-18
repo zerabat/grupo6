@@ -36,12 +36,9 @@ public class SectorController {
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_ACCEPTABLE);
 		}
-
 		sectorService.altaSector(sector);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
-
-
 
 	@RequestMapping(path = "/obtenerSectoresDeSala/", method = RequestMethod.GET)
 	public ResponseEntity<List<Sector>> obtenerSectoresDeSala(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
@@ -54,7 +51,6 @@ public class SectorController {
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<List<Sector>>(HttpStatus.NOT_ACCEPTABLE);
 		}
-
 		List <Sector> sectores = sectorService.obtenerSectoresSala(idSala);
 		return new ResponseEntity<List <Sector>>(sectores,HttpStatus.OK);
 	}

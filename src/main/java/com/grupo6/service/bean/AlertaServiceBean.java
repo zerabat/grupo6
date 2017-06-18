@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -27,9 +29,10 @@ public class AlertaServiceBean {
 	@Autowired
 	private EspectaculoRepository espectaculoRepository;
 	
-	// conr expression que se corra una vez al dia
+	// cron expression que se corra una vez al dia
 	// esta cron expression es todos los días a la una am y un minuto 
-	@Scheduled(cron = "0 1 1 * * ?")
+//	@Scheduled(cron = "0 1 1 * * ?")
+	@PostConstruct
 	public void alertaPorCorre(){
 		
 		List<Espectaculo>  esp = espectaculoRepository.findAllActivos(new Date());
@@ -43,6 +46,7 @@ public class AlertaServiceBean {
 					String asunto = "";
 					String mensaje = "";
 					List <SuscripcionEspectaculo> listaSuscripcionEspectaculo = suscripcionEspectaculoRepository.findByEspectaculo(e);
+					listaSuscripcionEspectaculo.addAll(suscripcionEspectaculoRepository.findByRealizacionEspectaculo(re));
 				}
 				cal1 = Calendar.getInstance();
 				cal2 = Calendar.getInstance();
