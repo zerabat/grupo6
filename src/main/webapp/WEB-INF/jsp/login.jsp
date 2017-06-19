@@ -4,47 +4,24 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Iniciar sesión</title>
-
-<c:url value="/css/bootstrap.css" var="bootstrapCSS" />
-<link rel="stylesheet" href="${bootstrapCSS}">
-<c:url value="/css/estilos.css" var="estilos" />
-<link rel="stylesheet" href="${estilos}">
-<script>
-	function valida() {
-		var email = document.getElementById('email');
-		var password = document.getElementById("password");
-
-		if ((email.value == "") || (password.value == "")) {
-			window
-					.alert("Los campos E-mail y contraseña no pueden estar vacios");
-		} else {
-			var urlAndParams = "/loginUsuarioFinal/";
-			urlAndParams += "?email=" + email.value;
-			urlAndParams += "&password=" + password.value;
-			console.log(urlAndParams);
-
-			var xhttp = new XMLHttpRequest();
-			
-			xhttp.open("GET", urlAndParams, true);
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					    window.location.assign("index")
-				}else {
-					window.location.assign("error")
-				}
-			};
-			var pathname = window.location.pathname;
-			xhttp.setRequestHeader("X-TenantID", pathname
-					.split('/')[1]);
-			xhttp.send();
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Iniciar sesión</title>
+		<!-- Scripts -->
+			<c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
+			<c:url value="/js/funciones.js" var="funcionesJS" />
+			<c:url value="/js/bootstrap.min.js" var="bootstrapJS" />
+			<script src="${jqueryJS}"></script>
+			<script src="${funcionesJS}"></script>
+			<script src="${bootstrapJS}"></script>
+		<!-- Scripts -->
+		<!-- Styles -->
+		 	<c:url value="/css/bootstrap.css" var="bootstrapCSS" />
+			<c:url value="/css/estilos.css" var="estilos" />
+			<link rel="stylesheet" href="${bootstrapCSS}">
+			<link rel="stylesheet" href="${estilos}">
+	    <!-- Styles -->
 		
-		}
-
-	}
-</script>
 </head>
 
 <body>
@@ -97,12 +74,6 @@
 
 	</div>
 
-	<!-- Scripts -->
 
-	<c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
-	<c:url value="/js/bootstrap.min.js" var="bootstrapJS" />
-	<script src="${jqueryJS}"></script>
-	<script src="${bootstrapJS}"></script>
-	<!-- Scripts -->
 </body>
 </html>
