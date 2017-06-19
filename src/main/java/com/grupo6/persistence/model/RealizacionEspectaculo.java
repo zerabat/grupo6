@@ -33,7 +33,7 @@ public class RealizacionEspectaculo {
 	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_espectaculo")
 	private Espectaculo espectaculo;
-
+				   
 	public long getId() {
 		return id;
 	}

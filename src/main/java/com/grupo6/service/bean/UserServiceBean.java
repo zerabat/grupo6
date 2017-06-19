@@ -43,7 +43,7 @@ public class UserServiceBean implements UserService {
 			dtos.setGmailToken(sha256hex);
 		}
 		if (usuarioRepository.findByEmail(dtos.getEmail()).isPresent()){
-			return null;
+			return null; 
 		}else{
 			return Optional.of(usuarioRepository.save(dtos));
 		}

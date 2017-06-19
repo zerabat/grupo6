@@ -19,6 +19,9 @@ import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "espectaculo")
 @NamedEntityGraph(name = "Espectaculo.Full", attributeNodes = {
@@ -50,7 +53,8 @@ public class Espectaculo {
 	private Set<TipoEspectaculo> tipoEspectaculo;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
-	@JoinColumn(name = "id_realizacion_espectaculo")
+	@JoinColumn(name = "id_espectaculo")
+	@Fetch (FetchMode.SELECT)
 	private Set<RealizacionEspectaculo> realizacionEspectaculo;
 
 	public Espectaculo(){
