@@ -5,15 +5,31 @@
     <head>
         <meta charset="utf-8">
         <title>Info Espectaculo</title>
+        <!-- scripts -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
         <c:url value="/js/bootstrap.min.js" var="bootstrapJS" />
+        <c:url value="/js/funciones.js" var="funcionesJS" />
+       <!-- <script type="text/javascript"   src="https://maps.google.com/maps/api/js?key=AIzaSyBWuPoNiIST3MEBiTTl3fFLs0tuQH1noDQ"></script>-->
+         
         <script src="${jqueryJS}"></script>
         <script src="${bootstrapJS}"></script>
-        
+        <script src="${funcionesJS}"></script>
+        <!-- scripts -->
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWuPoNiIST3MEBiTTl3fFLs0tuQH1noDQ">
+        </script>
+        <script type="text/javascript">
+        	
+	        $( document ).ready(function() {
+	        	cargaInfoEspectaculo();
+				});
+
+        </script>
+        <!-- styles -->
         <c:url value="/css/bootstrap.css" var="bootstrapCSS" />
 	    <link rel="stylesheet" href="${bootstrapCSS}">
-
+		<!-- styles -->
     </head>
     <body>
         <header>
@@ -26,12 +42,12 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><h3>TicketYa!</h3></a>
+                <a class="navbar-brand" href="index"><h3>TicketYa!</h3></a>
               </div>
               <!--Inicio de menu-->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                  <li class="active"><a href="#">Inicio<span class="sr-only">(current)</span></a></li>
+                  <li class="active"><a href="index">Inicio<span class="sr-only">(current)</span></a></li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Espectaculos <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
@@ -50,8 +66,8 @@
                   <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                  <li><a href="login.html">Iniciar Sesión</a></li>
-                  <li><a href="registro.html">Registrarse</a></li>
+                  <li><a href="login">Iniciar Sesión</a></li>
+                  <li><a href="registro">Registrarse</a></li>
                 </ul>
               </div>
             </div>
@@ -62,9 +78,9 @@
                 <section class="post "></section>
                   <div class="paginado">
                       <ul class="breadcrumb">
-                        <li><a href="#">Inicio</a></li>
-                        <li><a href="#">Musica</a></li>
-                        <li class="active">Espectaculo</li>
+                        <li><a href="index">Inicio</a></li>
+                        <li><a id="tipoEspectaculo" href="#"></a></li>
+                        <li class="active" id="nomEspectaculo"></li>
                       </ul>
                   </div>
             </div>
@@ -78,19 +94,16 @@
             <div class="col-md-5 responsive nowrap" id=infoEspectaculo  >
                 <div class="panel panel-primary" id=panelEspectaculo>
                   <div class="panel-heading">
-                    <h3 class="panel-title">Gorillaz</h3>
+                    <h3 class="panel-title" id="evento"></h3>
                   </div>
                   <div class="panel-body">
                     <div class="panelEspectaculo" id="panelScroll">
-                        <p>Primavera 0 presenta Gorillaz por primera vez en Uruguay ndnsnvcncncnc</p>
-                        <p>Descripcion: lalalllal</p>
-                        <p>Precios: van desde 950</p>
-                        <p>Lugar: Velodromo Municipal </p>
-                        <p>Fecha: 13 de diciembre de 2017</p>
-                        <p>Medios de pago: Tarjetas de credito, Paypal</p>
-                        <p>Fecha: 13 de diciembre de 2017</p>
-                        <p>Fecha: 13 de diciembre de 2017</p>
-                    </div>
+                        <p id="descripcion"></p>
+                        <p id="fecha"><b>Fecha:  </b></p>
+                        <p id="sala"><b>Lugar:  </b></p>
+                        <p id="direccion"><b>Direccion:  </b></p>
+                        <p id="localidades"><b>Localidades a la venta:  </b></p>
+                   </div>
                     <button class="btn btn-success btn-group-justified" type=" button" id="btnComprar">Comprar</button>
                  </div>
 
@@ -103,18 +116,20 @@
                         <h3 class="panel-title">Medios de pago</h3>
                     </div>
                     <div class="panel-body" id="mediosPagos" >
-                        la info que haga falta
+                        Oca, Santander y Scotiabank hasta en 3 pagos sin recargo.
                     </div>
 
                 </div>
             </div>
             <div class="col-md-4" >
-                <div class="panel panel-info">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Promociones</h3>
+                        <h3 class="panel-title">Entradas</h3>
                     </div>
                     <div class="panel-body" id="promocion">
-                    Solo con tarjetas de credito 2x1
+                        <p id="sector"><b>Sector: </b> </p>
+                        <p id="precioSector"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> </p>
+                        
                     </div>
 
                 </div>
@@ -122,28 +137,10 @@
             <div class="col-md-5 responsive nowrap" id="mapa" >
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Lugar: La trastienda</h3>
+                        <h3 class="panel-title" id="lugarMapa"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> </h3>
                     </div>
                     <div class="panel-body" id="map">
-                        <script>
-                            function initMap() {
-                                var uluru = {lat: -34.881665, lng: -56.171321};
-                                var map = new google.maps.Map(document.getElementById('map'), {
-                                  zoom: 15,
-                                  center: uluru
-                                });
-
-                            mapa.marker = new google.maps.Marker({
-                            position: uluru,
-                            draggable: true
-                            });
-                            mapa.marker.setMap(mapa.map);
-
-                        }
-                        </script>
-                        <script async defer
-                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWuPoNiIST3MEBiTTl3fFLs0tuQH1noDQ&callback=initMap">
-                        </script>
+						<!-- carga el mapa de la ubicacion del lugar -->
                     </div>
 
                 </div>

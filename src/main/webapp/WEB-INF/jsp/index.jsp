@@ -8,12 +8,14 @@
 	
 	    <!-- Scripts -->
 		<c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
+		<c:url value="/js/funciones.js" var="funcionesJS" />
 		<c:url value="/js/jquery.dataTables.js" var="datatableJS" />
 		<c:url value="/js/bootstrap.min.js" var="bootstrapJS" />
 		<c:url value='/fullcalendar/lib/moment.min.js' var="momentJS" />
 	    <c:url value='/fullcalendar/fullcalendar.js' var="fullcalendarJS" />
 	    <c:url value='/fullcalendar/locale/es.js' var="esJS" />
 	    <script src="${jqueryJS}"></script>
+	    <script src="${funcionesJS}"></script>
 	    <script src="${datatableJS}"></script>
 	    <script src="${bootstrapJS}"></script>
 	    <script src="${momentJS}"></script>
@@ -21,40 +23,11 @@
 	    <script src="${esJS}" charset="utf-8"></script>
 
 	    <script type="text/javascript">
-	   	    $(document).ready(function() {
-			    // inicia el calendario
-			    $('#calendar').fullCalendar({
-			    })
-			    var table= $('#espectaculo').dataTable( {
-		            "ajax": {
-		                       "url": '/verProximosEspectaculosYSusRealizaciones/',
-		                       "dataType": 'json',
-		                       "dataSrc": "content",
-		                       "type": "GET",
-		                       "data": {
-										"_start":"1",
-										"_end":"1000"
-				                       },
-		                       "beforeSend": function(xhr){
-		                               var pathname = window.location.pathname;
-		                               xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
-		                       }
-		            },
-		            "columns" :  [ 
-		                            { "data": "nombre" },
-		                            { "data": "realizacionEspectaculo.0.sala.nombre" },
-//			                            { "data": "realizacionEspectaculo.0.fecha",
-//				                          "render": function (data) {
-//				                                var date = new Date(data);
-//				                                var month = date.getMonth() + 1;
-//				                                return date.getDate() + "/" + (month.length > 1 ? month : "0" + month) + "/" + date.getFullYear();
-//			                                	}
-		                            
-//			                          	},
-		                            { "data": "realizacionEspectaculo.0.sala.direccion" }
-		                        ]
-		        });
-			});
+	    
+	    		$( document ).ready(function() {
+	    			cargaCalendario();
+	    			cargaDatatable();
+	    			});
 		   
 	    </script>
 		<!-- Scripts -->
@@ -81,13 +54,13 @@
 							<span class="icon-bar"></span>
 					    </button>
 
-				    	<a class="navbar-brand" href="#"><h3>TicketYa!</h3></a>
+				    	<a class="navbar-brand" href="index"><h3>TicketYa!</h3></a>
 				    </div>
 
 				    <!--Inicio de menu-->
 			        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		        	    <ul class="nav navbar-nav">
-				            <li class="active"><a href="#">Inicio<span class="sr-only">(current)</span></a></li>
+				            <li class="active"><a href="index">Inicio<span class="sr-only">(current)</span></a></li>
 
 				            <li class="dropdown">
 				                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Espectaculos <span class="caret"></span></a>
@@ -213,11 +186,12 @@
 	                     <div class="table-responsive">
 	                         <table class="table table-striped table-hover" id="espectaculo">
 	                            <thead>
-	                                <tr class="success">
+	                                <tr class="success"> 
+	                                    <th>Id</th>  
+            	                     	<th>Fecha</th>
             	                     	<th>Evento</th>
 	                                    <th>Lugar</th>
-	                                    <!--  <th>Fecha</th>   -->
-	                                    <th>Direccion</th>  
+	                                    <th>Direccion</th> 
 	                                </tr>
 	                            </thead>
 
