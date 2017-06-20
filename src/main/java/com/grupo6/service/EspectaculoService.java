@@ -5,16 +5,16 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.rest.dto.EspectaculoConTealizacionesDTO;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
-import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
 
 public interface EspectaculoService {
 
-	void agregarEspectaculo(EspectaculoDTO espectaculo);
+	void agregarEspectaculo(EspectaculoDTO espectaculo, MultipartFile file);
 
 	List<EspectaculoDTO> obtenerEspectaculos();
 

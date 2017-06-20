@@ -18,6 +18,7 @@ import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -45,6 +46,11 @@ public class Espectaculo {
 	
 	@Column(length = 50, nullable = false)
 	private String descripcion;
+	
+	
+	@Transient
+	private String imagenPath;
+	
 	
 	@ManyToMany
 	@JoinTable(name = "espectaculo_tipo_espectaculo",
@@ -122,6 +128,14 @@ public class Espectaculo {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	public String getImagenPath() {
+		return imagenPath;
+	}
+
+	public void setImagenPath(String imagenPath) {
+		this.imagenPath = imagenPath;
 	}
 
 }

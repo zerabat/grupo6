@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.grupo6.config.TenantContext;
 import com.grupo6.persistence.model.AdministradorTenant;
@@ -43,9 +45,10 @@ public class EspectaculoController {
 
 	/* APIS DE ADMINISTRADOR DE UN TENANT */
 
-	@RequestMapping(path = "/altaEspectaculo/", method = RequestMethod.PUT)
+	@RequestMapping(path = "/altaEspectaculo/", method = RequestMethod.POST)
 	public ResponseEntity<?> altaEspectaculo(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
-			@RequestParam(name = "email", required = true) String email, @RequestBody EspectaculoDTO espectaculo) {
+			@RequestParam(name = "email", required = true) String email, @RequestBody EspectaculoDTO espectaculo,
+			@RequestParam("file") MultipartFile file) {
 
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
@@ -54,7 +57,7 @@ public class EspectaculoController {
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
-		espectaculoService.agregarEspectaculo(espectaculo);
+		espectaculoService.agregarEspectaculo(espectaculo,file);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 

@@ -8,11 +8,13 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
@@ -32,7 +34,6 @@ import com.grupo6.rest.dto.EspectaculoConTealizacionesDTO;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
-import com.grupo6.rest.dto.RealizacionEspectaculoFullDTO;
 import com.grupo6.rest.dto.SectorDTO;
 import com.grupo6.rest.dto.TipoEspectaculoDTO;
 import com.grupo6.service.EspectaculoService;
@@ -40,6 +41,9 @@ import com.grupo6.service.EspectaculoService;
 @Service
 public class EspectaculoServiceBean implements EspectaculoService {
 
+	@Value("${tenantPath}")
+	private String imagenesPath;
+	
 	@Autowired
 	private EspectaculoRepository espectaculoRepository;
 
@@ -51,7 +55,6 @@ public class EspectaculoServiceBean implements EspectaculoService {
 
 	@Autowired
 	private TipoEspectaculoRepository tipoEspectaculoRepository;
-
 	
 	@Autowired
 	private SuscripcionEspectaculoRepository suscripcionEspectaculoRepository;
@@ -63,7 +66,8 @@ public class EspectaculoServiceBean implements EspectaculoService {
 	private RealizacionEspectaculoRepository realizacionEspectaculoRepository; 
 
 	@Override
-	public void agregarEspectaculo(EspectaculoDTO espectaculo) {
+	public void agregarEspectaculo(EspectaculoDTO espectaculo, MultipartFile file) {
+		
 		Espectaculo e = new Espectaculo();
 		e.setDescripcion(espectaculo.getDescripcion());
 		e.setNombre(espectaculo.getNombre());
@@ -273,15 +277,6 @@ public class EspectaculoServiceBean implements EspectaculoService {
 		});
 		return ret;
 		}
-		
-		
-//		Espectaculo esp = espectaculoRepository.findOneActive(Long.parseLong(id), new Date());
-//		if (esp==null){
-//			return null;
-//		}else{
-//			EspectaculoFullDTO eFDTO = new EspectaculoFullDTO(esp);
-//			return eFDTO;
-//		}
 		
 	}
 
