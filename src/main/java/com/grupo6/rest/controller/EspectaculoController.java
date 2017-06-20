@@ -23,6 +23,7 @@ import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.Usuario;
 import com.grupo6.rest.dto.EntradaDTO;
+import com.grupo6.rest.dto.EspectaculoConTealizacionesDTO;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
@@ -124,13 +125,13 @@ public class EspectaculoController {
 	}
 
 	@RequestMapping(path = "/verEspectaculoYSusRealizaciones/", method = RequestMethod.GET)
-	public ResponseEntity<EspectaculoFullDTO> verEspectaculoYSusRealizaciones(
+	public ResponseEntity<EspectaculoConTealizacionesDTO> verEspectaculoYSusRealizaciones(
 			@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 			@RequestParam(name = "idEspectaculo", required = true) String id) {
 
 		TenantContext.setCurrentTenant(tenantName);
-		EspectaculoFullDTO espect = espectaculoService.FindOne(id);
-		return new ResponseEntity<EspectaculoFullDTO>(espect, HttpStatus.OK);
+		EspectaculoConTealizacionesDTO espect = espectaculoService.FindOne(id);
+		return new ResponseEntity<EspectaculoConTealizacionesDTO>(espect, HttpStatus.OK);
 	}
 
 	

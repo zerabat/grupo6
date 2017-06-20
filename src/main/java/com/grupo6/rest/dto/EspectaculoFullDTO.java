@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grupo6.persistence.model.Espectaculo;
-import com.grupo6.persistence.model.TipoEspectaculo;
 
 public class EspectaculoFullDTO {
 
@@ -17,7 +16,6 @@ public class EspectaculoFullDTO {
 	private List<TipoEspectaculoDTO> tipoEspectaculo;
 
 	private List<RealizacionEspectaculoFullDTO> realizacionEspectaculo;
-	
 	
 	public EspectaculoFullDTO(Espectaculo e){
 		this.id = e.getId();

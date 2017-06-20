@@ -12,19 +12,28 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.RealizacionEspectaculo;
+import com.grupo6.persistence.model.Sector;
 import com.grupo6.persistence.model.SuscripcionEspectaculo;
 import com.grupo6.persistence.model.TipoEspectaculo;
 import com.grupo6.persistence.model.Usuario;
+import com.grupo6.persistence.repository.EntradaRepository;
 import com.grupo6.persistence.repository.EspectaculoRepository;
 import com.grupo6.persistence.repository.RealizacionEspectaculoRepository;
+import com.grupo6.persistence.repository.SectorRepository;
 import com.grupo6.persistence.repository.SuscripcionEspectaculoRepository;
 import com.grupo6.persistence.repository.TipoEspectaculoRepository;
 import com.grupo6.persistence.repository.UsuarioRepository;
+import com.grupo6.rest.dto.EspectaculoConTealizacionesDTO;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
+import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
+import com.grupo6.rest.dto.RealizacionEspectaculoFullDTO;
+import com.grupo6.rest.dto.SectorDTO;
 import com.grupo6.rest.dto.TipoEspectaculoDTO;
 import com.grupo6.service.EspectaculoService;
 
@@ -35,8 +44,15 @@ public class EspectaculoServiceBean implements EspectaculoService {
 	private EspectaculoRepository espectaculoRepository;
 
 	@Autowired
+	private SectorRepository sectorRepository;
+
+	@Autowired
+	private EntradaRepository entradaRepository;
+
+	@Autowired
 	private TipoEspectaculoRepository tipoEspectaculoRepository;
 
+	
 	@Autowired
 	private SuscripcionEspectaculoRepository suscripcionEspectaculoRepository;
 
@@ -225,14 +241,47 @@ public class EspectaculoServiceBean implements EspectaculoService {
 	}
 
 	@Override
-	public EspectaculoFullDTO FindOne(String id) {
+	@Transactional
+	public EspectaculoConTealizacionesDTO FindOne(String id) {
 		Espectaculo esp = espectaculoRepository.findOneActive(Long.parseLong(id), new Date());
 		if (esp==null){
 			return null;
 		}else{
-			EspectaculoFullDTO eFDTO = new EspectaculoFullDTO(esp);
-			return eFDTO;
+	    EspectaculoConTealizacionesDTO ret = new EspectaculoConTealizacionesDTO(esp);
+		ret.setRealizacionEspectaculo(new ArrayList<RealizacionEspectaculoDTO>());
+		List<RealizacionEspectaculo> list = this.realizacionEspectaculoRepository.findByEspectaculoAndFechaAfter(espectaculoRepository.findOne(Long.parseLong(id)).get(), new Date());
+		list.stream().forEach(x -> {
+			RealizacionEspectaculoDTO respDTO = new RealizacionEspectaculoDTO(x);
+			List<Sector>  sectores = sectorRepository.findBySalaId(x.getSala().getId());
+			sectores.stream().forEach(sec ->{
+				Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(x,sec).findFirst();
+				
+					SectorDTO sectorDTO = new SectorDTO();
+					if (ent.isPresent()){
+					sectorDTO.setPrecio(ent.get().getPrecio());
+					}
+					sectorDTO.setCapacidad(sec.getCapacidad());
+					sectorDTO.setId(sec.getId());
+					sectorDTO.setNombre(sec.getNombre());
+					respDTO.getSectores().add(sectorDTO);
+				
+				
+			});
+			
+			ret.getRealizacionEspectaculo().add(respDTO);
+			
+		});
+		return ret;
 		}
+		
+		
+//		Espectaculo esp = espectaculoRepository.findOneActive(Long.parseLong(id), new Date());
+//		if (esp==null){
+//			return null;
+//		}else{
+//			EspectaculoFullDTO eFDTO = new EspectaculoFullDTO(esp);
+//			return eFDTO;
+//		}
 		
 	}
 

@@ -7,8 +7,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -24,6 +27,8 @@ import com.grupo6.persistence.model.SuscripcionEspectaculo;
 import com.grupo6.persistence.repository.EspectaculoRepository;
 import com.grupo6.persistence.repository.RealizacionEspectaculoRepository;
 import com.grupo6.persistence.repository.SuscripcionEspectaculoRepository;
+import com.grupo6.persistence.repository.UsuarioRepository;
+import com.grupo6.util.email.EnviarMails;
 
 @Service
 public class AlertaServiceBean {
@@ -37,6 +42,12 @@ public class AlertaServiceBean {
 	@Autowired
 	private EspectaculoRepository espectaculoRepository;
 
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private EnviarMails enviarMails;
+
 	@Value("${tenantPath}")
 	private String tenantPath;
 
@@ -48,8 +59,10 @@ public class AlertaServiceBean {
 
 		List<String> tenants = obtenerTodosLosTenants();
 		for (String tenant : tenants) {
-			TenantContext.setCurrentTenant("tenant3");
+			TenantContext.setCurrentTenant(tenant);
 			List<Espectaculo> esp = espectaculoRepository.findAllActivos(new Date());
+			List<SuscripcionEspectaculo> listaSuscripcionEspectaculo = new ArrayList<SuscripcionEspectaculo>();
+			Set<Long> idEspetactulosSet = new HashSet<Long>();
 			for (Espectaculo e : esp) {
 				System.out.println(e.getNombre());
 				for (RealizacionEspectaculo re : e.getRealizacionEspectaculo()) {
@@ -59,23 +72,44 @@ public class AlertaServiceBean {
 					cal1.add(Calendar.DATE, 4);
 					cal2.add(Calendar.DATE, 5);
 					if (re.getFecha().after(cal1.getTime()) && re.getFecha().before(cal2.getTime())) {
-						String asunto = "";
-						String mensaje = "";
-						List<SuscripcionEspectaculo> listaSuscripcionEspectaculo = suscripcionEspectaculoRepository
-								.findByEspectaculo(e);
+						listaSuscripcionEspectaculo = suscripcionEspectaculoRepository.findByEspectaculo(e);
 						listaSuscripcionEspectaculo
 								.addAll(suscripcionEspectaculoRepository.findByRealizacionEspectaculo(re));
+
 					}
 					cal1 = Calendar.getInstance();
 					cal2 = Calendar.getInstance();
 					cal2.add(Calendar.DATE, 1);
 					if (re.getFecha().after(cal1.getTime()) && re.getFecha().before(cal2.getTime())) {
-						String subject = "";
-						String mensaje = "";
+						listaSuscripcionEspectaculo = suscripcionEspectaculoRepository.findByEspectaculo(e);
+						listaSuscripcionEspectaculo
+								.addAll(suscripcionEspectaculoRepository.findByRealizacionEspectaculo(re));
+
+					}
+					// limpio los repetidos
+					if (listaSuscripcionEspectaculo != null) {
+						Set<SuscripcionEspectaculo> hs = new HashSet<>();
+						hs.addAll(listaSuscripcionEspectaculo);
+						listaSuscripcionEspectaculo.clear();
+						listaSuscripcionEspectaculo.addAll(hs);
+						List<SuscripcionEspectaculo> listaSuscripcionEspectaculoAux = new ArrayList<SuscripcionEspectaculo>();
+
+						for (SuscripcionEspectaculo sesp : listaSuscripcionEspectaculo) {
+							System.out.println(sesp);
+							String asunto = tenant +" Espectaculos que le podrían interesar";
+							String mensaje = "El espectaculo: " + e.getNombre() + "\n" + "se realizará en la fecha: "
+									+ re.getFecha() + "\n" + "en la sala:" + re.getSala().getNombre() + "\n"
+									+ "ubicada en la dirección " + re.getSala().getDireccion() + "\n";
+							enviarMails.EnviarCooreo(
+									usuarioRepository.findOne(sesp.getUsuario().getId()).get().getEmail(), asunto,
+									mensaje);
+
+						}
 
 					}
 
 				}
+
 			}
 		}
 	}

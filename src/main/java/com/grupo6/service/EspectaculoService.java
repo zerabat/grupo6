@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.grupo6.persistence.model.Espectaculo;
+import com.grupo6.rest.dto.EspectaculoConTealizacionesDTO;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
@@ -37,5 +38,5 @@ public interface EspectaculoService {
 
 	List<EspectaculoFullDTO> obtenerEspectaculosOsuario(String email);
 
-	EspectaculoFullDTO FindOne(String id);
+	EspectaculoConTealizacionesDTO FindOne(String id);
 }
