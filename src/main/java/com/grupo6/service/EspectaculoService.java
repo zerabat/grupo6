@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
+import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
 
 public interface EspectaculoService {
 
@@ -35,4 +36,6 @@ public interface EspectaculoService {
 	void suscribirseAEspectaculo(Long idEspectaculo, String email);
 
 	List<EspectaculoFullDTO> obtenerEspectaculosOsuario(String email);
+
+	EspectaculoFullDTO FindOne(String id);
 }

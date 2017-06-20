@@ -123,6 +123,17 @@ public class EspectaculoController {
 		return new ResponseEntity<List<RealizacionEspectaculoDTO>>(realizaciones, HttpStatus.OK);
 	}
 
+	@RequestMapping(path = "/verEspectaculoYSusRealizaciones/", method = RequestMethod.GET)
+	public ResponseEntity<EspectaculoFullDTO> verEspectaculoYSusRealizaciones(
+			@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
+			@RequestParam(name = "idEspectaculo", required = true) String id) {
+
+		TenantContext.setCurrentTenant(tenantName);
+		EspectaculoFullDTO espect = espectaculoService.FindOne(id);
+		return new ResponseEntity<EspectaculoFullDTO>(espect, HttpStatus.OK);
+	}
+
+	
 	@RequestMapping(path = "/verProximosEspectaculosYSusRealizaciones/", method = RequestMethod.GET)
 	public ResponseEntity<Page<EspectaculoFullDTO>> verProximosEspectaculosYRealizaciones(
 			@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,

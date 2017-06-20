@@ -199,7 +199,7 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 	@Transactional
 	public List<RealizacionEspectaculoDTO> verRealizacionesDeEspectaculo(String id) {
 
-		List<RealizacionEspectaculo> list = this.realizacionEspectaculoRepository.findByEspectaculo(espectaculoRepository.findOne(Long.parseLong(id)).get());
+		List<RealizacionEspectaculo> list = this.realizacionEspectaculoRepository.findByEspectaculoAndFechaAfter(espectaculoRepository.findOne(Long.parseLong(id)).get(), new Date());
 		List<RealizacionEspectaculoDTO> ret = new ArrayList<RealizacionEspectaculoDTO>();
 		list.stream().forEach(x -> {
 			RealizacionEspectaculoDTO respDTO = new RealizacionEspectaculoDTO(x);

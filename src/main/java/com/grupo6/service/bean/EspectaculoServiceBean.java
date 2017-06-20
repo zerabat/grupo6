@@ -190,14 +190,14 @@ public class EspectaculoServiceBean implements EspectaculoService {
 			realEspectList.add(realizacionEspectaculoRepository.findOne(suscEsp.getRealizacionEspectaculo().getId()).get());
 		});
 		suscLuist.stream().filter(x -> x.getEspectaculo() != null).forEach(espec -> {
-			realEspectList.addAll(realizacionEspectaculoRepository.findByEspectaculo(espec.getEspectaculo()));
+			realEspectList.addAll(realizacionEspectaculoRepository.findByEspectaculoAndFechaAfter(espec.getEspectaculo(), new Date()));
 		});
 		
 		suscLuist.stream().filter(x -> x.getTipoEspectaculo() != null).forEach(tipoEspec -> {
 			
 			List <Espectaculo> espectList =  espectaculoRepository.finBytipoEspectaculo(tipoEspec.getId(), new Date());
 			for (Espectaculo esp: espectList ){
-				realEspectList.addAll(realizacionEspectaculoRepository.findByEspectaculo(esp));
+				realEspectList.addAll(realizacionEspectaculoRepository.findByEspectaculoAndFechaAfter(esp, new Date()));
 			}
 			
 		});
@@ -221,6 +221,18 @@ public class EspectaculoServiceBean implements EspectaculoService {
 		ret.clear();
 		ret.addAll(espectFullDTOHash);
 		return ret;
+		
+	}
+
+	@Override
+	public EspectaculoFullDTO FindOne(String id) {
+		Espectaculo esp = espectaculoRepository.findOneActive(Long.parseLong(id), new Date());
+		if (esp==null){
+			return null;
+		}else{
+			EspectaculoFullDTO eFDTO = new EspectaculoFullDTO(esp);
+			return eFDTO;
+		}
 		
 	}
 
