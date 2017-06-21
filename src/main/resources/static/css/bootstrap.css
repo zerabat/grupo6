@@ -129,6 +129,18 @@ margin-bottom: 21px;
     width: 29%;
 
 }
+#dropSector{
+    margin-top: 10px;
+}
+.centerButton{
+    width: 150px;
+    /*margin: 40px auto;*/
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#precio{
+	font-size: 18px;
+}
 
 /***********************************************************/
 
