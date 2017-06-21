@@ -334,9 +334,7 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 			ret.add(seDTO);
 		}
 		return ret;
-		
 	}
-
 
 	@Override
 	public Boolean verificarQR(String sha256hex, String email) {

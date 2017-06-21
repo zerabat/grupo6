@@ -10,6 +10,10 @@ public class EspectaculoUsuarioDTO {
 	
 	private String descripcion;
 	
+	private Long idAsiento;
+	
+	private SalaDTO sala;
+	
 	private RealizacionEspectaculoFullDTO realizacionEspectaculo;
 	
 	public EspectaculoUsuarioDTO(Espectaculo e){
@@ -53,6 +57,21 @@ public class EspectaculoUsuarioDTO {
 		this.descripcion = descripcion;
 	}
 
+	public Long getIdAsiento() {
+		return idAsiento;
+	}
+
+	public void setIdAsiento(Long idAsiento) {
+		this.idAsiento = idAsiento;
+	}
+
+	public SalaDTO getSala() {
+		return sala;
+	}
+
+	public void setSala(SalaDTO sala) {
+		this.sala = sala;
+	}
 
 	@Override
 	public int hashCode() {
