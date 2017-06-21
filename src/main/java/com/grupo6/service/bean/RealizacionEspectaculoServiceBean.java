@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +18,7 @@ import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -154,7 +156,7 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 				filePath += "\\" + re.getId();
 				filePath += "\\" + textodelQR + "." + fileType;
 				
-				textodelQR = org.apache.commons.codec.digest.DigestUtils.sha256Hex(textodelQR);
+//				textodelQR = org.apache.commons.codec.digest.DigestUtils.sha256Hex(textodelQR);
 				int size = 250;
 				File myFile = new File(filePath);
 				try {
@@ -335,4 +337,51 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 		
 	}
 
+
+	@Override
+	public Boolean verificarQR(String sha256hex, String email) {
+		Boolean ok = false;
+		String[] parts = sha256hex.split("\\.");
+		String path = this.qrPath;
+		for (int i=0; i<parts.length-1;i++){
+			if (i==1){
+				path  += "//" + espectaculoRepository.findByNombre(parts[i]).getId();
+			}else {
+				path  += "//" + parts[i];
+			}
+		}
+		path += "//" + sha256hex + ".png";
+		FileInputStream fis = null;
+		
+		try {
+			fis = new FileInputStream(path);
+			Optional<Usuario> u = usuarioRepository.findByEmail(email);
+			Optional<Entrada> ent =entradaRepository.findOne(Long.parseLong(parts[parts.length-1]));
+			if (ent.isPresent()){
+				List <Entrada> entradasUsuario = entradaRepository.findByUsuario(u.get());
+				for (Entrada e : entradasUsuario){
+					if (e.getId()==ent.get().getId()){
+						ok = true;
+						break;
+					}
+				}
+			}
+			
+			return ok;
+			
+		} catch (IOException e) {
+			
+		} finally {
+			try {
+				if (fis != null)
+					fis.close();
+				
+			} catch (IOException ex) {
+			}
+			
+		}
+		return false;
+	}
+
+	
 }

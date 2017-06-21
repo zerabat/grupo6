@@ -64,4 +64,8 @@ public interface EspectaculoRepository extends BaseRepository <Espectaculo, Long
 			+ " WHERE r.espectaculo = e  and r.fecha > :hoy and e.id = :idEspec")
 	Espectaculo findOneActive(@Param("idEspec") long idEspec, @Param("hoy")  Date d);
 	
+	@EntityGraph("Espectaculo.Full")
+	Espectaculo findByNombre(String nombre);
+	
+	
 }

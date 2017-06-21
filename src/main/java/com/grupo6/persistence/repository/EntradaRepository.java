@@ -1,6 +1,7 @@
 package com.grupo6.persistence.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -12,7 +13,7 @@ import com.grupo6.persistence.model.Sector;
 import com.grupo6.persistence.model.Usuario;
 
 @Repository
-public interface EntradaRepository extends BaseRepository <Entrada, Integer>{
+public interface EntradaRepository extends BaseRepository <Entrada, Long>{
 
 	Stream<Entrada> findByRealizacionEspectaculoAndSector(RealizacionEspectaculo realizacion, Sector sec);
 	
@@ -23,4 +24,7 @@ public interface EntradaRepository extends BaseRepository <Entrada, Integer>{
 	
 	@EntityGraph("Entrada.Full")
 	List<Entrada> findByUsuario(Usuario usuario);
+	
+	@EntityGraph("Entrada.Full")
+	Optional<Entrada> findOne(Long id);
 }
