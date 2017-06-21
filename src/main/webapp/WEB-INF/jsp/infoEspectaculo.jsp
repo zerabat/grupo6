@@ -23,6 +23,7 @@
         	
 	        $( document ).ready(function() {
 	        	cargaInfoEspectaculo();
+	        	dropdowns();
 				});
 
         </script>
@@ -104,7 +105,7 @@
                         <p id="direccion"><b>Direccion:  </b></p>
                         <p id="localidades"><b>Localidades a la venta:  </b></p>
                    </div>
-                    <button class="btn btn-success btn-group-justified" type=" button" id="btnComprar">Comprar</button>
+                    <button class="btn btn-success btn-group-justified" type=" button" data-toggle="modal" data-target="#myModal" id="btnComprar">Comprar</button>
                  </div>
 
                 </div>
@@ -127,8 +128,12 @@
                         <h3 class="panel-title">Entradas</h3>
                     </div>
                     <div class="panel-body" id="promocion">
-                        <p id="sector"><b>Sector: </b> </p>
-                        <p id="precioSector"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> </p>
+                        <p>Sectores y precios</p>
+                        <table id="sector">
+                       
+                        </table>
+                        
+<!--                         <span class="glyphicon glyphicon-usd" aria-hidden="true"> -->
                         
                     </div>
 
@@ -145,7 +150,68 @@
 
                 </div>
             </div>
-
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" role="dialog">
+			    <div class="modal-dialog">
+			
+			      <!-- Modal content-->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Comprar entradas</h4>
+			        </div>
+			        <div class="modal-body">
+			            <form>
+			                <div class="btn-group-vertical" role="group" aria-label="...">
+			                    <div class="dropdown">
+			                      <div class="btn-group"> 
+			                      <a class="btn btn-default dropdown-toggle btn-select" data-toggle="dropdown" href="#" id="dropFecha">
+			                      Seleccionar fecha <span class="caret"></span></a>
+			                      
+			                      <ul class="dropdown-menu" aria-labelledby="dropFecha" id="listaFecha">
+<!-- 			                        <li><a href="#">21/08/2017 20hs</a></li> -->
+			                        
+			                      </ul>
+			                    </div>
+			                <div class="dropdown">
+			                      <div class="btn-group" id="btnUS"> 
+			                      <a class="btn btn-default dropdown-toggle btn-selectUS" data-toggle="dropdown" href="#" id="dropSector">
+			                      Seleccionar sector <span class="caret"></span></a>
+			                      <ul class="dropdown-menu" aria-labelledby="dropSector">
+			                        <li><a href="#">Platea</a></li>
+			                        <li><a href="#">General</a></li>
+			                        <li><a href="#">Tertulia</a></li>
+			                      </ul>
+			                    </div>
+			                </div>
+			                <div class="centerButton">
+			                    <p>Cantidad de entradas</p>
+			                    <div class="input-group">
+			                      <span class="input-group-btn">
+			                          <button type="button" class="btn btn-danger btn-sm btn-number"  data-type="minus" data-field="quant[2]">
+			                            <span class="glyphicon glyphicon-minus"></span>
+			                          </button>
+			                      </span>
+			                      <input type="text" name="quant[2]" class="form-control input-sm input-number" value="1" min="1" max="100">
+			                      <span class="input-group-btn">
+			                          <button type="button" class="btn btn-success btn-sm btn-number" data-type="plus" data-field="quant[2]">
+			                              <span class="glyphicon glyphicon-plus"></span>
+			                          </button>
+			                      </span>
+			                    </div>
+			                </div>
+			            </div>
+			                
+			            </form>
+			        </div>
+			        <div class="modal-footer">
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+			          <button type="button" class="btn btn-success" data-dismiss="modal">Comprar</button>
+			        </div>
+			      </div>
+			
+			    </div>
+			</div>
         </div>
 
         <footer>
