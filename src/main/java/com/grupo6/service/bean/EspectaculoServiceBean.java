@@ -304,7 +304,7 @@ public class EspectaculoServiceBean implements EspectaculoService {
 				esp.setIdAsiento(entrada.getNumeroAsiento());
 				esp.setRealizacionEspectaculo(reso);
 				ret.add(esp);
-				Optional<Sector> sec = sectorRepository.findOne(entrada.getId());
+				Optional<Sector> sec = sectorRepository.findOne(entrada.getSector().getId());
 				SectorDTO sectorDTO = new SectorDTO();
 				sectorDTO.setPrecio(entrada.getPrecio());
 				sectorDTO.setCapacidad(sec.get().getCapacidad());
