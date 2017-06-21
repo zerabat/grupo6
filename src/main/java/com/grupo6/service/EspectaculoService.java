@@ -11,6 +11,7 @@ import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.rest.dto.EspectaculoConTealizacionesDTO;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
+import com.grupo6.rest.dto.EspectaculoUsuarioDTO;
 
 public interface EspectaculoService {
 
@@ -19,6 +20,8 @@ public interface EspectaculoService {
 	List<EspectaculoDTO> obtenerEspectaculos();
 
 	Page<Espectaculo> findAll(Pageable pageRequest);
+	
+	List<Espectaculo> findAll();
 
 	Page<Espectaculo> findAll(Specification<Espectaculo> entradaSpecification, Pageable pageRequest);
 
@@ -36,7 +39,9 @@ public interface EspectaculoService {
 
 	void suscribirseAEspectaculo(Long idEspectaculo, String email);
 
-	List<EspectaculoFullDTO> obtenerEspectaculosOsuario(String email);
+	List<EspectaculoFullDTO> obtenerEspectaculosSugeridosOsuario(String email);
 
 	EspectaculoConTealizacionesDTO FindOne(String id);
+
+	List<EspectaculoUsuarioDTO> obtenerEspectaculosOsuario(String email);
 }

@@ -28,6 +28,7 @@ import com.grupo6.rest.dto.EntradaDTO;
 import com.grupo6.rest.dto.EspectaculoConTealizacionesDTO;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
+import com.grupo6.rest.dto.EspectaculoUsuarioDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDisponibilidadDTO;
 import com.grupo6.service.EspectaculoService;
@@ -193,8 +194,8 @@ public class EspectaculoController {
 	 * espectaculos y realizaciones a las que se haya susbribido)
 	 */
 
-	@RequestMapping(path = "/obtenerEspectaculosUsuario/", method = RequestMethod.GET)
-	public ResponseEntity<List<EspectaculoFullDTO>> obtenerEspectaculosUsuario(@RequestHeader("X-TenantID") String tenantName,
+	@RequestMapping(path = "/obtenerEspectaculosSugeridosUsuario/", method = RequestMethod.GET)
+	public ResponseEntity<List<EspectaculoFullDTO>> obtenerEspectaculosSugeridosUsuario(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "email", required = true) String email) {
 
 		TenantContext.setCurrentTenant(tenantName);
@@ -203,9 +204,26 @@ public class EspectaculoController {
 		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
 			return new ResponseEntity<List<EspectaculoFullDTO>>(HttpStatus.FORBIDDEN);
 		}
-		List<EspectaculoFullDTO> espectaculos = espectaculoService.obtenerEspectaculosOsuario(email);
+		List<EspectaculoFullDTO> espectaculos = espectaculoService.obtenerEspectaculosSugeridosOsuario(email);
 		return new ResponseEntity<List<EspectaculoFullDTO>>(espectaculos, HttpStatus.OK);
 	}
+	
+	// ver los espectaculos y la realización para la cual el usuario compro entradas
+	@RequestMapping(path = "/obtenerEspectaculosUsuario/", method = RequestMethod.GET)
+	public ResponseEntity<List<EspectaculoUsuarioDTO>> obtenerEspectaculosUsuario(@RequestHeader("X-TenantID") String tenantName,
+			HttpServletRequest request, @RequestParam(name = "email", required = true) String email) {
+
+		TenantContext.setCurrentTenant(tenantName);
+		@SuppressWarnings("unchecked")
+		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
+		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
+			return new ResponseEntity<List<EspectaculoUsuarioDTO>>(HttpStatus.FORBIDDEN);
+		}
+		List<EspectaculoUsuarioDTO> espectaculos = espectaculoService.obtenerEspectaculosOsuario(email);
+		return new ResponseEntity<List<EspectaculoUsuarioDTO>>(espectaculos, HttpStatus.OK);
+	}
+	
+	
 	
 	@RequestMapping(path = "/consultaDisponibilidadDeLocalidades/", method = RequestMethod.GET)
 	public ResponseEntity<RealizacionEspectaculoDisponibilidadDTO> consultaDisponibilidadDeLocalidades(@RequestHeader("X-TenantID") String tenantName,

@@ -33,7 +33,9 @@ import com.grupo6.persistence.repository.UsuarioRepository;
 import com.grupo6.rest.dto.EspectaculoConTealizacionesDTO;
 import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
+import com.grupo6.rest.dto.EspectaculoUsuarioDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
+import com.grupo6.rest.dto.RealizacionEspectaculoFullDTO;
 import com.grupo6.rest.dto.SectorDTO;
 import com.grupo6.rest.dto.TipoEspectaculoDTO;
 import com.grupo6.service.EspectaculoService;
@@ -124,6 +126,12 @@ public class EspectaculoServiceBean implements EspectaculoService {
 		Date d = new Date();
 		return this.espectaculoRepository.findAllActivos(pageRequest, d);
 	}
+	
+	@Override
+	public List<Espectaculo> findAll() {
+		Date d = new Date();
+		return this.espectaculoRepository.findAllActivos(d);
+	}
 
 	@Override
 	public void desSuscribirseTipoEspectaculo(Long idTipoEspectaculo, String email) {
@@ -139,6 +147,7 @@ public class EspectaculoServiceBean implements EspectaculoService {
 	}
 
 	@Override
+	@Transactional
 	public void suscribirseTipoEspectaculo(Long idTipoEspectaculo, String email) {
 		Usuario u = usuarioRepository.findByEmail(email).get();
 		TipoEspectaculo te = tipoEspectaculoRepository.findOne(idTipoEspectaculo).get();
@@ -186,7 +195,7 @@ public class EspectaculoServiceBean implements EspectaculoService {
 	}
 
 	@Override
-	public List<EspectaculoFullDTO> obtenerEspectaculosOsuario(String email) {
+	public List<EspectaculoFullDTO> obtenerEspectaculosSugeridosOsuario(String email) {
 		// TODO si se suscribio a un Espectaculo se le va a mostrar todas las
 		// futuras realizaciones de ese espectaculo si se suscribió a una
 		// realizacion de un espectaculo solo se le va a mostrar la realizacion
@@ -277,6 +286,26 @@ public class EspectaculoServiceBean implements EspectaculoService {
 		});
 		return ret;
 		}
+		
+	}
+
+	@Override
+	public List<EspectaculoUsuarioDTO> obtenerEspectaculosOsuario(String email) {
+		List<EspectaculoUsuarioDTO> ret = new ArrayList<EspectaculoUsuarioDTO>();
+		
+		Optional<Usuario> user = usuarioRepository.findByEmail(email);
+		List <Entrada> entradas = entradaRepository.findByUsuario(user.get());
+		entradas.stream().forEach(entrada -> {
+			RealizacionEspectaculo re = entrada.getRealizacionEspectaculo();
+			if (re.getFecha().after(new Date())){
+				EspectaculoUsuarioDTO esp = new EspectaculoUsuarioDTO(re.getEspectaculo());
+				RealizacionEspectaculoFullDTO reso = new RealizacionEspectaculoFullDTO(re);
+				esp.setRealizacionEspectaculo(reso);
+				ret.add(esp);
+			}
+			
+		});
+		return ret;
 		
 	}
 

@@ -284,6 +284,7 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 
 
 	@Override
+	@Transactional
 	public void suscribirse(Long idRealizacionEspectaculo, String email) {
 		RealizacionEspectaculo re = realizacionEspectaculoRepository.findOne(idRealizacionEspectaculo).get();
 		Usuario u = usuarioRepository.findByEmail(email).get();

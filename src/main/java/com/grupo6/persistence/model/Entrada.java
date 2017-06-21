@@ -11,10 +11,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "entrada")
+@NamedEntityGraph(name = "Entrada.Full", attributeNodes = {
+       @NamedAttributeNode(value = "usuario"),
+       @NamedAttributeNode(value = "realizacionEspectaculo")
+    })
 public class Entrada {
 
 	@Id

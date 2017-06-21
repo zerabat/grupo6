@@ -27,6 +27,7 @@ public class SuscripcionEspectaculo {
 		
 	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinColumn(name = "id_usuario")
+	
 	private Usuario usuario;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
