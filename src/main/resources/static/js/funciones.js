@@ -1,10 +1,12 @@
-function formatDate() {
-				          var date = new Date();
-				          var month = date.getMonth() + 1;							        
-				          if (month < 10)
-				          	 month= "0" + month;
-				          return date.getDate() + "/" + month + "/" + date.getFullYear();
-			      	}
+//carga con la seleccion los dropdowns
+function dropdowns(){
+	$(".dropdown-menu li a").click(function(){
+		  var selText = $(this).text();
+		  $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
+});
+}
+
+
 // inicia el calendario(index.jsp)
 function cargaCalendario() {
 	    $('#calendar').fullCalendar({
@@ -104,9 +106,7 @@ function cargaInfoEspectaculo(){
 	       $("#direccion").append(data.realizacionEspectaculo[0].sala.direccion);
 	       $("#localidades").append(data.realizacionEspectaculo[0].sala.total_localidad);
 	       $("#lugarMapa").append(data.realizacionEspectaculo[0].sala.nombre);
-//	       $("#sector").append(data[0].sectores[0].nombre);
-//	       $("#precioSector").append(data[0].sectores[0].precio);
-	   
+
 	       //Envia direccion al mapa
 	       var direccion = data.realizacionEspectaculo[0].sala.direccion;
 	   		// Creamos el Objeto Geocoder
@@ -121,17 +121,31 @@ function cargaInfoEspectaculo(){
 				if (month < 10) {
 					 month= "0" + month;
 				}
-				var nuevafecha = date.getDate() + "/" + month + "/" + date.getFullYear();
+				var nuevafecha = date.getDate() + "/" + month + "/" + date.getFullYear() + " <b>" + date.getHours() + ":" + date.getMinutes() + "hs</b>" ;
 				
 				// Si hay mas de una fecha agrega un guion "-" separador
 				if (index > 0)
 					nuevafecha = " - " + nuevafecha;
 					
 				$("#fecha").append(nuevafecha);
+				
+				var fechaLista = "<li><a href=\"#\">" + date.getDate() + "/" + month + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() +"</a></li>";
+				$("#listaFecha").append(fechaLista);
+	       }
+	       for (index in data.realizacionEspectaculo[0].sectores) {
+	    	   var sector = data.realizacionEspectaculo[0].sectores[index];
+	    	   
+	    	   var sectorYPrecio = "<tr><th>"+ sector.nombre +"</th><th><span class=\"glyphicon glyphicon-usd\" aria-hidden=\"true\"></span><span id=\"precio\">"+ sector.precio +"</span></th></tr>";
+	    	   $("#sector").append(sectorYPrecio );
+	    	 
 	       }
 	     });
 	
-     }
+}
+
+
+//hacer el llamado fecha hora y sectores precioss
+//compra + y - y tambien funcion para seleccionar 
 
 //carga el mapa y genera coordenadas para el
 function geocodeResult(results, status) {
