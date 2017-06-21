@@ -10,11 +10,11 @@ public class EspectaculoUsuarioDTO {
 	
 	private String descripcion;
 	
-	private Long idAsiento;
+	private int idAsiento;
 	
 	private SalaDTO sala;
 	
-	private RealizacionEspectaculoFullDTO realizacionEspectaculo;
+	private RealizacionEspectaculoUsuarioDTO realizacionEspectaculo;
 	
 	public EspectaculoUsuarioDTO(Espectaculo e){
 		this.id = e.getId();
@@ -22,11 +22,10 @@ public class EspectaculoUsuarioDTO {
 		this.descripcion = e.getDescripcion();
 	}
 
-	public RealizacionEspectaculoFullDTO getRealizacionEspectaculo() {
+	public RealizacionEspectaculoUsuarioDTO getRealizacionEspectaculo() {
 		return realizacionEspectaculo;
 	}
-
-	public void setRealizacionEspectaculo(RealizacionEspectaculoFullDTO realizacionEspectaculo) {
+	public void setRealizacionEspectaculo(RealizacionEspectaculoUsuarioDTO realizacionEspectaculo) {
 		this.realizacionEspectaculo = realizacionEspectaculo;
 	}
 
@@ -57,20 +56,20 @@ public class EspectaculoUsuarioDTO {
 		this.descripcion = descripcion;
 	}
 
-	public Long getIdAsiento() {
-		return idAsiento;
-	}
-
-	public void setIdAsiento(Long idAsiento) {
-		this.idAsiento = idAsiento;
-	}
-
 	public SalaDTO getSala() {
 		return sala;
 	}
 
 	public void setSala(SalaDTO sala) {
 		this.sala = sala;
+	}
+
+	public int getIdAsiento() {
+		return idAsiento;
+	}
+
+	public void setIdAsiento(int idAsiento) {
+		this.idAsiento = idAsiento;
 	}
 
 	@Override

@@ -36,6 +36,7 @@ import com.grupo6.rest.dto.EspectaculoFullDTO;
 import com.grupo6.rest.dto.EspectaculoUsuarioDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoFullDTO;
+import com.grupo6.rest.dto.RealizacionEspectaculoUsuarioDTO;
 import com.grupo6.rest.dto.SectorDTO;
 import com.grupo6.rest.dto.TipoEspectaculoDTO;
 import com.grupo6.service.EspectaculoService;
@@ -45,7 +46,7 @@ public class EspectaculoServiceBean implements EspectaculoService {
 
 	@Value("${tenantPath}")
 	private String imagenesPath;
-	
+
 	@Autowired
 	private EspectaculoRepository espectaculoRepository;
 
@@ -57,19 +58,19 @@ public class EspectaculoServiceBean implements EspectaculoService {
 
 	@Autowired
 	private TipoEspectaculoRepository tipoEspectaculoRepository;
-	
+
 	@Autowired
 	private SuscripcionEspectaculoRepository suscripcionEspectaculoRepository;
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
-	private RealizacionEspectaculoRepository realizacionEspectaculoRepository; 
+	private RealizacionEspectaculoRepository realizacionEspectaculoRepository;
 
 	@Override
 	public void agregarEspectaculo(EspectaculoDTO espectaculo, MultipartFile file) {
-		
+
 		Espectaculo e = new Espectaculo();
 		e.setDescripcion(espectaculo.getDescripcion());
 		e.setNombre(espectaculo.getNombre());
@@ -126,7 +127,7 @@ public class EspectaculoServiceBean implements EspectaculoService {
 		Date d = new Date();
 		return this.espectaculoRepository.findAllActivos(pageRequest, d);
 	}
-	
+
 	@Override
 	public List<Espectaculo> findAll() {
 		Date d = new Date();
@@ -204,109 +205,117 @@ public class EspectaculoServiceBean implements EspectaculoService {
 		// es el siguiente: suscripcion a una realizacion suscripcion a un
 		// espectaculo suscripcion a un tipo de espectaculo
 
-		
-		// Junto todas las realizaciones de espectaculo ordenadas las paso a set 
-		// para sacar las repetidas las agrupo por espectaculo y ahi contruyo 
+		// Junto todas las realizaciones de espectaculo ordenadas las paso a set
+		// para sacar las repetidas las agrupo por espectaculo y ahi contruyo
 		// EspectaculoFullDTO para retornar
 		Optional<Usuario> user = usuarioRepository.findByEmail(email);
 		List<SuscripcionEspectaculo> suscLuist = suscripcionEspectaculoRepository.findByUsuario(user.get());
 		List<EspectaculoFullDTO> ret = new ArrayList<EspectaculoFullDTO>();
-		List<RealizacionEspectaculo> realEspectList  = new ArrayList<RealizacionEspectaculo>();
-		
-		//filtramos por los tres tipos de suscripcion que tenemos 
+		List<RealizacionEspectaculo> realEspectList = new ArrayList<RealizacionEspectaculo>();
+
+		// filtramos por los tres tipos de suscripcion que tenemos
 		suscLuist.stream().filter(x -> x.getRealizacionEspectaculo() != null).forEach(suscEsp -> {
-			
-			realEspectList.add(realizacionEspectaculoRepository.findOne(suscEsp.getRealizacionEspectaculo().getId()).get());
+
+			realEspectList
+					.add(realizacionEspectaculoRepository.findOne(suscEsp.getRealizacionEspectaculo().getId()).get());
 		});
 		suscLuist.stream().filter(x -> x.getEspectaculo() != null).forEach(espec -> {
-			realEspectList.addAll(realizacionEspectaculoRepository.findByEspectaculoAndFechaAfter(espec.getEspectaculo(), new Date()));
+			realEspectList.addAll(realizacionEspectaculoRepository
+					.findByEspectaculoAndFechaAfter(espec.getEspectaculo(), new Date()));
 		});
-		
+
 		suscLuist.stream().filter(x -> x.getTipoEspectaculo() != null).forEach(tipoEspec -> {
-			
-			List <Espectaculo> espectList =  espectaculoRepository.finBytipoEspectaculo(tipoEspec.getId(), new Date());
-			for (Espectaculo esp: espectList ){
+
+			List<Espectaculo> espectList = espectaculoRepository.finBytipoEspectaculo(tipoEspec.getId(), new Date());
+			for (Espectaculo esp : espectList) {
 				realEspectList.addAll(realizacionEspectaculoRepository.findByEspectaculoAndFechaAfter(esp, new Date()));
 			}
-			
+
 		});
 		// elemino las realizaciones repetidas si las hubiera
 		Set<RealizacionEspectaculo> hs = new HashSet<>();
 		hs.addAll(realEspectList);
 		realEspectList.clear();
 		realEspectList.addAll(hs);
-		for (RealizacionEspectaculo re :realEspectList){
+		for (RealizacionEspectaculo re : realEspectList) {
 			Espectaculo esp = re.getEspectaculo();
 			Espectaculo espect = (espectaculoRepository.findOneActive(esp.getId(), new Date()));
-			if (espect != null){
+			if (espect != null) {
 				EspectaculoFullDTO espectFullDTO = new EspectaculoFullDTO(espect);
 				ret.add(espectFullDTO);
 			}
-			
-		
+
 		}
 		Set<EspectaculoFullDTO> espectFullDTOHash = new HashSet<EspectaculoFullDTO>();
 		espectFullDTOHash.addAll(ret);
 		ret.clear();
 		ret.addAll(espectFullDTOHash);
 		return ret;
-		
+
 	}
 
 	@Override
 	@Transactional
 	public EspectaculoConTealizacionesDTO FindOne(String id) {
 		Espectaculo esp = espectaculoRepository.findOneActive(Long.parseLong(id), new Date());
-		if (esp==null){
+		if (esp == null) {
 			return null;
-		}else{
-	    EspectaculoConTealizacionesDTO ret = new EspectaculoConTealizacionesDTO(esp);
-		ret.setRealizacionEspectaculo(new ArrayList<RealizacionEspectaculoDTO>());
-		List<RealizacionEspectaculo> list = this.realizacionEspectaculoRepository.findByEspectaculoAndFechaAfter(espectaculoRepository.findOne(Long.parseLong(id)).get(), new Date());
-		list.stream().forEach(x -> {
-			RealizacionEspectaculoDTO respDTO = new RealizacionEspectaculoDTO(x);
-			List<Sector>  sectores = sectorRepository.findBySalaId(x.getSala().getId());
-			sectores.stream().forEach(sec ->{
-				Optional<Entrada> ent  = entradaRepository.findByRealizacionEspectaculoAndSector(x,sec).findFirst();
-				
+		} else {
+			EspectaculoConTealizacionesDTO ret = new EspectaculoConTealizacionesDTO(esp);
+			ret.setRealizacionEspectaculo(new ArrayList<RealizacionEspectaculoDTO>());
+			List<RealizacionEspectaculo> list = this.realizacionEspectaculoRepository.findByEspectaculoAndFechaAfter(
+					espectaculoRepository.findOne(Long.parseLong(id)).get(), new Date());
+			list.stream().forEach(x -> {
+				RealizacionEspectaculoDTO respDTO = new RealizacionEspectaculoDTO(x);
+				List<Sector> sectores = sectorRepository.findBySalaId(x.getSala().getId());
+				sectores.stream().forEach(sec -> {
+					Optional<Entrada> ent = entradaRepository.findByRealizacionEspectaculoAndSector(x, sec).findFirst();
+
 					SectorDTO sectorDTO = new SectorDTO();
-					if (ent.isPresent()){
-					sectorDTO.setPrecio(ent.get().getPrecio());
+					if (ent.isPresent()) {
+						sectorDTO.setPrecio(ent.get().getPrecio());
 					}
 					sectorDTO.setCapacidad(sec.getCapacidad());
 					sectorDTO.setId(sec.getId());
 					sectorDTO.setNombre(sec.getNombre());
 					respDTO.getSectores().add(sectorDTO);
-				
-				
+
+				});
+
+				ret.getRealizacionEspectaculo().add(respDTO);
+
 			});
-			
-			ret.getRealizacionEspectaculo().add(respDTO);
-			
-		});
-		return ret;
+			return ret;
 		}
-		
+
 	}
 
 	@Override
 	public List<EspectaculoUsuarioDTO> obtenerEspectaculosOsuario(String email) {
 		List<EspectaculoUsuarioDTO> ret = new ArrayList<EspectaculoUsuarioDTO>();
-		
+
 		Optional<Usuario> user = usuarioRepository.findByEmail(email);
-		List <Entrada> entradas = entradaRepository.findByUsuario(user.get());
+		List<Entrada> entradas = entradaRepository.findByUsuario(user.get());
 		entradas.stream().forEach(entrada -> {
 			RealizacionEspectaculo re = entrada.getRealizacionEspectaculo();
-			if (re.getFecha().after(new Date())){
+			if (re.getFecha().after(new Date())) {
 				EspectaculoUsuarioDTO esp = new EspectaculoUsuarioDTO(re.getEspectaculo());
-				RealizacionEspectaculoFullDTO reso = new RealizacionEspectaculoFullDTO(re);
+				RealizacionEspectaculoUsuarioDTO reso = new RealizacionEspectaculoUsuarioDTO(re);
+				esp.setIdAsiento(entrada.getNumeroAsiento());
 				esp.setRealizacionEspectaculo(reso);
 				ret.add(esp);
+				Optional<Sector> sec = sectorRepository.findOne(entrada.getId());
+				SectorDTO sectorDTO = new SectorDTO();
+				sectorDTO.setPrecio(entrada.getPrecio());
+				sectorDTO.setCapacidad(sec.get().getCapacidad());
+				sectorDTO.setId(sec.get().getId());
+				sectorDTO.setNombre(sec.get().getNombre());
+				reso.setSector(sectorDTO);
+
 			}
-			
 		});
 		return ret;
-		
+
 	}
 
 }

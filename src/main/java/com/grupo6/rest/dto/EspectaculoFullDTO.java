@@ -33,7 +33,6 @@ public class EspectaculoFullDTO {
 		});
 	}
 	
-
 	public EspectaculoFullDTO(){
 	}
 	

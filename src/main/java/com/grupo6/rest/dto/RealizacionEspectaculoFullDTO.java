@@ -1,6 +1,7 @@
 package com.grupo6.rest.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import com.grupo6.persistence.model.RealizacionEspectaculo;
 
@@ -13,7 +14,7 @@ public class RealizacionEspectaculoFullDTO {
 	private SalaDTO sala;
 
 	private long idEspectaculo;
-
+	
 	public RealizacionEspectaculoFullDTO(){
 		
 	}
