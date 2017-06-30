@@ -14,4 +14,6 @@ public interface HistorialEntradasRepository extends BaseRepository <HistorialEn
 
 	List<HistorialEntradas> findByUsuario(Optional<Usuario> user);
 
+	Optional<HistorialEntradas> findByEntrada(Entrada entrada);
+
 }

@@ -97,18 +97,4 @@ public class MultitenantConfiguration {
 
         return dataSourceBuilder.build();
     }
-//  /// crea el datasource por defecto para la aplicación 
-//    private DataSource getDataSource() {
-//        DataSourceBuilder dataSourceBuilder = new DataSourceBuilder(this.getClass().getClassLoader())
-//                .driverClassName(properties.getDriverClassName())
-//                .url(properties.getUrl())
-//                .username(properties.getUsername())
-//                .password(properties.getPassword());
-//
-//        if(properties.getType() != null) {
-//            dataSourceBuilder.type(properties.getType());
-//        }
-//
-//        return dataSourceBuilder.build();
-//    }
 }

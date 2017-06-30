@@ -18,7 +18,6 @@ import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +32,7 @@ import com.grupo6.config.TenantContext;
 import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.HistorialEntradas;
+import com.grupo6.persistence.model.Portero;
 import com.grupo6.persistence.model.RealizacionEspectaculo;
 import com.grupo6.persistence.model.Sala;
 import com.grupo6.persistence.model.Sector;
@@ -41,6 +41,7 @@ import com.grupo6.persistence.model.Usuario;
 import com.grupo6.persistence.repository.EntradaRepository;
 import com.grupo6.persistence.repository.EspectaculoRepository;
 import com.grupo6.persistence.repository.HistorialEntradasRepository;
+import com.grupo6.persistence.repository.PorteroRepository;
 import com.grupo6.persistence.repository.RealizacionEspectaculoRepository;
 import com.grupo6.persistence.repository.SalaRepository;
 import com.grupo6.persistence.repository.SectorRepository;
@@ -80,6 +81,9 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 	
 	@Autowired
 	SuscripcionEspectaculoRepository suscripcionEspectaculoRepository;
+	
+	@Autowired
+	PorteroRepository porteroRepository;
 	
 	@Autowired
 	EnviarMails enviarMails;
@@ -337,8 +341,8 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 	}
 
 	@Override
-	public Boolean verificarQR(String sha256hex, String email) {
-		Boolean ok = false;
+	public Boolean verificarQR(String sha256hex, String cedula) {
+//		Boolean ok = false;
 		String[] parts = sha256hex.split("\\.");
 		String path = this.qrPath;
 		for (int i=0; i<parts.length-1;i++){
@@ -353,19 +357,32 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 		
 		try {
 			fis = new FileInputStream(path);
-			Optional<Usuario> u = usuarioRepository.findByEmail(email);
+//			Optional<Usuario> u = usuarioRepository.findByEmail(email);
+			
+			// chequeo antes de entrar acá que la cedula sea la correcta 
+			Optional<Portero> p = porteroRepository.findByCedula(cedula);
 			Optional<Entrada> ent =entradaRepository.findOne(Long.parseLong(parts[parts.length-1]));
 			if (ent.isPresent()){
-				List <Entrada> entradasUsuario = entradaRepository.findByUsuario(u.get());
-				for (Entrada e : entradasUsuario){
-					if (e.getId()==ent.get().getId()){
-						ok = true;
-						break;
-					}
-				}
+				ent.get().setPortero(p.get());
+				Optional<HistorialEntradas> hEnt = historialEntradasRepository.findByEntrada(ent.get());
+				hEnt.get().setPortero(p.get());
+				hEnt.get().setFechaVerificacion(new Date());
+				historialEntradasRepository.save(hEnt.get());
+				
+				return true;
+			
+//				List <Entrada> entradasUsuario = entradaRepository.findByUsuario(u.get());
+//				for (Entrada e : entradasUsuario){
+//					if (e.getId()==ent.get().getId()){
+//						ok = true;
+//						break;
+//					}
+//				}
+			}else {
+				return false;
 			}
 			
-			return ok;
+//			return ok;
 			
 		} catch (IOException e) {
 			

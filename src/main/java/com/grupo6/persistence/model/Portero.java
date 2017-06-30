@@ -28,7 +28,6 @@ public class Portero {
 	@Column(length = 50, nullable = false)
 	private String cedula;
 
-	
 	public long getId() {
 		return id;
 	}

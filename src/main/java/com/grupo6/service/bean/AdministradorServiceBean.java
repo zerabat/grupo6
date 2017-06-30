@@ -41,6 +41,8 @@ public class AdministradorServiceBean implements AdministradorService {
 
 	@Override
 	public void agregarPortero(Portero portero) {
+		String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(portero.getPassword());
+		portero.setPassword(sha256hex);
 		porteroRepository.save(portero);
 		
 	}

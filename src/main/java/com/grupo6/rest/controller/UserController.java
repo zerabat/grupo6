@@ -213,22 +213,5 @@ public class UserController {
 		List<SuscripcionEspectaculoDTO> suL = realizacionEspectaculoService.verSuscripcionUsuario(email);
 		return new ResponseEntity<List<SuscripcionEspectaculoDTO>>(suL, HttpStatus.OK);
 	}
-	
-	//FIXME esto debería estar en la api del portero pero por ahora como prueba lo dejamos asi 
-	@RequestMapping(path = "/verificarCodigoQR/", method = RequestMethod.GET)
-	public ResponseEntity<?> verificarQR(@RequestHeader("X-TenantID") String tenantName,
-			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
-			@RequestParam(name = "qr", required = true) String qr) {
 
-		TenantContext.setCurrentTenant(tenantName);
-		@SuppressWarnings("unchecked")
-		Optional<Usuario> u = (Optional<Usuario>) request.getSession().getAttribute("usuario");
-		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
-			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
-		}
-//		String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(qr);
-		
-		Boolean suL = realizacionEspectaculoService.verificarQR(qr, email);
-		return new ResponseEntity<Object>(suL, HttpStatus.OK);
-	}
 }
