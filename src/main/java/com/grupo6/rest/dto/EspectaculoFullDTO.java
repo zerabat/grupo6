@@ -17,6 +17,8 @@ public class EspectaculoFullDTO {
 
 	private List<RealizacionEspectaculoFullDTO> realizacionEspectaculo;
 	
+	private List<byte[]> imagenesEspectaculo;
+	
 	public EspectaculoFullDTO(Espectaculo e){
 		this.id = e.getId();
 		this.nombre = e.getNombre();
@@ -78,7 +80,14 @@ public class EspectaculoFullDTO {
 	public void setRealizacionEspectaculo(List<RealizacionEspectaculoFullDTO> realizacionEspectaculo) {
 		this.realizacionEspectaculo = realizacionEspectaculo;
 	}
+	
+	public List<byte[]> getImagenesEspectaculo() {
+		return imagenesEspectaculo;
+	}
 
+	public void setImagenesEspectaculo(List<byte[]> imagenesEspectaculo) {
+		this.imagenesEspectaculo = imagenesEspectaculo;
+	}
 
 	@Override
 	public int hashCode() {

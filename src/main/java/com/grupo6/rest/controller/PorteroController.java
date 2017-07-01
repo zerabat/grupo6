@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grupo6.config.TenantContext;
 import com.grupo6.persistence.model.Portero;
-import com.grupo6.persistence.model.Usuario;
 import com.grupo6.service.PorteroService;
 import com.grupo6.service.RealizacionEspectaculoService;
 

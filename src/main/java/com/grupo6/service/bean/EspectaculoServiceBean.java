@@ -1,5 +1,10 @@
 package com.grupo6.service.bean;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -16,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.grupo6.config.TenantContext;
 import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.Espectaculo;
 import com.grupo6.persistence.model.RealizacionEspectaculo;
@@ -35,7 +41,6 @@ import com.grupo6.rest.dto.EspectaculoDTO;
 import com.grupo6.rest.dto.EspectaculoFullDTO;
 import com.grupo6.rest.dto.EspectaculoUsuarioDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
-import com.grupo6.rest.dto.RealizacionEspectaculoFullDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoUsuarioDTO;
 import com.grupo6.rest.dto.SectorDTO;
 import com.grupo6.rest.dto.TipoEspectaculoDTO;
@@ -44,7 +49,7 @@ import com.grupo6.service.EspectaculoService;
 @Service
 public class EspectaculoServiceBean implements EspectaculoService {
 
-	@Value("${tenantPath}")
+	@Value("${imagenesPath}")
 	private String imagenesPath;
 
 	@Autowired
@@ -317,5 +322,28 @@ public class EspectaculoServiceBean implements EspectaculoService {
 		return ret;
 
 	}
-
+	
+	@Override
+	public  List<byte[]> obtenerImagenesEspectaculo(Long espetactuloId){
+		
+		String tenantName = (String)TenantContext.getCurrentTenant();
+		String pathImagen = imagenesPath + "\\" + tenantName + "\\" + String.valueOf(espetactuloId) + "\\";
+		File[] files = Paths.get(pathImagen).toFile().listFiles();
+		List <byte[]> ret = new ArrayList<byte[]>();
+		for(File f: files){
+			Path path = Paths.get(f.getAbsolutePath());
+			byte[] data;
+			try {
+				data = Files.readAllBytes(path);
+				ret.add(data);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return ret;
+		
+	}
+ 
 }

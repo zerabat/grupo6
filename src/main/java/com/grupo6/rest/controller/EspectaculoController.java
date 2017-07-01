@@ -154,6 +154,7 @@ public class EspectaculoController {
 			Page<Espectaculo> pag = this.espectaculoService
 					.findAll(PageUtils.getPageRequest(start, end, sortField, sortOrder), query);
 			final Page<EspectaculoFullDTO> retPag = pag.map(this::mapearContenidoDePagina);
+			
 			return new ResponseEntity<Page<EspectaculoFullDTO>>(retPag, HttpStatus.OK);
 		} else {
 			Page<Espectaculo> pag = this.espectaculoService
@@ -258,7 +259,9 @@ public class EspectaculoController {
 	// }
 
 	private EspectaculoFullDTO mapearContenidoDePagina(Espectaculo e) {
-		return new EspectaculoFullDTO(e);
+		EspectaculoFullDTO eFDTO = new EspectaculoFullDTO(e);
+		eFDTO.setImagenesEspectaculo(espectaculoService.obtenerImagenesEspectaculo(e.getId()));
+		return eFDTO;
 	}
 	
 	private EntradaDTO mapearEntrada(Entrada ent) {
