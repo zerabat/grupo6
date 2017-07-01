@@ -46,4 +46,6 @@ public interface EspectaculoService {
 	List<EspectaculoUsuarioDTO> obtenerEspectaculosOsuario(String email);
 
 	List<byte[]> obtenerImagenesEspectaculo(Long espetactuloId);
+
+	List<Espectaculo> findAllHoy();
 }

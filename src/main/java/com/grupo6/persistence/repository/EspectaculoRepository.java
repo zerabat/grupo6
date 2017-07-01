@@ -44,6 +44,15 @@ public interface EspectaculoRepository extends BaseRepository <Espectaculo, Long
 			+ " join e.realizacionEspectaculo r "
 			+ " join e.tipoEspectaculo te"
 			+ " join r.sala s "
+			+ " WHERE r.espectaculo = e and  r.fecha > :hoy and r.fecha < :maniana")
+	List<Espectaculo> findAllHoy(@Param("hoy")  Date hoy, @Param("maniana")  Date maniana);
+	
+	
+	@EntityGraph("Espectaculo.Full")
+	@Query ("SELECT e FROM Espectaculo e "
+			+ " join e.realizacionEspectaculo r "
+			+ " join e.tipoEspectaculo te"
+			+ " join r.sala s "
 			+ " WHERE r.espectaculo = e and  r.fecha > :hoy")
 	List<Espectaculo> findAllActivos(@Param("hoy")  Date d);
 

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -344,6 +345,15 @@ public class EspectaculoServiceBean implements EspectaculoService {
 		}
 		return ret;
 		
+	}
+
+	@Override
+	public List<Espectaculo> findAllHoy() {
+		Date ahora = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, 1);
+		Date maniana = cal.getTime();
+		return this.espectaculoRepository.findAllHoy(ahora, maniana);
 	}
  
 }
