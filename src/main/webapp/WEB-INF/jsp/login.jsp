@@ -76,26 +76,62 @@
 		</div>
 
 	</div>
-	
- <div id="paypal-button"></div>
+	  <div id="paypal-button-container"></div>
 
     <script>
         paypal.Button.render({
 
-            env: 'sandbox', // Or 'sandbox',
+            env: 'sandbox',
 
-            commit: true, // Show a 'Pay Now' button
-
-            payment: function() {
-                // Set up the payment here
+            client: {
+                sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+                production: 'proyectoGrupo6'
             },
 
+            commit: true,
+
+            payment: function(data, actions) {
+
+                return actions.payment.create({
+                    payment: {
+                        transactions: [
+                            {
+                             	// Aca hay que cargarle el monto y la moneda cuando se hace el pego
+                            	amount: { total: '0.01', currency: 'USD' }
+                            }
+                        ]
+                    }
+                });
+            },
+
+            // onAuthorize() se ejecuta cuando ya se realizó el pago 
             onAuthorize: function(data, actions) {
-                // Execute the payment here
-           }
 
-        }, '#paypal-button');
+    			var xhttp = new XMLHttpRequest();
+    			
+
+    			var urlAndParams = "/comprarEntradaEspectaculo/"
+    				
+    			
+    			urlAndParams += "&email=" + "santiago.taba@gmail.com" ;
+    			urlAndParams += "?idRealizacion=" + 1 ;
+    			urlAndParams += "?idSector=" + 1;
+    			console.log(urlAndParams)
+    			xhttp.open("POST", urlAndParams,
+    					true);
+    			xhttp.setRequestHeader("X-TenantID", window.location.pathname.split( '/' )[1]);
+                xhttp.send();
+    	    	  
+    	    	  
+      
+                return actions.payment.execute().then(function() {
+                    window.alert('Pago realizado con éxito!');
+                });
+            }
+
+        }, '#paypal-button-container');
+
     </script>
-
+    
 </body>
 </html>

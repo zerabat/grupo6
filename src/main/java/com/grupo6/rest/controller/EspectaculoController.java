@@ -166,7 +166,7 @@ public class EspectaculoController {
 
 	/* APIS DE USUARIO */
 
-	@RequestMapping(path = "/comprarEntradaEspectaculo/", method = RequestMethod.GET)
+	@RequestMapping(path = "/comprarEntradaEspectaculo/", method = RequestMethod.POST)
 	public ResponseEntity<EntradaDTO> comprarEntradaEspectaculo(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
 			@RequestParam(name = "idRealizacion", required = true) Long idRealizacion,
