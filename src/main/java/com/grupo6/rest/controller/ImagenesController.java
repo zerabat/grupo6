@@ -1,12 +1,14 @@
 package com.grupo6.rest.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,7 +90,7 @@ public class ImagenesController {
 			ImagenesController.deleteFolder(espectaculoPath);
 		}
 
-		return "redirect:uploadStatus";
+		return "ok";
 
 	}
 
@@ -106,6 +108,31 @@ public class ImagenesController {
 			ret.add(data);
 		}
 		return ret;
+		
+		
+
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/obtenerImagenesEspectaculoString", method = RequestMethod.GET /*, produces = MediaType.IMAGE_JPEG_VALUE*/)
+	public List<String> obtenerImagenesEspectaculoString(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
+			@RequestParam("email") String adminEmail, @RequestParam("espectaculoId") Long espectaculoId) throws IOException {
+
+		String pathImagen = imagenesPath + "\\" + tenantName + "\\" + String.valueOf(espectaculoId) + "\\";
+		File[] files = Paths.get(pathImagen).toFile().listFiles();
+		List <String> ret = new ArrayList<String>();
+		FileInputStream fileInputStreamReader = null; 
+		for(File f: files){
+			Path path = Paths.get(f.getAbsolutePath());
+			byte[] data = Files.readAllBytes(path);
+			fileInputStreamReader = new FileInputStream(f);
+			fileInputStreamReader.read(data);
+			String encodedFile = Base64.getEncoder().encodeToString(data);
+			ret.add(encodedFile);
+		}
+		return ret;
+		
+		
 
 	}
 	
