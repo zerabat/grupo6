@@ -95,9 +95,9 @@ public class ImagenesController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/obtenerImagenesEspectaculo", method = RequestMethod.GET /*, produces = MediaType.IMAGE_JPEG_VALUE*/)
+	@RequestMapping(value = "/obtenerImagenesEspectaculo/", method = RequestMethod.GET /*, produces = MediaType.IMAGE_JPEG_VALUE*/)
 	public List<byte[]> obtenerImagenesEspectaculo(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
-			@RequestParam("email") String adminEmail, @RequestParam("espectaculoId") Long espectaculoId) throws IOException {
+			 @RequestParam("espectaculoId") Long espectaculoId) throws IOException {
 
 		String pathImagen = imagenesPath + "\\" + tenantName + "\\" + String.valueOf(espectaculoId) + "\\";
 		File[] files = Paths.get(pathImagen).toFile().listFiles();
@@ -108,15 +108,13 @@ public class ImagenesController {
 			ret.add(data);
 		}
 		return ret;
-		
-		
 
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/obtenerImagenesEspectaculoString", method = RequestMethod.GET /*, produces = MediaType.IMAGE_JPEG_VALUE*/)
+	@RequestMapping(value = "/obtenerImagenesEspectaculoString/", method = RequestMethod.GET /*, produces = MediaType.IMAGE_JPEG_VALUE*/)
 	public List<String> obtenerImagenesEspectaculoString(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
-			@RequestParam("email") String adminEmail, @RequestParam("espectaculoId") Long espectaculoId) throws IOException {
+			@RequestParam("espectaculoId") Long espectaculoId) throws IOException {
 
 		String pathImagen = imagenesPath + "\\" + tenantName + "\\" + String.valueOf(espectaculoId) + "\\";
 		File[] files = Paths.get(pathImagen).toFile().listFiles();
@@ -131,7 +129,6 @@ public class ImagenesController {
 			ret.add(encodedFile);
 		}
 		return ret;
-		
 		
 
 	}
@@ -195,7 +192,7 @@ public class ImagenesController {
 
 
 	@ResponseBody
-	@RequestMapping(value = "/obtenerImagenSala", method = RequestMethod.GET /*, produces = MediaType.IMAGE_JPEG_VALUE*/)
+	@RequestMapping(value = "/obtenerImagenSala/", method = RequestMethod.GET /*, produces = MediaType.IMAGE_JPEG_VALUE*/)
 	public byte[] obtenerImagensala(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 			@RequestParam("email") String adminEmail, @RequestParam("salaId") Long salaId) throws IOException {
 
@@ -203,6 +200,28 @@ public class ImagenesController {
 		Path path = Paths.get(pathImagen + "sala.jpg");
 		byte[] data = Files.readAllBytes(path);
 		return data;
+
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/obtenerImagenSalaString/", method = RequestMethod.GET /*, produces = MediaType.IMAGE_JPEG_VALUE*/)
+	public List<String> obtenerImagensalaString(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
+			@RequestParam("email") String adminEmail, @RequestParam("salaId") Long salaId) throws IOException {
+
+		String pathImagen = imagenesSalaPath + "\\" + tenantName + "\\" + String.valueOf(salaId) + "\\";
+		File[] files = Paths.get(pathImagen).toFile().listFiles();
+		List <String> ret = new ArrayList<String>();
+		FileInputStream fileInputStreamReader = null; 
+		for(File f: files){
+			Path path = Paths.get(f.getAbsolutePath());
+			byte[] data = Files.readAllBytes(path);
+			fileInputStreamReader = new FileInputStream(f);
+			fileInputStreamReader.read(data);
+			String encodedFile = Base64.getEncoder().encodeToString(data);
+			ret.add(encodedFile);
+		}
+		return ret;
+		
 
 	}
 
