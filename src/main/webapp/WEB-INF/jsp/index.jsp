@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page session="true"%>
 <html lang="es">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -83,11 +84,23 @@
 
     				        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
     				    </form>
-
-    			        <ul class="nav navbar-nav navbar-right">
-    			            <li><a href="login">Iniciar Sesión</a></li>
-    			            <li><a href="register">Registrarse</a></li>
-    			        </ul>
+						
+						<c:choose>
+                            <c:when test="${username != null}">
+                                 <ul class="nav navbar-nav navbar-right">
+                                   <li><a href="index" id="btnUser">${username}</a></li>
+                                   <a class="btn btn-link" title="Salir" id="btnLogout"><span class="glyphicon glyphicon-log-out"></span></a>
+                                </ul>
+                              </c:when>
+                              
+                              <c:otherwise>
+                                 <ul class="nav navbar-nav navbar-right">
+                                   <li><a href="login">Iniciar Sesión</a></li>
+                                   <li><a href="register">Registrarse</a></li>
+                                </ul>
+                            </c:otherwise>
+                        </c:choose>
+    			       
 			        </div>
                 </div>
 			</div>
@@ -227,20 +240,21 @@
 
 	    <!-- Pie de pagina -->
 	    <footer>
-	        <div class="container">
-	            <div class="row">
-	                <div class="col-xs-6">
-	                    <p>Proyecto Fin de carrera - Tecnólogo en informática </p>
-	                    <p>Grupo 6 - Santiago Tabarez, Verónica Pérez y Camilo Orquera</p>
-	                </div>
-
-	                <div class="col-xs-6">
-	                    <ul class="list-inline text-right">
-	                        <li><a href="#">Inicio</a></li>
-	                    </ul>
-	                </div>
+	       <nav class="navbar navbar-default" id="footerNav">
+	            <div class="container" id="footer">
+	                <ul class="nav navbar-nav navbar-left">
+	                    <li>
+	                        <a id="aFotter" href="#"><h4 id="h4Fotter">TicketYa!</h4></a>
+	                    </li>
+	                    <li>
+	                        <p id="pFooter">Proyecto Fin de carrera - Tecnólogo en informática</p>
+	                    </li>
+	                </ul>
+	                <ul class="nav navbar-nav navbar-right">
+	                    <li><p id="pFooter">Santiago Tabárez, Verónica Pérez y Camilo Orquera</p></li>
+	                </ul>
 	            </div>
-	        </div>
+        	</nav>
 	    </footer>
 	</body>
 </html>

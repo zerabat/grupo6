@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page session="true"%>
 <html>
     <head>
         <meta charset="utf-8">
@@ -24,6 +25,7 @@
 	        $( document ).ready(function() {
 	        	cargaInfoEspectaculo();
 	        	dropdowns();
+	        	cantEntradas();
 				});
 
         </script>
@@ -48,8 +50,8 @@
               <!--Inicio de menu-->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                  <li class="active"><a href="index">Inicio<span class="sr-only">(current)</span></a></li>
-                  <li class="dropdown">
+                  <li><a href="index">Inicio<span class="sr-only">(current)</span></a></li>
+                  <li class="active dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Espectaculos <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                       <li><a href="#">Musica</a></li>
@@ -66,10 +68,21 @@
                   </div>
                   <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
                 </form>
-                <ul class="nav navbar-nav navbar-right">
-                  <li><a href="login">Iniciar Sesión</a></li>
-                  <li><a href="registro">Registrarse</a></li>
-                </ul>
+                	<c:choose>
+                            <c:when test="${username != null}">
+                                 <ul class="nav navbar-nav navbar-right">
+                                   <li><a href="index" id="btnUser">${username}</a></li>
+                                   <a class="btn btn-link" title="Salir" id="btnLogout"><span class="glyphicon glyphicon-log-out"></span></a>
+                                </ul>
+                              </c:when>
+                              
+                              <c:otherwise>
+                                 <ul class="nav navbar-nav navbar-right">
+                                   <li><a href="login">Iniciar Sesión</a></li>
+                                   <li><a href="register">Registrarse</a></li>
+                                </ul>
+                            </c:otherwise>
+                        </c:choose>
               </div>
             </div>
             </div>
@@ -112,15 +125,22 @@
             </div>
 
             <div class="col-md-3 responsive nowrap" >
-                <div class="panel panel-info">
+                
+                <div class="panel panel-info" id="pagosPanel">
                     <div class="panel-heading">
                         <h3 class="panel-title">Medios de pago</h3>
                     </div>
                     <div class="panel-body" id="mediosPagos" >
-                        Oca, Santander y Scotiabank hasta en 3 pagos sin recargo.
+                       <c:url value="/img/paypal.png" var="paypal" />
+	                	<img src="${paypal}" class="img-responsive-info" alt="" width="100%" height= "100%" >
                     </div>
-
                 </div>
+                <div class="panel panel-primary " id="eticketPanel">
+                    <div class="panel-body" id="eticket" >
+	                    <c:url value="/img/Eticket.png" var="eticket" />
+	                	<img src="${eticket}" class="img-responsive-info" alt="" width="100%" height= "100%" >
+                    </div>
+                </div>              
             </div>
             <div class="col-md-4" >
                 <div class="panel panel-primary">
@@ -129,13 +149,9 @@
                     </div>
                     <div class="panel-body" id="promocion">
                         <p>Sectores y precios</p>
-                        <table id="sector">
-                       
+                        <table id="sectorTabla">
                         </table>
-                        
-<!--                         <span class="glyphicon glyphicon-usd" aria-hidden="true"> -->
-                        
-                    </div>
+                      </div>
 
                 </div>
             </div>
@@ -152,85 +168,88 @@
             </div>
 			<!-- Modal -->
 			<div class="modal fade" id="myModal" role="dialog">
-			    <div class="modal-dialog">
+			    <div class="modal-dialog" id="modalCompra">
 			
 			      <!-- Modal content-->
-			      <div class="modal-content">
+			      <div class="modal-content col-md-12">
 			        <div class="modal-header">
 			          <button type="button" class="close" data-dismiss="modal">&times;</button>
 			          <h4 class="modal-title">Comprar entradas</h4>
 			        </div>
 			        <div class="modal-body">
 			            <form>
-			                <div class="btn-group-vertical" role="group" aria-label="...">
+			                <div class="btn-group-vertical col-md-3" role="group" aria-label="..." >
 			                    <div class="dropdown">
-			                      <div class="btn-group"> 
-			                      <a class="btn btn-default dropdown-toggle btn-select" data-toggle="dropdown" href="#" id="dropFecha">
-			                      Seleccionar fecha <span class="caret"></span></a>
-			                      
-			                      <ul class="dropdown-menu" aria-labelledby="dropFecha" id="listaFecha">
-<!-- 			                        <li><a href="#">21/08/2017 20hs</a></li> -->
-			                        
-			                      </ul>
-			                    </div>
-			                <div class="dropdown">
-			                      <div class="btn-group" id="btnUS"> 
-			                      <a class="btn btn-default dropdown-toggle btn-selectUS" data-toggle="dropdown" href="#" id="dropSector">
+				                      <a class="btn btn-primary dropdown-toggle btn-select" data-toggle="dropdown" href="#" id="dropFecha">
+				                      Seleccionar fecha <span class="caret"></span></a>
+				                      <ul class="dropdown-menu" aria-labelledby="dropFecha" id="listaFecha"> </ul>
+			                   	</div>
+			                	<div class="dropdown">
+			                      <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" id="dropSector">
 			                      Seleccionar sector <span class="caret"></span></a>
-			                      <ul class="dropdown-menu" aria-labelledby="dropSector">
-			                        <li><a href="#">Platea</a></li>
-			                        <li><a href="#">General</a></li>
-			                        <li><a href="#">Tertulia</a></li>
+			                      <ul class="dropdown-menu" aria-labelledby="dropSector" id="listaSector">
+			                      </ul>
+			                    </div>
+			                    <div class="centerButton">
+				                    <p>Cantidad de entradas</p>
+				                    <div class="input-group">
+				                      <span class="input-group-btn">
+				                          <button type="button" class="btn btn-danger btn-sm btn-number"  data-type="minus" data-field="quant[2]">
+				                            <span class="glyphicon glyphicon-minus"></span>
+				                          </button>
+				                      </span>
+				                      <input type="text" name="quant[2]" class="form-control input-sm input-number" value="1" min="1" max="100">
+				                      <span class="input-group-btn">
+				                          <button type="button" class="btn btn-success btn-sm btn-number" data-type="plus" data-field="quant[2]">
+				                              <span class="glyphicon glyphicon-plus"></span>
+				                          </button>
+				                      </span>
+				                    </div>
+			                	</div>
+			                	<div class="dropdown">
+			                      <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" id="dropSector">
+			                      Modo de pago <span class="caret"></span></a>
+			                      <ul class="dropdown-menu" aria-labelledby="dropSector" id="listaSector">
 			                      </ul>
 			                    </div>
 			                </div>
-			                <div class="centerButton">
-			                    <p>Cantidad de entradas</p>
-			                    <div class="input-group">
-			                      <span class="input-group-btn">
-			                          <button type="button" class="btn btn-danger btn-sm btn-number"  data-type="minus" data-field="quant[2]">
-			                            <span class="glyphicon glyphicon-minus"></span>
-			                          </button>
-			                      </span>
-			                      <input type="text" name="quant[2]" class="form-control input-sm input-number" value="1" min="1" max="100">
-			                      <span class="input-group-btn">
-			                          <button type="button" class="btn btn-success btn-sm btn-number" data-type="plus" data-field="quant[2]">
-			                              <span class="glyphicon glyphicon-plus"></span>
-			                          </button>
-			                      </span>
-			                    </div>
-			                </div>
-			            </div>
-			                
+			                <div class="imagenSala col-md-6">
+			                	<img src="${imgGorillaz}" class="img-responsive-info" alt="" width="100%" height= "100%"  id="imgModalCompra">
+                            </div>
+                            <div class="col-md-3">
+                                <p>Precio entrada: $250</p>
+                            </div>
 			            </form>
 			        </div>
-			        <div class="modal-footer">
-			          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-			          <button type="button" class="btn btn-success" data-dismiss="modal">Comprar</button>
-			        </div>
-			      </div>
+			                
+				        <div class="modal-footer col-md-12">
+				          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				          <button type="button" class="btn btn-success" data-dismiss="modal">Comprar</button>
+				        </div>
+			     </div>
+			        
+			 </div>
 			
 			    </div>
-			</div>
-        </div>
+		</div>
+       
 
         <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <p>Proyecto Fin de carrera - Tecnólogo en informática </p>
-                        <p>Grupo 6 - Santiago Tabarez, Verónica Pérez y Camilo Orquera</p>
-                    </div>
-                    <div class="col-xs-6">
-                        <ul class="list-inline text-right">
-                            <li><a href="#">Inicio</a></li>
-
-                        </ul>
-
-                    </div>
-                </div>
-
-            </div>
+               <nav class="navbar navbar-default" id="footerNav">
+	            <div class="container" id="footer">
+	                <ul class="nav navbar-nav navbar-left">
+	                    <li>
+	                        <a id="aFotter" href="#"><h4 id="h4Fotter">TicketYa!</h4></a>
+	                    </li>
+	                    <li>
+	                        <p id="pFooter">Proyecto Fin de carrera - Tecnólogo en informática</p>
+	                    </li>
+	                </ul>
+	                <ul class="nav navbar-nav navbar-right">
+	                    <li><p id="pFooter">Santiago Tabárez, Verónica Pérez y Camilo Orquera</p></li>
+	                </ul>
+	            </div>
+        	</nav>
         </footer>
     </body>
 </html>

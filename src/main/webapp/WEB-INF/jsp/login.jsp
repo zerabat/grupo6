@@ -6,14 +6,17 @@
 <head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="google-signin-client_id" content="1044122178058-iv6un92qnetg6c58as6lks8gfk529p8e.apps.googleusercontent.com">
 		<title>Iniciar sesión</title>
 		<!-- Scripts -->
 			<c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
 			<c:url value="/js/funciones.js" var="funcionesJS" />
 			<c:url value="/js/bootstrap.min.js" var="bootstrapJS" />
+			<script src="https://apis.google.com/js/platform.js" async defer></script>
 			<script src="${jqueryJS}"></script>
 			<script src="${funcionesJS}"></script>
 			<script src="${bootstrapJS}"></script>
+			
 		<!-- Scripts -->
 		<!-- Styles -->
 		 	<c:url value="/css/bootstrap.css" var="bootstrapCSS" />
@@ -67,6 +70,7 @@
 						<a href="#" class="btn-social"> <i
 							class="glyphicon glyphicon-envelope"> Gmail</i>
 						</a>
+<!-- <div class="g-signin2 " data-onsuccess="onSignIn"></div> -->
 
 
 					</div>

@@ -18,6 +18,33 @@
     padding-left: 28px;
     padding-right: 30px;
 }
+#footer{
+    padding-left: 28px;
+    padding-right: 30px;
+}
+#footerNav{
+    margin-bottom: 0px;
+    border-radius: 0;
+    padding-top: 0px;
+    min-height: 35px;
+}
+#aFotter{
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+#h4Fotter{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#pFooter{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: white;
+    font-size: 13px;
+    padding-left: 18px;
+}
 #barraUbicacion{
     margin-bottom: 10px;
 }
@@ -26,7 +53,6 @@
     padding-right: 10px;
     margin-top: 70px;
 }
-
 #calendario{
     height: 300px;
     margin-bottom: 0;
@@ -41,26 +67,68 @@
 #imagenEspectaculo{
 margin-bottom: 21px;
 }
-@media (min-width: 768px) {
-    #imagenEspectaculo{
-    padding-bottom: 10px;
-    height: 350px;
-}
-}
+
 @media (min-width: 948px) {
     #infoEspectaculo{
     height: 350px;
     padding-bottom: 10px;
     margin-bottom: 21px;
-}}
+	}
+}
 #map{
     height: 250px;
 }
 #promocion{
     height: 250px;
 }
+
+
+/*pantalla cel*/
+#eticket{
+	overflow-y: auto;
+	}
 #mediosPagos{
-    height: 250px;
+
+	}
+
+/*pantalla pc*/
+@media (min-width: 768px) {
+	#imagenEspectaculo{
+	    padding-bottom: 10px;
+	    height: 350px;
+	}
+	#eticket{
+	   height: 150px;
+	   /*overflow-y: auto;*/
+	   padding-top: 1px;
+	   padding-right: 1px;
+	   padding-bottom: 1px;
+	   padding-left: 1px;
+	}
+	#pagosPanel{
+		margin-bottom: 10px;
+	}
+	#mediosPagos{
+	   height: 88px;
+	   padding-top: 1px;
+	   padding-right: 1px;
+	   padding-bottom: 1px;
+	   padding-left: 1px;
+	}
+	#modalCompra{
+        width: 70%;
+    }
+    #dropFecha,#listaFecha, #listaSector{
+        width: 100%;
+    }
+    #dropSector{
+        width: 100%;
+        margin-top: 10px;
+    }
+    #imgModalCompra{
+        height: 300px;
+        margin-bottom: 10px;
+    }
 }
 .breadcrumb{
     margin-top: 10px;
@@ -71,11 +139,13 @@ margin-bottom: 21px;
         margin-bottom: 21px;
         height: 190px;
 }
+
 @media (min-width: 948px) {
     #panelEspectaculo{
     height: 100%;
 
-}}
+	}
+}
 #btnComprar{
     font-size: 20px;
 }
@@ -129,17 +199,26 @@ margin-bottom: 21px;
     width: 29%;
 
 }
-#dropSector{
-    margin-top: 10px;
-}
+
 .centerButton{
-    width: 150px;
-    /*margin: 40px auto;*/
     margin-top: 10px;
-    margin-bottom: 10px;
+
 }
 #precio{
 	font-size: 18px;
+}
+
+#sectorTabla{
+	width: 80%;
+}
+
+#btnLogout{
+    position: relative;
+    top: 5px;
+    font-size: 20px;
+}
+#btnUser{
+	padding-right: 5px;
 }
 
 /***********************************************************/

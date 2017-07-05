@@ -9,10 +9,9 @@
     
     <c:url value="/css/bootstrap.css" var="bootstrapCSS" />
 	<c:url value="/css/estilos.css" var="estilos" />
-	<c:url value="/css/font-awesome.min.css" var="font-awesome" />
     <link rel="stylesheet" href="${bootstrapCSS}">
     <link rel="stylesheet" href="${estilos}">
-    <link rel="stylesheet" href="${font-awesome}">
+    
   </head>
   <body>
   <div class="content">
@@ -62,7 +61,7 @@
           <h3>Ingresa también con: </h3>
           <div class="google-login-button">
             <a href="#" class="btn-social">
-              <i class="fa fa-envelope" > Gmail</i>
+              <i class="glyphicon glyphicon-envelope" > Gmail</i>
             </a>
 
 
