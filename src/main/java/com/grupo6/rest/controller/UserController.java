@@ -66,7 +66,11 @@ public class UserController {
 			if (usuario.get().getPassword().equals(sha256hex)) {
 				HttpSession sesion = request.getSession();
 				sesion.setAttribute("usuario", usuario);
+				
+				request.getSession().setAttribute("username", usuario.get().getNombre() + ' ' + usuario.get().getApellido());
 				return new ResponseEntity<Object>(HttpStatus.OK);
+				
+				
 			}
 		} else {
 			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
@@ -85,7 +89,9 @@ public class UserController {
 		if (usuario.isPresent()) {
 				HttpSession sesion = request.getSession();
 				sesion.setAttribute("usuario", usuario);
+				
 				return new ResponseEntity<Object>(HttpStatus.OK);
+				
 		}
 		return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 	}
