@@ -19,6 +19,8 @@ public class EspectaculoFullDTO {
 	
 	private List<byte[]> imagenesEspectaculo;
 	
+	private List<String> imagenesEspectaculoString;
+	
 	public EspectaculoFullDTO(Espectaculo e){
 		this.id = e.getId();
 		this.nombre = e.getNombre();
@@ -110,6 +112,14 @@ public class EspectaculoFullDTO {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	public List<String> getImagenesEspectaculoString() {
+		return imagenesEspectaculoString;
+	}
+
+	public void setImagenesEspectaculoString(List<String> imagenesEspectaculoString) {
+		this.imagenesEspectaculoString = imagenesEspectaculoString;
 	}
 
 	

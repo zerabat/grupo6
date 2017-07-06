@@ -1,5 +1,14 @@
 package com.grupo6.rest.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,9 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -43,6 +52,9 @@ public class EspectaculoController {
 
 	@Autowired
 	private RealizacionEspectaculoService realizacionEspectaculoService;
+	
+	@Value("${imagenesPath}")
+	private String imagenesPath;
 
 	/* APIS DE ADMINISTRADOR DE UN TENANT */
 
@@ -189,7 +201,6 @@ public class EspectaculoController {
 	}
 
 
-
 	/*
 	 * muestra segun las preferencias del usuario (Espectaculos tipos de
 	 * espectaculos y realizaciones a las que se haya susbribido)
@@ -224,8 +235,6 @@ public class EspectaculoController {
 		return new ResponseEntity<List<EspectaculoUsuarioDTO>>(espectaculos, HttpStatus.OK);
 	}
 	
-	
-	
 	@RequestMapping(path = "/consultaDisponibilidadDeLocalidades/", method = RequestMethod.GET)
 	public ResponseEntity<RealizacionEspectaculoDisponibilidadDTO> consultaDisponibilidadDeLocalidades(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, 
@@ -246,21 +255,28 @@ public class EspectaculoController {
 		return new ResponseEntity<List<EspectaculoDTO>>(espectaculos, HttpStatus.OK);
 	}
 
-	// private String crearQuery(String query) {
-	// Date d = new Date();
-	// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-	// String date = format.format(d);
-	//
-	// String ret = "nombre:" + query + ",descripcion:" + query +
-	// ",realizacionEspectaculo.sala.nombre:" + query
-	// + ",tipoEspectaculo.nombre:" + query
-	// + ",realizacionEspectaculo.fecha>" + date;
-	// return ret;
-	// }
-
 	private EspectaculoFullDTO mapearContenidoDePagina(Espectaculo e) {
 		EspectaculoFullDTO eFDTO = new EspectaculoFullDTO(e);
 		eFDTO.setImagenesEspectaculo(espectaculoService.obtenerImagenesEspectaculo(e.getId()));
+		
+		String pathImagen = imagenesPath + "\\" + TenantContext.getCurrentTenant() + "\\" + String.valueOf(e.getId()) + "\\";
+		File[] files = Paths.get(pathImagen).toFile().listFiles();
+		List <String> ret = new ArrayList<String>();
+		FileInputStream fileInputStreamReader = null; 
+		for(File f: files){
+			try{
+			Path path = Paths.get(f.getAbsolutePath());
+			byte[] data = Files.readAllBytes(path);
+			fileInputStreamReader = new FileInputStream(f);
+			fileInputStreamReader.read(data);
+			String encodedFile = Base64.getEncoder().encodeToString(data);
+			ret.add(encodedFile);
+			}catch (Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		eFDTO.setImagenesEspectaculoString(ret); 
+		
 		return eFDTO;
 	}
 	

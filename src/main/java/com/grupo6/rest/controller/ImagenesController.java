@@ -129,7 +129,6 @@ public class ImagenesController {
 			ret.add(encodedFile);
 		}
 		return ret;
-		
 
 	}
 	
