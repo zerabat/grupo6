@@ -3,14 +3,7 @@ function dropdowns(){
 	$(".dropdown-menu li a").click(function(){
 		  var selText = $(this).text();
 		  $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
-});
-//	 function dropdowns() {
-//         $(".dropdown-menu li a").click(function () {
-//             var text_selected = $(this).text();
-//             $(".dropdown .user_selected").text(text_selected);
-//         });
-
-     
+});     
 }
 
 //Funcion para seleccionar entradas
@@ -130,8 +123,7 @@ function cargaDatatable(){
 	            { "data": "nombre",
 	              "render": function ( data, type, full ) {
 	            	  return '<a href="infoEspectaculo?id=' + full['id'] + '">' + data + '</a>';
-	            	  //return '<a href="infoEspectaculo">' + data + '</a>';
-	               }
+	            	  }
 	            },
 	            { "data": "realizacionEspectaculo.0.sala.nombre" },    
 	            { "data": "realizacionEspectaculo.0.sala.direccion" }
@@ -151,7 +143,7 @@ function getGET()
     // si existe el interrogante
     if(loc.indexOf('?')>0)
     {
-        // cogemos la parte de la url que hay despues del interrogante
+        // agarramos la parte de la url que hay despues del interrogante
         var getString = loc.split('?')[1];
         // obtenemos un array con cada clave=valor
         var GET = getString.split('&');
@@ -231,10 +223,6 @@ function cargaInfoEspectaculo(){
 	
 }
 
-
-//hacer el llamado fecha hora y sectores precioss
-//compra + y - y tambien funcion para seleccionar 
-
 //carga el mapa y genera coordenadas para el
 function geocodeResult(results, status) {
     // Verificamos el estatus
@@ -257,6 +245,47 @@ function geocodeResult(results, status) {
     }
 }
 	
+function cargaImagenEsp(){
+	var valores=getGET();
+	
+	 $.ajax({
+	        url: "/obtenerImagenesEspectaculoString",
+	 		dataType: "json",
+     		dataSrc: "",
+     		type: "GET",
+     		data: {
+     			espectaculoId: valores["id"]
+             },
+             beforeSend: function(xhr){
+                 var pathname = window.location.pathname;
+                 xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+         }
+	    }).then(function(data) {
+    	   document.getElementById("imgEsp").src= "data:image/jpg;base64,"+data[0];   
+	     });
+	
+}
+function cargaImagenSala(){
+	var valores=getGET();
+	
+	 $.ajax({
+	        url: "/obtenerImagenesEspectaculo",
+	 		dataType: "json",
+     		dataSrc: "",
+     		type: "GET",
+     		data: {
+     			espectaculoId: valores["id"]
+             },
+             beforeSend: function(xhr){
+                 var pathname = window.location.pathname;
+                 xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+         }
+	    }).then(function(data) {
+    	   document.getElementById("imgEsp").src= "data:image/jpg;base64,"+data[0];   
+	     });
+	
+}
+
 
 //funcion validar usuario y contraseña(login.jsp)
 function valida() {
