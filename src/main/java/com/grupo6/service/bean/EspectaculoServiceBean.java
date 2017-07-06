@@ -75,7 +75,7 @@ public class EspectaculoServiceBean implements EspectaculoService {
 	private RealizacionEspectaculoRepository realizacionEspectaculoRepository;
 
 	@Override
-	public void agregarEspectaculo(EspectaculoDTO espectaculo, MultipartFile file) {
+	public void agregarEspectaculo(EspectaculoDTO espectaculo) {
 
 		Espectaculo e = new Espectaculo();
 		e.setDescripcion(espectaculo.getDescripcion());

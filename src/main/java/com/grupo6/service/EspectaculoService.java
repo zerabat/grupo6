@@ -15,8 +15,6 @@ import com.grupo6.rest.dto.EspectaculoUsuarioDTO;
 
 public interface EspectaculoService {
 
-	void agregarEspectaculo(EspectaculoDTO espectaculo, MultipartFile file);
-
 	List<EspectaculoDTO> obtenerEspectaculos();
 
 	Page<Espectaculo> findAll(Pageable pageRequest);
@@ -48,4 +46,6 @@ public interface EspectaculoService {
 	List<byte[]> obtenerImagenesEspectaculo(Long espetactuloId);
 
 	List<Espectaculo> findAllHoy();
+
+	void agregarEspectaculo(EspectaculoDTO espectaculo);
 }

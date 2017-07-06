@@ -60,8 +60,7 @@ public class EspectaculoController {
 
 	@RequestMapping(path = "/altaEspectaculo/", method = RequestMethod.POST)
 	public ResponseEntity<?> altaEspectaculo(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
-			@RequestParam(name = "email", required = true) String email, @RequestBody EspectaculoDTO espectaculo,
-			@RequestParam("file") MultipartFile file) {
+			@RequestParam(name = "email", required = true) String email, @RequestBody EspectaculoDTO espectaculo) {
 
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
@@ -70,7 +69,7 @@ public class EspectaculoController {
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
-		espectaculoService.agregarEspectaculo(espectaculo,file);
+		espectaculoService.agregarEspectaculo(espectaculo);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
