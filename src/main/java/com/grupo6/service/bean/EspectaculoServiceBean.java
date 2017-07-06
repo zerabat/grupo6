@@ -331,6 +331,9 @@ public class EspectaculoServiceBean implements EspectaculoService {
 		String pathImagen = imagenesPath + "\\" + tenantName + "\\" + String.valueOf(espetactuloId) + "\\";
 		File[] files = Paths.get(pathImagen).toFile().listFiles();
 		List <byte[]> ret = new ArrayList<byte[]>();
+		if (files ==null){
+			return null;
+		}
 		for(File f: files){
 			Path path = Paths.get(f.getAbsolutePath());
 			byte[] data;
