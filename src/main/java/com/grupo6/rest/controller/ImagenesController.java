@@ -193,7 +193,7 @@ public class ImagenesController {
 	@ResponseBody
 	@RequestMapping(value = "/obtenerImagenSala/", method = RequestMethod.GET /*, produces = MediaType.IMAGE_JPEG_VALUE*/)
 	public byte[] obtenerImagensala(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
-			@RequestParam("email") String adminEmail, @RequestParam("salaId") Long salaId) throws IOException {
+		@RequestParam("salaId") Long salaId) throws IOException {
 
 		String pathImagen = imagenesSalaPath + "\\" + tenantName + "\\" + String.valueOf(salaId) + "\\";
 		Path path = Paths.get(pathImagen + "sala.jpg");
@@ -205,7 +205,7 @@ public class ImagenesController {
 	@ResponseBody
 	@RequestMapping(value = "/obtenerImagenSalaString/", method = RequestMethod.GET /*, produces = MediaType.IMAGE_JPEG_VALUE*/)
 	public List<String> obtenerImagensalaString(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
-			@RequestParam("email") String adminEmail, @RequestParam("salaId") Long salaId) throws IOException {
+			 @RequestParam("salaId") Long salaId) throws IOException {
 
 		String pathImagen = imagenesSalaPath + "\\" + tenantName + "\\" + String.valueOf(salaId) + "\\";
 		File[] files = Paths.get(pathImagen).toFile().listFiles();

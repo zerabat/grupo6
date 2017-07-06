@@ -26,6 +26,7 @@
 	        	cargaInfoEspectaculo();
 	        	dropdowns();
 	        	cantEntradas();
+	        	cargaImagenEsp();
 				});
 
         </script>
@@ -101,8 +102,8 @@
 
 
             <div class="col-md-7" id=imagenEspectaculo>
-                <c:url value="/img/gorillaz.jpeg" var="imgGorillaz" />
-                <img src="${imgGorillaz}" class="img-responsive-info" alt="" width="100%" height= "100%">
+                <c:url value="/img/gorillaz.jpeg" var="imgEspectaculo" />
+                <img id="imgEsp" src="" class="img-responsive-info" alt="" width="100%" height= "100%">
             </div>
 
             <div class="col-md-5 responsive nowrap" id=infoEspectaculo  >
