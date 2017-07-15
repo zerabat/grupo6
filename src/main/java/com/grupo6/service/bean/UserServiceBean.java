@@ -58,6 +58,12 @@ public class UserServiceBean implements UserService {
 	@Override
 	public Optional<Usuario> altaOLoginConGmail(String id, String email) {
 		Optional<Usuario> usr = usuarioRepository.findByEmail(email);
+		if (!usr.isPresent()){
+			Usuario dtos = new Usuario();
+			dtos.setEmail(email);
+			dtos.setGmailToken(id);
+			return this.altaUsuario(dtos);
+		}
 		if (usr.get().getGmailToken() == null || usr.get().getGmailToken().length() < 3) {
 			usr.get().setGmailToken(id);
 			usuarioRepository.save(usr.get());

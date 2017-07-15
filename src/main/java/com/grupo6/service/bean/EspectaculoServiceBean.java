@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -108,7 +109,7 @@ public class EspectaculoServiceBean implements EspectaculoService {
 			EspectaculoDTO eDTO = new EspectaculoDTO(x);
 			lDTO.add(eDTO);
 		});
-		return lDTO;
+		return lDTO.stream().distinct().collect(Collectors.toList());
 	}
 
 	@Override

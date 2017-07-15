@@ -101,7 +101,7 @@
                         transactions: [
                             {
                              	// Aca hay que cargarle el monto y la moneda cuando se hace el pego
-                            	amount: { total: '0.01', currency: 'USD' }
+                            	amount: { total: '0.01', currency: 'UYU' }
                             }
                         ]
                     }
@@ -112,10 +112,7 @@
             onAuthorize: function(data, actions) {
 
     			var xhttp = new XMLHttpRequest();
-    			
-
     			var urlAndParams = "/comprarEntradaEspectaculo/"
-    				
     			
     			urlAndParams += "&email=" + "santiago.taba@gmail.com" ;
     			urlAndParams += "?idRealizacion=" + 1 ;
@@ -125,8 +122,6 @@
     					true);
     			xhttp.setRequestHeader("X-TenantID", window.location.pathname.split( '/' )[1]);
                 xhttp.send();
-    	    	  
-    	    	  
       
                 return actions.payment.execute().then(function() {
                     window.alert('Pago realizado con éxito!');

@@ -250,13 +250,19 @@ public class EspectaculoController {
 			HttpServletRequest request) {
 
 		TenantContext.setCurrentTenant(tenantName);
+		@SuppressWarnings("unchecked")
+		Optional<AdministradorTenant> u = (Optional<AdministradorTenant>) request.getSession()
+				.getAttribute("administradorTenant");
+		if (u == null || !u.isPresent() || !u.get().getEmail().equals(email)) {
+			return new ResponseEntity<List<EspectaculoDTO>>(HttpStatus.FORBIDDEN);
+		}
 		List<EspectaculoDTO> espectaculos = espectaculoService.obtenerEspectaculos();
 		return new ResponseEntity<List<EspectaculoDTO>>(espectaculos, HttpStatus.OK);
 	}
 
 	private EspectaculoFullDTO mapearContenidoDePagina(Espectaculo e) {
 		EspectaculoFullDTO eFDTO = new EspectaculoFullDTO(e);
-		eFDTO.setImagenesEspectaculo(espectaculoService.obtenerImagenesEspectaculo(e.getId()));
+//		eFDTO.setImagenesEspectaculo(espectaculoService.obtenerImagenesEspectaculo(e.getId()));
 		
 		String pathImagen = imagenesPath + "\\" + TenantContext.getCurrentTenant() + "\\" + String.valueOf(e.getId()) + "\\";
 		File[] files = Paths.get(pathImagen).toFile().listFiles();

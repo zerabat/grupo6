@@ -17,7 +17,7 @@ public class EspectaculoFullDTO {
 
 	private List<RealizacionEspectaculoFullDTO> realizacionEspectaculo;
 	
-	private List<byte[]> imagenesEspectaculo;
+//	private List<byte[]> imagenesEspectaculo;
 	
 	private List<String> imagenesEspectaculoString;
 	
@@ -83,13 +83,13 @@ public class EspectaculoFullDTO {
 		this.realizacionEspectaculo = realizacionEspectaculo;
 	}
 	
-	public List<byte[]> getImagenesEspectaculo() {
-		return imagenesEspectaculo;
-	}
-
-	public void setImagenesEspectaculo(List<byte[]> imagenesEspectaculo) {
-		this.imagenesEspectaculo = imagenesEspectaculo;
-	}
+//	public List<byte[]> getImagenesEspectaculo() {
+//		return imagenesEspectaculo;
+//	}
+//
+//	public void setImagenesEspectaculo(List<byte[]> imagenesEspectaculo) {
+//		this.imagenesEspectaculo = imagenesEspectaculo;
+//	}
 
 	@Override
 	public int hashCode() {

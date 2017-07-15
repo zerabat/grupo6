@@ -84,7 +84,6 @@ public class UserController {
 			@RequestParam(name = "id", required = false) String id) {
 
 		TenantContext.setCurrentTenant(tenantName);
-
 		Optional<Usuario> usuario = userService.altaOLoginConGmail(id, email);
 		if (usuario.isPresent()) {
 				HttpSession sesion = request.getSession();
