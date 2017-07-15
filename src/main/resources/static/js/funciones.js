@@ -219,6 +219,7 @@ function cargaInfoEspectaculo(){
 	    	   $("#listaSector").append(listaSector );
 	    	 
 	       }
+	       cargaImagenSala(data.realizacionEspectaculo[0].sala.id);
 	     });
 	
 }
@@ -249,7 +250,7 @@ function cargaImagenEsp(){
 	var valores=getGET();
 	
 	 $.ajax({
-	        url: "/obtenerImagenesEspectaculoString",
+	        url: "/obtenerImagenesEspectaculoString/",
 	 		dataType: "json",
      		dataSrc: "",
      		type: "GET",
@@ -265,23 +266,22 @@ function cargaImagenEsp(){
 	     });
 	
 }
-function cargaImagenSala(){
-	var valores=getGET();
-	
+
+function cargaImagenSala(id){
 	 $.ajax({
-	        url: "/obtenerImagenesEspectaculo",
+	        url: "/obtenerImagenSalaString/",
 	 		dataType: "json",
      		dataSrc: "",
      		type: "GET",
      		data: {
-     			espectaculoId: valores["id"]
+     			salaId: id
              },
              beforeSend: function(xhr){
                  var pathname = window.location.pathname;
                  xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
          }
 	    }).then(function(data) {
-    	   document.getElementById("imgEsp").src= "data:image/jpg;base64,"+data[0];   
+    	   document.getElementById("imgModalSala").src= "data:image/jpg;base64,"+data[0];   
 	     });
 	
 }
