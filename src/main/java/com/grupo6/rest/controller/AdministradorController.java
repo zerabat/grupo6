@@ -1,5 +1,6 @@
 package com.grupo6.rest.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,4 +81,46 @@ public class AdministradorController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
+	@RequestMapping(path = "/modificarPortero/", method = RequestMethod.PUT)
+	public ResponseEntity<?> modificarPortero(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
+			@RequestParam(name = "email", required = true) String email, @RequestBody Portero portero) {
+
+		TenantContext.setCurrentTenant(tenantName);
+		@SuppressWarnings("unchecked")
+		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession()
+				.getAttribute("administradorTenant");
+		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
+			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
+		}
+		administradorService.modificarPortero(portero);
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	@RequestMapping(path = "/bajaPortero/", method = RequestMethod.PUT)
+	public ResponseEntity<?> bajaPortero(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
+			@RequestParam(name = "email", required = true) String email, Long idPortero) {
+
+		TenantContext.setCurrentTenant(tenantName);
+		@SuppressWarnings("unchecked")
+		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession()
+				.getAttribute("administradorTenant");
+		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
+			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
+		}
+		administradorService.eliminarPortero(idPortero);
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/obtenerPorteros/", method = RequestMethod.PUT)
+	public ResponseEntity<List<Portero>> obtenerPorteros(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
+			@RequestParam(name = "email", required = true) String email) {
+
+		TenantContext.setCurrentTenant(tenantName);
+		@SuppressWarnings("unchecked")
+		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession()
+				.getAttribute("administradorTenant");
+		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
+			return new ResponseEntity<List<Portero>>(HttpStatus.FORBIDDEN);
+		}
+		return new ResponseEntity<List<Portero>>(administradorService.obenerPorteros(),HttpStatus.OK);
+	}
 }

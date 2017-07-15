@@ -1,5 +1,6 @@
 package com.grupo6.service.bean;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,21 @@ public class AdministradorServiceBean implements AdministradorService {
 	@Override
 	public Optional<AdministradorTenant> login(String email) {
 		return administradorRepository.findByEmail(email);
+	}
+
+	@Override
+	public List<Portero> obenerPorteros() {
+		return  porteroRepository.findAll();
+	}
+
+	@Override
+	public void modificarPortero(Portero portero) {
+		this.porteroRepository.save(portero);
+		
+	}
+
+	@Override
+	public void eliminarPortero(Long idPortero) {
+		this.porteroRepository.delete(porteroRepository.findOne(idPortero).get());
 	}
 }
