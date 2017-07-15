@@ -16,7 +16,6 @@ import com.grupo6.persistence.model.Espectaculo;
 @Repository
 public interface EspectaculoRepository extends BaseRepository <Espectaculo, Long>{
 
-	@EntityGraph("Espectaculo.Full")
 	@Override
 	List<Espectaculo> findAll();
 	

@@ -247,8 +247,7 @@ public class EspectaculoController {
 
 	@RequestMapping(path = "/obtenerEspectaculos/", method = RequestMethod.GET)
 	public ResponseEntity<List<EspectaculoDTO>> obtenerEspectaculos(@RequestHeader("X-TenantID") String tenantName,
-			HttpServletRequest request,
-			@RequestParam(name = "adminEmail" , required = true) String adminEmail) {
+			HttpServletRequest request) {
 
 		TenantContext.setCurrentTenant(tenantName);
 //		@SuppressWarnings("unchecked")
