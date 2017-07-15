@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page session="true"%>
-<html>
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <title>Info Espectaculo</title>
@@ -102,7 +102,6 @@
 
 
             <div class="col-md-7" id=imagenEspectaculo>
-                <c:url value="/img/gorillaz.jpeg" var="imgEspectaculo" />
                 <img id="imgEsp" src="" class="img-responsive-info" alt="" width="100%" height= "100%">
             </div>
 
@@ -110,6 +109,7 @@
                 <div class="panel panel-primary" id=panelEspectaculo>
                   <div class="panel-heading">
                     <h3 class="panel-title" id="evento"></h3>
+                    <a href="#" class="glyphicon glyphicon-heart-empty" aria-hidden="true" title="Suscribirse" id="iconoCorazon"></a>
                   </div>
                   <div class="panel-body">
                     <div class="panelEspectaculo" id="panelScroll">
@@ -215,7 +215,7 @@
 			                    </div>
 			                </div>
 			                <div class="imagenSala col-md-6">
-			                	<img src="${imgGorillaz}" class="img-responsive-info" alt="" width="100%" height= "100%"  id="imgModalCompra">
+			                	<img src="" class="imgSala img-responsive-info" alt="" width="100%" height= "100%"  id="imgModalSala">
                             </div>
                             <div class="col-md-3">
                                 <p>Precio entrada: $250</p>

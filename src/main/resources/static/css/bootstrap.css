@@ -64,6 +64,18 @@
 #principalInfo{
     margin-top: 70px;
 }
+#iconoCorazon{
+	position: absolute;
+    top: 8px;
+    right: 30px;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+#iconoCorazon > a:hover, a:focus {
+  color: #18bc9c !important;
+  text-decoration: none;
+}
 #imagenEspectaculo{
 margin-bottom: 21px;
 }
@@ -75,13 +87,9 @@ margin-bottom: 21px;
     margin-bottom: 21px;
 	}
 }
-#map{
+#map, #promocion{
     height: 250px;
 }
-#promocion{
-    height: 250px;
-}
-
 
 /*pantalla cel*/
 #eticket{
@@ -116,7 +124,7 @@ margin-bottom: 21px;
 	   padding-left: 1px;
 	}
 	#modalCompra{
-        width: 70%;
+        width: 62%;
     }
     #dropFecha,#listaFecha, #listaSector{
         width: 100%;
@@ -125,7 +133,7 @@ margin-bottom: 21px;
         width: 100%;
         margin-top: 10px;
     }
-    #imgModalCompra{
+    .imgSala{
         height: 300px;
         margin-bottom: 10px;
     }
