@@ -15,6 +15,10 @@ public class IndexViewController {
 	public String index(@PathVariable String tenantId, Map<String, Object> model) {
 		return "index";
 	}
+	@RequestMapping(path = "/indexAdmin")
+	public String indexAdmin(@PathVariable String tenantId, Map<String, Object> model) {
+		return "indexAdmin";
+	}
 	
 	@RequestMapping(path = "/login")
 	public String login(Map<String, Object> model) {
