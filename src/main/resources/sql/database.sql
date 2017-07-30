@@ -281,10 +281,10 @@ DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) NOT NULL,
-  `apellido` varchar(45) NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  `apellido` varchar(45) DEFAULT NULL,
   `email` varchar(45) NOT NULL,
-  `cedula` varchar(45) NOT NULL,
+  `cedula` varchar(45) DEFAULT NULL,
   `password` varchar(512) DEFAULT NULL,
   `gmail_token` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`)
