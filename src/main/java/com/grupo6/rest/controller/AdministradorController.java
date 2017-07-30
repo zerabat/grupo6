@@ -29,7 +29,7 @@ public class AdministradorController {
 	private AdministradorService administradorService;
 
 	
-	@RequestMapping(path = "/loginAdministradorTenant/", method = RequestMethod.PUT)
+	@RequestMapping(path = "/loginAdministradorTenant/", method = RequestMethod.GET)
 	public ResponseEntity<?> loginAdministradorTenant(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "email", required = true) String email,
 			@RequestParam(name = "password", required = true) String password) {
@@ -110,17 +110,17 @@ public class AdministradorController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(path = "/obtenerPorteros/", method = RequestMethod.PUT)
+	@RequestMapping(path = "/obtenerPorteros/", method = RequestMethod.GET)
 	public ResponseEntity<List<Portero>> obtenerPorteros(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 			@RequestParam(name = "email", required = true) String email) {
 
 		TenantContext.setCurrentTenant(tenantName);
-		@SuppressWarnings("unchecked")
+		/*@SuppressWarnings("unchecked")
 		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession()
 				.getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<List<Portero>>(HttpStatus.FORBIDDEN);
-		}
+		}*/
 		return new ResponseEntity<List<Portero>>(administradorService.obenerPorteros(),HttpStatus.OK);
 	}
 }
