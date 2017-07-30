@@ -39,6 +39,9 @@ body,html{
         border-radius: 0px;
         margin-bottom: 1px;
     }
+    #sideAdmin{
+        height: calc(100% - 35px);
+    }
     #footer{
         padding-left: 0px;
         padding-right: 0px;
@@ -47,6 +50,7 @@ body,html{
         padding-left: 5px;
         padding-right: 10px;
     }
+}
     .navbar-right {
     float: right !important;
     margin-right: 0px;
@@ -165,4 +169,12 @@ body,html{
   }
   section{
     padding-left: 15px;
+  }
+
+  .formularioTabla{
+      width: 100%;
+  }
+
+  table.formularioTabla > tbody > tr > th{
+  	padding: 2px;
   }
