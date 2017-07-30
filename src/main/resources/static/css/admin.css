@@ -2,6 +2,13 @@ body,html{
     height: 100%;
   }
 
+.dataTables_filter {
+    float: right;
+	}
+	.dataTables_length {
+    float: left;
+	}
+@media (min-width: 768px) {
     #headerAdmin{
         margin-bottom: 0px;
         border-radius: 0px;
@@ -13,7 +20,7 @@ body,html{
         text-align: center;
     }
     #dashboard{
-        margin-left: 200px;
+        margin-left: calc(29% - 200px);
         width: 1149px;
         max-height : calc(100% - 96px);
     }
