@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session="true"%>
 <html lang="es">
     <head>
@@ -20,6 +21,8 @@
         <script
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWuPoNiIST3MEBiTTl3fFLs0tuQH1noDQ">
         </script>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
         <script type="text/javascript">
         	
 	        $( document ).ready(function() {
@@ -207,13 +210,59 @@
 				                      </span>
 				                    </div>
 			                	</div>
-			                	<div class="dropdown">
-			                      <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" id="dropSector">
-			                      Modo de pago <span class="caret"></span></a>
-			                      <ul class="dropdown-menu" aria-labelledby="dropSector" id="listaSector">
-			                      </ul>
-			                    </div>
-			                </div>
+								<div id="paypal-button-container"></div>
+							
+							    <script>
+						        paypal.Button.render({
+						
+						            env: 'sandbox',
+						
+						            client: {
+						                sandbox:    'AW43RVR0-LJVhcNZmLhU8r0GzPTxubhbKrs321gOv-T5-OiDqQ7KNLGCfRjd7eRxXMHSnsFWW07y0Bf2',
+						                production: 'TicketYa'
+						            },
+						
+						            commit: true,
+						
+						            payment: function(data, actions) {
+						
+						                return actions.payment.create({
+						                    payment: {
+						                        transactions: [
+						                            {
+						                             	// Aca hay que cargarle el monto y la moneda cuando se hace el pego
+						                            	amount: { total: '0.01', currency: 'USD' }
+						                            }
+						                        ]
+						                    }
+						                });
+						            },
+						
+						            // onAuthorize() se ejecuta cuando ya se realizó el pago 
+						            onAuthorize: function(data, actions) {
+						
+						    			var xhttp = new XMLHttpRequest();
+						    			var urlAndParams = "/comprarEntradaEspectaculo/"
+						    			
+						    			urlAndParams += "&email=" + "maucarr2-buyer@gmail.com" ;
+						    			urlAndParams += "?idRealizacion=" + 1 ;
+						    			urlAndParams += "?idSector=" + 1;
+						    			console.log(urlAndParams)
+						    			xhttp.open("POST", urlAndParams,
+						    					true);
+						    			xhttp.setRequestHeader("X-TenantID", window.location.pathname.split( '/' )[1]);
+						                xhttp.send();
+						      
+						                return actions.payment.execute().then(function() {
+						                    window.alert('Pago realizado con éxito!');
+						                });
+						            }
+						
+						        }, '#paypal-button-container');
+						
+						    </script>
+						    </div>
+			              
 			                <div class="imagenSala col-md-6">
 			                	<img src="" class="imgSala img-responsive-info" alt="" width="100%" height= "100%"  id="imgModalSala">
                             </div>
