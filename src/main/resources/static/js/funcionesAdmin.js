@@ -78,8 +78,8 @@ function cargaDataTableEspectaculo(){
     	       }
 	     ],
          "columnDefs": [
-                    { "width": "15%", "targets": 1 },
-                    { "width": "55%", "targets": 2 },
+                    { "width": "20%", "targets": 1 },
+                    { "width": "50%", "targets": 2 },
                     { "width": "15%", "targets": 3 }
          ],
 		});
@@ -150,6 +150,60 @@ function btnEditarEspectaculo(){
                 },
                 error: function(data) {
                         console.log(data);
+                }
+            });
+        }
+        return false;
+}
+//crea espectaculo
+function btnCrearEspectaculo(){
+    var nombre = document.getElementById("nombreEspetaculoC");
+    var descripcion = document.getElementById("descripcionEspC");
+    var idtipoEspectaculoC = document.getElementById("tipoEspectaculoC");
+    var nombreTipoC = document.getElementById("nombreTipoC");
+
+    var crearEspectaculo = {
+                          descripcion: descripcion.value,
+                          nombre: nombre.value,
+                          tipoEspectaculo: [
+                            {
+                              id: idtipoEspectaculoC.value,
+                              nombre: nombreTipoC.value
+                            }
+                          ]
+                        };
+
+    if ((nombre.value == "") || (descripcion.value == "") || (idtipoEspectaculoC.value == "")) {
+        window.alert("Los campos nombre,descripcion e id tipo de espectaculos no pueden estar vacios");
+    } else {
+            $.ajax({
+                url: "/altaEspectaculo/?email=" + "admin@ticketya.com",
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify(crearEspectaculo),
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function(xhr){
+                    var pathname = window.location.pathname;
+                    xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+                    console.log("tenant: " + pathname.split('/')[1]);
+                },
+                statusCode: {
+                    200: function(data) {
+                        $('#modalCrearE').modal('hide');
+                        alert("Sus cambios fueron guardados con exito!");
+                        cargaDataTableEspectaculo()
+                    },
+                    204: function(data) {
+                        $('#modalCrearE').modal('hide');
+                        alert("Error al guardar los nuevos cambios.");
+                    },
+                    403: function(data) {
+                        $('#modalCrearE').modal('hide');
+                        alert("Error al guardar los nuevos cambios.");
+                    }
+                },
+                error: function(data) {
+                    console.log("error");
                 }
             });
         }
