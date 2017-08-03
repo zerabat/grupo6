@@ -187,7 +187,7 @@
                                             <th><div class="col-sm-12"><input id="descripcionEspC" name="descripcionEspC" type="text" class="form-control" ></div></th>
                                         </tr>
                                         <tr>
-                                            <th><label for="tipoEspectaculoC" class="control-label">Tipo de espectaculo</label></th>
+                                            <th><label for="tipoEspectaculoC" class="control-label">Id Tipo de espectaculo</label></th>
                                             <th><div class="col-sm-12"><input type="number" min="0" step="1" id="tipoEspectaculoC" name="tipoLocalidadesC" type="text" class="form-control" ></div></th>
                                         </tr>
                                         <tr>
@@ -197,7 +197,7 @@
                                     </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" id="crear-sala" class="btn btn-primary" onclick="return btnCrearEspectulo();">Guardar</button>
+                                    <button type="submit" id="crear-esp" class="btn btn-primary" onclick="return btnCrearEspectaculo();">Crear</button>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                 </div>
                             </div>
@@ -228,7 +228,7 @@
                                             <th><div class="col-sm-12"><input id="descripcionEspectaculo" name="descripcionEsp" type="text" class="form-control" ></div></th>
                                         </tr>
                                         <tr>
-                                            <th><label for="tipoEspectaculo" class="control-label">id Tipo Espectaculo</label></th>
+                                            <th><label for="tipoEspectaculo" class="control-label">Id Tipo Espectaculo</label></th>
                                             <th><div class="col-sm-12"><input type="number" min="0" step="1" id="tipoEspectaculo" name="tipoLocalidadesC" type="text" class="form-control" ></div></th>
                                         </tr>
                                         <tr>
