@@ -218,5 +218,14 @@ public class UserController {
 		List<SuscripcionEspectaculoDTO> suL = realizacionEspectaculoService.verSuscripcionUsuario(email);
 		return new ResponseEntity<List<SuscripcionEspectaculoDTO>>(suL, HttpStatus.OK);
 	}
+	@RequestMapping(path = "/cerrarSesionUsuario/", method = RequestMethod.GET)
+    public ResponseEntity<?> cerrarSesionUsuario(@RequestHeader("X-TenantID") String tenantName,
+            HttpServletRequest request) {
+        
+        request.getSession().removeAttribute("usuario");
+        request.getSession().invalidate();
+        
+        return new ResponseEntity<Object>(HttpStatus.OK);
+    }
 
 }
