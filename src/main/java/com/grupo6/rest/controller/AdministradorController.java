@@ -42,6 +42,7 @@ public class AdministradorController {
 			if (adminT.get().getPassowd().equals(sha256hex)) {
 				HttpSession sesion = request.getSession();
 				sesion.setAttribute("administradorTenant", adminT);
+				sesion.setAttribute("admin", adminT.get().getNombre() +" "+ adminT.get().getApellido());
 				return new ResponseEntity<Object>(HttpStatus.OK);
 			}
 		} else {
@@ -123,4 +124,15 @@ public class AdministradorController {
 		}*/
 		return new ResponseEntity<List<Portero>>(administradorService.obenerPorteros(),HttpStatus.OK);
 	}
+	
+	@RequestMapping(path = "/cerrarSesionAdmin/", method = RequestMethod.GET)
+    public ResponseEntity<?> cerrarSesionAdmin(@RequestHeader("X-TenantID") String tenantName,
+            HttpServletRequest request) {
+        
+        request.getSession().removeAttribute("administradorTenant");
+        request.getSession().removeAttribute("admin");
+        request.getSession().invalidate();
+        
+        return new ResponseEntity<Object>(HttpStatus.OK);
+    }
 }
