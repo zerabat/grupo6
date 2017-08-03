@@ -2485,7 +2485,7 @@ th {
   text-align: left;
 }
 .table {
-  width: 100%;
+  width: 100% !important;
   max-width: 100%;
   margin-bottom: 21px;
 }
