@@ -89,7 +89,7 @@
                             <c:when test="${username != null}">
                                  <ul class="nav navbar-nav navbar-right">
                                    <li><a href="index" id="btnUser">${username}</a></li>
-                                   <a class="btn btn-link" title="Salir" id="btnLogout"><span class="glyphicon glyphicon-log-out"></span></a>
+                                   <a class="btn btn-link" title="Salir" id="btnLogout" onClick="logout();"><span class="glyphicon glyphicon-log-out"></span></a>
                                 </ul>
                               </c:when>
                               
@@ -214,12 +214,7 @@
 	                        </table>
 	                     </div>
 
-						<!--Paginacion
-	                    <ul class="pagination pagination-sm">
-							<li class="disabled"><a href="#">&laquo;</a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">&raquo;</a></li>
-	                    </ul>-->
+						
 	                </div>
 	            </div>
 	        </div>
