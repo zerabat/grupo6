@@ -40,6 +40,7 @@ import com.grupo6.rest.dto.EspectaculoFullDTO;
 import com.grupo6.rest.dto.EspectaculoUsuarioDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDTO;
 import com.grupo6.rest.dto.RealizacionEspectaculoDisponibilidadDTO;
+import com.grupo6.rest.dto.TipoEspectaculoDTO;
 import com.grupo6.service.EspectaculoService;
 import com.grupo6.service.RealizacionEspectaculoService;
 import com.grupo6.util.page.PageUtils;
@@ -80,8 +81,7 @@ public class EspectaculoController {
 
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
-		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession()
-				.getAttribute("administradorTenat");
+		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession().getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
