@@ -346,10 +346,81 @@ function onSignIn(googleUser) {
 	xhttp.open("POST", urlAndParams,
 			true);
 	xhttp.setRequestHeader("X-TenantID", window.location.pathname.split( '/' )[1]);
-// 	  var data= {
-//	        "id": profile.getId(),
-//	        "email":  profile.getEmail()
-//	    },
-// 	  data= JSON.stringify(data)
-	  xhttp.send();
+	xhttp.send();
+}
+
+function register() {
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    var passwordRepeat = document.getElementById("passwordRepeat").value;
+    var nombre = document.getElementById("nombre").value;
+    var apellido = document.getElementById("apellido").value;
+    var cedula = document.getElementById("cedula").value;
+
+    if ((email == "") || (password == "") ||
+        (passwordRepeat == "") || (nombre == "") ||
+        (apellido == "") || (cedula == "")) {
+        window.alert("Todos los campos son requeridos.");
+    } else if (password !== passwordRepeat){
+         window.alert("Las claves no coinciden.");
+    } else {
+        var dtos = {
+            apellido: apellido,
+            cedula: cedula,
+            email: email,
+              gmailToken: "",
+            nombre: nombre,
+            password: password,
+        };
+
+        $.ajax({
+            type: "put",
+            url: "/altaUsuarioFinal/",
+            dataType: "json",
+            data: JSON.stringify(dtos),
+            contentType: "application/json; charset=utf-8",
+            beforeSend: function(xhr){
+                    var pathname = window.location.pathname;
+                    xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+            },
+            statusCode: {
+                200: function(data) {
+                    alert("Usuario registrado.");
+                    window.location.assign("index");
+                },
+                204: function(data) {
+                    alert("204: Error al registrar.");
+                },
+                403: function(data) {
+                    alert("403: Error al registrar.");
+                }
+            },
+            error: function(data) {
+                
+            }
+        });
+    }
+
+    return false;
+}
+
+function logout() {
+   
+    $.ajax({
+        type: "get",
+        url: "/cerrarSesionUsuario/",
+        cache: false,
+        beforeSend: function(xhr) {
+            var pathname = window.location.pathname;
+            xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+        },
+        statusCode: {
+            200: function(data) {
+                window.location.assign("index");
+            }
+        },
+        error: function(data) {
+            // Algo salio mal.
+        }
+    });
 }
