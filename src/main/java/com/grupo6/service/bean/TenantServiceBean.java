@@ -64,7 +64,7 @@ public class TenantServiceBean implements TenantService {
 
 				// vuelvo a settear los datasources para que toma la conexión
 				// del tenant que se está creando
-				multitenantConfiguration.dataSource();
+//				multitenantConfiguration.dataSource();
 				// seteo el tenant actual
 				TenantContext.setCurrentTenant(tenantName);
 				// se popula la nueva base

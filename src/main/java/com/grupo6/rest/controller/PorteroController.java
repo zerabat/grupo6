@@ -87,7 +87,8 @@ public class PorteroController {
 	@RequestMapping(path = "/verificarCodigoQR/", method = RequestMethod.GET)
 	public ResponseEntity<?> verificarQR(@RequestHeader("X-TenantID") String tenantName,
 			HttpServletRequest request, @RequestParam(name = "cedula", required = true) String cedula,
-			@RequestParam(name = "qr", required = true) String qr) {
+			@RequestParam(name = "qr", required = true) String qr,
+			@RequestParam(name = "idEspectaculo", required = true) String idEspectaculo) {
 
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
@@ -96,8 +97,7 @@ public class PorteroController {
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
 //		String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(qr);
-		
-		Boolean suL = realizacionEspectaculoService.verificarQR(qr, cedula);
+		Boolean suL = realizacionEspectaculoService.verificarQR(qr, cedula, idEspectaculo);
 		return new ResponseEntity<Object>(suL, HttpStatus.OK);
 	}
 	

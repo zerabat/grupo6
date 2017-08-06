@@ -341,13 +341,16 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 	}
 
 	@Override
-	public Boolean verificarQR(String sha256hex, String cedula) {
-//		Boolean ok = false;
+	public Boolean verificarQR(String sha256hex, String cedula, String idEspectaculo) {
+		
 		String[] parts = sha256hex.split("\\.");
 		String path = this.qrPath;
 		for (int i=0; i<parts.length-1;i++){
 			if (i==1){
 				path  += "//" + espectaculoRepository.findByNombre(parts[i]).getId();
+				if (espectaculoRepository.findByNombre(parts[i]).getId()!=Long.parseLong(idEspectaculo)){
+					return false;
+				}
 			}else {
 				path  += "//" + parts[i];
 			}
@@ -357,8 +360,6 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 		
 		try {
 			fis = new FileInputStream(path);
-//			Optional<Usuario> u = usuarioRepository.findByEmail(email);
-			
 			// chequeo antes de entrar acá que la cedula sea la correcta 
 			Optional<Portero> p = porteroRepository.findByCedula(cedula);
 			Optional<Entrada> ent =entradaRepository.findOne(Long.parseLong(parts[parts.length-1]));

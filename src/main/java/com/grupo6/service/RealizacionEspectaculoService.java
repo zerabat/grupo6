@@ -24,6 +24,6 @@ public interface RealizacionEspectaculoService {
 
 	List<SuscripcionEspectaculoDTO> verSuscripcionUsuario(String email);
 
-	Boolean verificarQR(String sha256hex, String email);
+	Boolean verificarQR(String sha256hex, String email, String idEspectaculo);
 
 }
