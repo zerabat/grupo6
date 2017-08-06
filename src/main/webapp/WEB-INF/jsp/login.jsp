@@ -7,7 +7,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="google-signin-client_id" content="1044122178058-iv6un92qnetg6c58as6lks8gfk529p8e.apps.googleusercontent.com">
-		<title>Iniciar sesión</title>
+		<title>Iniciar sesiï¿½n</title>
 		<!-- Scripts -->
 			<c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
 			<c:url value="/js/funciones.js" var="funcionesJS" />
@@ -16,7 +16,7 @@
 			<script src="${jqueryJS}"></script>
 			<script src="${funcionesJS}"></script>
 			<script src="${bootstrapJS}"></script>
-			
+
 		<!-- Scripts -->
 		<!-- Styles -->
 		 	<c:url value="/css/bootstrap.css" var="bootstrapCSS" />
@@ -24,10 +24,10 @@
 			<link rel="stylesheet" href="${bootstrapCSS}">
 			<link rel="stylesheet" href="${estilos}">
 	    <!-- Styles -->
-	    
+
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-		
+
 </head>
 
 <body>
@@ -35,14 +35,14 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
-					<h1>Iniciar Sesión</h1>
+					<h1>Iniciar Sesiï¿½n</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-6 col-sm-offset-3 form-cont">
 					<div class="form-top">
 						<div class="form-top-left">
-							<p>Ingresa E-mail y contraseña</p>
+							<p>Ingresa E-mail y contraseï¿½a</p>
 						</div>
 						<div class="form-top-right">
 							<span class="glyphicon glyphicon-log-in">
@@ -56,21 +56,21 @@
 							</div>
 							<div class="form-group">
 								<input type="password" id="password" name="password"
-									placeholder="Contraseña" class="form-control">
+									placeholder="Contraseï¿½a" class="form-control">
 							</div>
-							<button type="submit" class="btn" onclick="valida();">Entrar</button>
+							<button type="submit" class="btn" onclick="return valida();">Entrar</button>
 						</form>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12 google-login">
-					<h3>Ingresa también con:</h3>
+					<h3>Ingresa tambiï¿½n con:</h3>
 					<div class="google-login-button">
 						<a href="#" class="btn-social"> <i
 							class="glyphicon glyphicon-envelope"> Gmail</i>
 						</a>
-<!-- <div class="g-signin2 " data-onsuccess="onSignIn"></div> -->
+<div class="g-signin2 " data-onsuccess="onSignIn"></div>
 
 
 					</div>
@@ -81,6 +81,6 @@
 
 	</div>
 
-    
+
 </body>
 </html>

@@ -67,7 +67,7 @@ public class UserServiceBean implements UserService {
 		if (usr.get().getGmailToken() == null || usr.get().getGmailToken().length() < 3) {
 			usr.get().setGmailToken(id);
 			usuarioRepository.save(usr.get());
-		} else if (!usr.get().getGmailToken().equals(id)) {
+		} else if (!usr.get().getGmailToken().equals(org.apache.commons.codec.digest.DigestUtils.sha256Hex(id))) {
 			return Optional.empty();
 		}
 		return usr;

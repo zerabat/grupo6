@@ -5,8 +5,9 @@
 <html lang="es">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
+		<meta name="google-signin-client_id" content="1044122178058-iv6un92qnetg6c58as6lks8gfk529p8e.apps.googleusercontent.com">
 	    <!-- Scripts -->
 		<c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
 		<c:url value="/js/funciones.js" var="funcionesJS" />
@@ -22,15 +23,28 @@
 	    <script src="${momentJS}"></script>
 	    <script src="${fullcalendarJS}" charset="utf-8"></script>
 	    <script src="${esJS}" charset="utf-8"></script>
+		<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 
-	    <script type="text/javascript">
-	    
-	    		$( document ).ready(function() {
-	    			cargaCalendario();
-	    			cargaDatatable();
-	    			});
-		   
-	    </script>
+		<script type="text/javascript">
+			window.onLoadCallback = function(){
+			  gapi.auth2.init({
+			      client_id: '1044122178058-iv6un92qnetg6c58as6lks8gfk529p8e.apps.googleusercontent.com'
+			    });
+			}
+
+			function onLoad() {
+			      gapi.load('auth2', function() {
+			        gapi.auth2.init();
+			      });
+			}
+        </script>
+
+		<script type="text/javascript">
+            $( document ).ready(function() {
+                cargaCalendario();
+                cargaDatatable();
+            });
+        </script>
 		<!-- Scripts -->
 
 		<!-- Styles -->
@@ -84,23 +98,23 @@
 
     				        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
     				    </form>
-						
+
 						<c:choose>
                             <c:when test="${username != null}">
                                  <ul class="nav navbar-nav navbar-right">
                                    <li><a href="index" id="btnUser">${username}</a></li>
-                                   <a class="btn btn-link" title="Salir" id="btnLogout"><span class="glyphicon glyphicon-log-out"></span></a>
+                                   <a class="btn btn-link" title="Salir" id="btnLogout" onClick="logout();"><span class="glyphicon glyphicon-log-out"></span></a>
                                 </ul>
                               </c:when>
-                              
+
                               <c:otherwise>
                                  <ul class="nav navbar-nav navbar-right">
-                                   <li><a href="login">Iniciar Sesión</a></li>
+                                   <li><a href="login">Iniciar Sesiï¿½n</a></li>
                                    <li><a href="register">Registrarse</a></li>
                                 </ul>
                             </c:otherwise>
                         </c:choose>
-    			       
+
 			        </div>
                 </div>
 			</div>
@@ -161,7 +175,7 @@
 	                        </div>
 	                    </div>
 	                </div>
-					
+
 	                <!--Controles-->
 	                <a href="#carousel_index" class="left carousel-control" role="button" data-slide="prev">
 	                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -199,27 +213,22 @@
 	                     <div class="table-responsive">
 	                         <table class="table table-striped table-hover" id="espectaculo">
 	                            <thead>
-	                                <tr class="success"> 
-	                                    <th>Id</th>  
+	                                <tr class="success">
+	                                    <th>Id</th>
             	                     	<th>Fecha</th>
             	                     	<th>Evento</th>
 	                                    <th>Lugar</th>
-	                                    <th>Direccion</th> 
+	                                    <th>Direccion</th>
 	                                </tr>
 	                            </thead>
 
 	                            <tbody>
-	                             
+
 	                            </tbody>
 	                        </table>
 	                     </div>
 
-						<!--Paginacion
-	                    <ul class="pagination pagination-sm">
-							<li class="disabled"><a href="#">&laquo;</a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">&raquo;</a></li>
-	                    </ul>-->
+
 	                </div>
 	            </div>
 	        </div>
@@ -228,9 +237,9 @@
 	        <div class="col-md-3 hidden-xs hidden-sm" id="informacion">
 	            <div class="panel panel-info" >
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Información</h3>
+	                <h3 class="panel-title">Informaciï¿½n</h3>
 	              </div>
-				  
+
 	              <div class="panel-body">
 	                Para poder comprar entradas a los eventos, previamente debe estar registrado
 	              </div>
@@ -247,11 +256,11 @@
 	                        <a id="aFotter" href="#"><h4 id="h4Fotter">TicketYa!</h4></a>
 	                    </li>
 	                    <li>
-	                        <p id="pFooter">Proyecto Fin de carrera - Tecnólogo en informática</p>
+	                        <p id="pFooter">Proyecto Fin de carrera - Tecnï¿½logo en informï¿½tica</p>
 	                    </li>
 	                </ul>
 	                <ul class="nav navbar-nav navbar-right">
-	                    <li><p id="pFooter">Santiago Tabárez, Verónica Pérez y Camilo Orquera</p></li>
+	                    <li><p id="pFooter">Santiago Tabï¿½rez, Verï¿½nica Pï¿½rez y Camilo Orquera</p></li>
 	                </ul>
 	            </div>
         	</nav>

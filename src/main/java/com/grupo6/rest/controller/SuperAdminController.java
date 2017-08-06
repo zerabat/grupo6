@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.Properties;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +45,7 @@ public class SuperAdminController {
 
 	@Value("${tenantsMap}")
 	private String stringTenantsMap;
-	
+
 	@Autowired
 	private TenantContext tenantContext;
 
@@ -51,7 +53,6 @@ public class SuperAdminController {
 	public ResponseEntity<?> creatTenant(@RequestParam(name = "nombreTenant", required = true) String nombreTenat,
 			@RequestParam(name = "password", required = true) String password) throws IOException {
 
-		
 		if (superAdministradorService.esSuperAdmin(password)) {
 			File file = Paths.get(stringTenantsMap).toFile();
 			Properties tenantProperties = new Properties();
@@ -70,10 +71,10 @@ public class SuperAdminController {
 			bw = new BufferedWriter(fw);
 			bw.write(content);
 			bw.close();
-			
+
 			tenantContext.init();
 
-//			tenatService.createTenat(nombreTenat);
+			// tenatService.createTenat(nombreTenat);
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
@@ -92,6 +93,32 @@ public class SuperAdminController {
 		} else {
 			return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
 		}
+	}
+
+	@RequestMapping(path = "/loginSuperAdmin/", method = RequestMethod.PUT)
+	public ResponseEntity<?> loginSuperAdmin(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
+			@RequestParam(name = "password", required = true) String password) {
+
+		if (superAdministradorService.esSuperAdmin(password)) {
+			HttpSession sesion = request.getSession();
+			sesion.setAttribute("superAdmin", "Super Administrador");
+			return new ResponseEntity<Object>(HttpStatus.OK);
+		} else {
+			System.out.println("superAdmin NO encontrado");
+			return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+		}
+
+	}
+
+	@RequestMapping(path = "/cerrarSesionSuperAdmin/", method = RequestMethod.GET)
+	public ResponseEntity<?> cerrarSesionSuperAdmin(@RequestHeader("X-TenantID") String tenantName,
+			HttpServletRequest request) {
+
+		System.out.println("cerrando sesion superAdmin");
+		request.getSession().removeAttribute("superAdmin");
+		request.getSession().invalidate();
+
+		return new ResponseEntity<Object>(HttpStatus.OK);
 
 	}
 }

@@ -36,9 +36,9 @@
 </head>
 
 <body>
-    <c:if test="${username == null}">
+    <c:if test="${admin == null}">
         <script>
-            //window.location.assign("loginAdmin");
+            window.location.assign("loginAdmin");
         </script>
     </c:if>
     <header>
@@ -53,10 +53,10 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <c:choose>
-                   <c:when test="${username != null}">
+                   <c:when test="${admin != null}">
                         <ul class="nav navbar-nav navbar-right">
-                          <li><a href="index" id="btnUser">${username}</a></li>
-                          <a class="btn btn-link" title="Salir" id="btnLogout"><span class="glyphicon glyphicon-log-out"></span></a>
+                          <li><a href="index" id="btnUser">${admin}</a></li>
+                          <a class="btn btn-link" title="Salir" id="btnLogout" onClick="logout();"><span class="glyphicon glyphicon-log-out"></span></a>
                        </ul>
                      </c:when>
 
@@ -66,7 +66,6 @@
                        </ul>
                    </c:otherwise>
                </c:choose>
-              <!-- <a id="btnLogout" class="btn btn-link" title="Salir"><span class="glyphicon glyphicon-log-out"></span></a> -->
             </ul>
 
 
@@ -127,7 +126,7 @@
             <!-----------Portero---------------->
             <div class="col-md-12" id="datatable">
                 <div class="table-responsive">
-                    <table id="tablaPortero" class="table table-striped table-hover ">
+                    <table id="tablaPortero" class="table table-striped table-hover">
                         <thead>
                              <tr class="success">
                                  <th>id</th>
@@ -135,11 +134,93 @@
                                  <th>Nombre</th>
                                  <th>Apellido</th>
                                  <th>Cedula</th>
+                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearP"><span style="padding-right: 6px;" class="glyphicon glyphicon-plus" style=padding-right: 5px;></span>Crear</button></th>
                              </tr>
                         </thead>
                     </table>
                 </div>
-
+            </div>
+            <div>
+                <form id="frmCrearPortero" action="" method="PUT" >
+                    <input type="hidden" id="idPorteroC" name="idEspectaculoC" value="0">
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalCrearP" tabindex="-1" role="dialog" aria-labelledby="modalCrearLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalCrearLabel">Formulario para crear usuario Portero</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="formularioTabla">
+                                        <tr>
+                                            <th><label for="nombrePorteroC" class=" control-label">Nombre</label></th>
+                                            <th><div class="col-sm-12"><input id="nombrePorteroC" name="nombrePorteroC" type="text" class="form-control"  autofocus></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="apellidoPorteroC" class=" control-label">Apellido</label></th>
+                                            <th><div class="col-sm-12"><input id="apellidoPorteroC" name="apellidoPorteroC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="cedulaPorteroC" class="control-label">Cedula</label></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="cedulaPorteroC" name="cedulaPorteroC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="passwordPortero" class="control-label">Contraseña</label></th>
+                                            <th><div class="col-sm-12"><input  id="passwordPortero" name="passwordPortero" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="crear-port" class="btn btn-primary" onclick="return btnCrearPortero();">Crear</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                </form>
+            </div>
+            <div>
+                <form id="frmEditarEspectaculo" action="" method="PUT" >
+                    <input type="hidden" id="idPortero" name="idPortero" value="0">
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalEditarPortero" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalEditarLabel">Formulario para editar usuario Portero</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="formularioTabla">
+                                        <tr>
+                                            <th><label for="nombrePorteroE" class=" control-label">Nombre</label></th>
+                                            <th><div class="col-sm-12"><input id="nombrePorteroE" name="nombreEspetaculo" type="text" class="form-control"  autofocus></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="apellidoPorteroE" class=" control-label">Apellido</label></th>
+                                            <th><div class="col-sm-12"><input id="apellidoPorteroE" name="apellidoPorteroE" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="cedulaPorteroE" class="control-label">Cedula</label></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="cedulaPorteroE" name="cedulaPorteroE" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="passwordPorteroE" class="control-label">Contraseña</label></th>
+                                            <th><div class="col-sm-12"><input  id="passwordPorteroE" name="passwordPorteroE" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="editar-portero" class="btn btn-primary" onclick="return btnEditarPortero();">Guardar</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                </form>
             </div>
         </div>
         <div id="divEspectaculos" style="display:none;">
@@ -159,15 +240,93 @@
 	      	                     <th>Nombre</th>
 	      	                     <th>Descripcion</th>
 	                             <th>Tipo Espectaculo</th>
+                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearE"><span class="glyphicon glyphicon-plus" style="padding-right: 5px";></span>Crear</button></th>
 	                           </tr>
 	                       </thead>
-
-	                       <tbody>
-
-	                       </tbody>
 	                 </table>
                 </div>
-
+            </div>
+            <div>
+                <form id="frmCrearEspectaculo" action="" method="POST" >
+                    <input type="hidden" id="idEspectaculoC" name="idEspectaculoC" value="0">
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalCrearE" tabindex="-1" role="dialog" aria-labelledby="modalCrearLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalCrearLabel">Formulario para crear Espectaculo</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="formularioTabla">
+                                        <tr>
+                                            <th><label for="nombreEspetaculoC" class=" control-label">Nombre</label></th>
+                                            <th><div class="col-sm-12"><input id="nombreEspetaculoC" name="nombreEspetaculoC" type="text" class="form-control"  autofocus></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="descripcionEspC" class=" control-label">Descripcion</label></th>
+                                            <th><div class="col-sm-12"><input id="descripcionEspC" name="descripcionEspC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="tipoEspectaculoC" class="control-label">Id Tipo de espectaculo</label></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="tipoEspectaculoC" name="tipoLocalidadesC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="nombreTipoC" class="control-label">Nombre Tipo</label></th>
+                                            <th><div class="col-sm-12"><input  id="nombreTipoC" name="nombreTipoC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="crear-esp" class="btn btn-primary" onclick="return btnCrearEspectaculo();">Crear</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                </form>
+            </div>
+            <div>
+                <form id="frmEditarEspectaculo" action="" method="PUT" >
+                    <input type="hidden" id="idEspectaculo" name="idEspectaculo" value="0">
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalEditarEsp" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalEditarLabel">Formulario para editar Espectaculo</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="formularioTabla">
+                                        <tr>
+                                            <th><label for="nombreEspetaculo" class=" control-label">Nombre</label></th>
+                                            <th><div class="col-sm-12"><input id="nombreEspetaculo" name="nombreEspetaculo" type="text" class="form-control"  autofocus></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="descripcionEsp" class=" control-label">Descripcion</label></th>
+                                            <th><div class="col-sm-12"><input id="descripcionEspectaculo" name="descripcionEsp" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="tipoEspectaculo" class="control-label">Id Tipo Espectaculo</label></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="tipoEspectaculo" name="tipoLocalidadesC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="nombreTipo" class="control-label">Nombre Tipo</label></th>
+                                            <th><div class="col-sm-12"><input  id="nombreTipo" name="nombreTipo" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="editar-espectaculo" class="btn btn-primary" onclick="return btnEditarEspectaculo();">Guardar</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                </form>
             </div>
         </div>
         <div id="divSalas" style="display:none;">
@@ -180,24 +339,59 @@
             <!---------Salas------->
             <div class="col-md-12" id="datatable">
                 <div class="table-responsive">
-                    <table id="tablaSala" class="table table-striped table-hover col-md-12">
+                    <table id="tablaSala" class="table table-striped table-hover">
                         <thead>
                              <tr class="success">
                              	 <th>idSala</th>
                                  <th>Nombre</th>
                                  <th>Direccion</th>
                                  <th>Cantidad de localidaddes</th>
-                                 <th><button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Crear</button></th>
+                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearS"><span style="padding-right: 5px;" class="glyphicon glyphicon-plus"></span>Crear</button></th>
                              </tr>
                         </thead>
                     </table>
                 </div>
             </div>
-
             <div>
-                <form id="frmEditarSala" action="" method="POST">
+                <form id="frmCrearSala" action="" method="PUT" >
+                    <input type="hidden" id="idSalaC" name="idSalaC" value="0">
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalCrearS" tabindex="-1" role="dialog" aria-labelledby="modalCrearLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalCrearLabel">Formulario para crear Sala</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="formularioTabla">
+                                        <tr>
+                                            <th><label for="nombreC" class="col-sm-2 control-label">Nombre</label></th>
+                                            <th><div class="col-sm-12"><input id="nombreSalaC" name="nombreSalaC" type="text" class="form-control"  autofocus></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="direccionC" class="col-sm-2 control-label">Direccion</label></th>
+                                            <th><div class="col-sm-12"><input id="direccionSalaC" name="direccionSalaC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="cantLocalidadesC" class="col-sm-2 control-label">Localidades</label></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="cantLocalidadesSalaC" name="cantLocalidadesSalaC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="crear-sala" class="btn btn-primary" onclick="return btnCrearSala();">Guardar</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                </form>
+            </div>
+            <div>
+                <form id="frmEditarSala" action="" method="POST" >
                     <input type="hidden" id="idSala" name="idSala" value="0">
-                    <input type="hidden" id="opcion" name="opcion" value="editar">
                     <!-- Modal -->
                     <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel">
                         <div class="modal-dialog" role="document">
@@ -218,12 +412,12 @@
                                         </tr>
                                         <tr>
                                             <th><label for="cantLocalidades" class="col-sm-2 control-label">Localidades</label></th>
-                                            <th><div class="col-sm-12"><input id="cantLocalidadesSala" name="cantLocalidadesSala" type="text" class="form-control" ></div></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="cantLocalidadesSala" name="cantLocalidadesSala" type="text" class="form-control" ></div></th>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" id="editar-sala" class="btn btn-primary" onclick="btnEditarSala();">Guardar</button>
+                                    <button type="submit" id="editar-sala" class="btn btn-primary" onclick="return btnEditarSala();">Guardar</button>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                 </div>
                             </div>
@@ -236,7 +430,6 @@
             <div>
                 <form id="frmEliminarSala" action="" method="POST">
                     <input type="hidden" id="idSalaE" name="idSalaE" value="">
-                    <input type="hidden" id="opcion" name="opcion" value="eliminar">
                     <!-- Modal -->
                     <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="modalEliminarLabel">
                         <div class="modal-dialog" role="document">
@@ -249,7 +442,7 @@
                                     �Esta seguro de eliminar la sala?<strong data-name=""></strong>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" id="eliminar-sala" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                                    <button type="button" id="eliminar-sala" class="btn btn-primary" onclick="btnEliminarSala();">Aceptar</button>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                 </div>
                             </div>
