@@ -44,14 +44,13 @@ public class SalaController {
 	@RequestMapping(path = "/modificarSala/", method = RequestMethod.POST)
 	public ResponseEntity<?> modificarSala(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 			@RequestParam(name = "email", required = true) String email, @RequestBody Sala sala) {
-
+		
 		TenantContext.setCurrentTenant(tenantName);
 		@SuppressWarnings("unchecked")
 		Optional<AdministradorTenant> a = (Optional<AdministradorTenant>) request.getSession().getAttribute("administradorTenant");
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(email)) {
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
-
 		salaService.altaSala(sala);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
