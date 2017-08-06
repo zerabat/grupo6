@@ -124,7 +124,7 @@ margin-bottom: 21px;
 	   padding-left: 1px;
 	}
 	#modalCompra{
-        width: 62%;
+        width: 70%;
     }
     #dropFecha,#listaFecha, #listaSector{
         width: 100%;
@@ -151,7 +151,6 @@ margin-bottom: 21px;
 @media (min-width: 948px) {
     #panelEspectaculo{
     height: 100%;
-
 	}
 }
 #btnComprar{
@@ -159,6 +158,9 @@ margin-bottom: 21px;
 }
 .form-bottom #btnComprar {
     width: 100%;
+}
+#paypal-button-container{
+    background-color: white;
 }
 
 .img-responsive-info,

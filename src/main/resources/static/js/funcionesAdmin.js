@@ -99,7 +99,7 @@ function editar_espectaculos(tbody, table){
 
 }
 
-//modificar o editar sala
+//modificar o editar espectaculo
 function btnEditarEspectaculo(){
     var id = document.getElementById("idEspectaculo");
     var nombre = document.getElementById("nombreEspetaculo");
@@ -232,7 +232,7 @@ function cargaDataTableSalas(){
 	          { "data": "direccion" },
 	          { "data": "total_localidad" },
 	          { "defaultContent":
-                "<button type=\"button\" class=\"btnEditarSala btn btn-default btn-sm\" data-toggle=\"modal\" data-target=\"#modalEditar\"><span style=\"font-size:13px; padding-right: 5px;\" class=\"hidden-xs showopacity glyphicon glyphicon-pencil\"></span>  Editar</button>"
+                "<button type=\"button\" class=\"btnEditarSala btn btn-default btn-sm\" data-toggle=\"modal\" data-target=\"#modalEditar\"><span style=\"font-size:13px; padding-right: 5px;\" class=\"hidden-xs showopacity glyphicon glyphicon-pencil\"></span>Editar</button>"
                 //"<button type=\"button\" class=\"btnEliminarSala btn btn-danger btn-sm disabled\" data-toggle=\"modal\" data-target=\"#modalEliminar\"><span style=\"font-size:12px;\" class=\"pull-right hidden-xs showopacity glyphicon glyphicon-trash\"></span></button>"
     	       }
 
@@ -384,17 +384,71 @@ function cargaDataTablePorteros(){
 	          { "data": "apellido" },
 	          { "data": "cedula" },
               { "defaultContent":
-                "<button type=\"button\" class=\"btnEditarEspectaculo btn btn-default btn-sm\" data-toggle=\"modal\" data-target=\"#modalEditarEsp\"><span style=\"font-size:13px; padding-right: 5px;\" class=\"hidden-xs showopacity glyphicon glyphicon-pencil\"></span>Editar</button>"
+                "<button type=\"button\" class=\"btnEditarPortero btn btn-default btn-sm\" data-toggle=\"modal\" data-target=\"#modalEditarPortero\"><span style=\"font-size:13px; padding-right: 5px;\" class=\"hidden-xs showopacity glyphicon glyphicon-pencil\"></span>Editar</button>"
                 //"<button type=\"button\" class=\"btnEliminarSala btn btn-danger btn-sm disabled\" data-toggle=\"modal\" data-target=\"#modalEliminar\"><span style=\"font-size:12px;\" class=\"pull-right hidden-xs showopacity glyphicon glyphicon-trash\"></span></button>"
     	       }
 
 	     ],
 	     "columnDefs": [
-	        	        { "visible": false, "targets": [1] }
-	        	                    ],
+	        	        { "visible": false, "targets": 1 },
+                        { "width": "15%", "targets": 0 },
+                        { "width": "28%", "targets": 2 },
+                        { "width": "28%", "targets": 3 },
+                        { "width": "15%", "targets": 4 }
+	        	       ],
 
 		});
 	}
+//crear nuevo portero
+function btnCrearPortero(){
+        var nombre = document.getElementById("nombrePorteroC");
+        var apellido = document.getElementById("apellidoPorteroC");
+        var cedula = document.getElementById("cedulaPorteroC");
+        var pass = document.getElementById("passwordPortero");
+
+        var crarPortero = {
+                        apellido: apellido.value,
+                        cedula: cedula.value,
+                        nombre: nombre.value,
+                        password: pass.value
+                        };
+
+        if ((nombre.value == "") || (apellido.value == "") || (cedula.value == "")|| (pass.value == "")) {
+            window.alert("Los campos nombre,apellido, cedula y contraseña no pueden estar vacios");
+        } else {
+                $.ajax({
+                    url: "/altaPortero/?email=" + "admin@ticketya.com",
+                    dataType: "json",
+                    type: "PUT",
+                    data: JSON.stringify(crarPortero),
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function(xhr){
+                        var pathname = window.location.pathname;
+                        xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+                        console.log("tenant: " + pathname.split('/')[1]);
+                    },
+                    statusCode: {
+                        200: function(data) {
+                            $('#modalCrearP').modal('hide');
+                            alert("Se guardado con exito su nuevo portero!");
+                            cargaDataTablePorteros()
+                        },
+                        204: function(data) {
+                            $('#modalCrearP').modal('hide');
+                            alert("Error al guardar cambios.");
+                        },
+                        403: function(data) {
+                            $('#modalCrearP').modal('hide');
+                            alert("Error al guardar cambios.");
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            }
+            return false;
+    }
 //muestra los diferentes div del menu
 function sidebarAdmin(){
 	 $("#nombreTenant").click(function(){

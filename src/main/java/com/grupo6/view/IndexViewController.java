@@ -11,30 +11,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/{tenantId}")
 public class IndexViewController {
 
-	@RequestMapping(path = "/index")
-	public String index(@PathVariable String tenantId, Map<String, Object> model) {
-		return "index";
-	}
-	@RequestMapping(path = "/indexAdmin")
-	public String indexAdmin(@PathVariable String tenantId, Map<String, Object> model) {
-		return "indexAdmin";
-	}
-
-	@RequestMapping(path = "/login")
-	public String login(Map<String, Object> model) {
-		return "login";
-	}
-	@RequestMapping(path = "/loginAdmin")
-    public String loginAdmin(Map<String, Object> model) {
-        return "loginAdmin";
+    @RequestMapping(path = "/index")
+    public String index(@PathVariable String tenantId, Map<String, Object> model) {
+   	 return "index";
     }
-
-	@RequestMapping(path = "/register")
-	public String register(@PathVariable String tenantId, Map<String, Object> model) {
-		return "register";
+    
+    @RequestMapping(path = "/indexAdmin")
+    public String indexAdmin(@PathVariable String tenantId, Map<String, Object> model) {
+   	 return "indexAdmin";
+    }
+    
+    @RequestMapping(path = "/login")
+    public String login(Map<String, Object> model) {
+   	 return "login";
+    }
+    
+    @RequestMapping(path = "/loginAdmin")
+	public String loginAdmin(Map<String, Object> model) {
+    	return "loginAdmin";
 	}
-	@RequestMapping(path = "/infoEspectaculo")
-	public String infoEspectaculo(@PathVariable String tenantId, Map<String, Object> model) {
-		return "infoEspectaculo";
-	}
+    
+    @RequestMapping(path = "/register")
+    public String register(@PathVariable String tenantId, Map<String, Object> model) {
+   	 return "register";
+    }
+    
+    @RequestMapping(path = "/infoEspectaculo")
+    public String infoEspectaculo(@PathVariable String tenantId, Map<String, Object> model) {
+   	 return "infoEspectaculo";
+    }
 }
+
+

@@ -134,12 +134,93 @@
                                  <th>Nombre</th>
                                  <th>Apellido</th>
                                  <th>Cedula</th>
-                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearE"><span style="padding-right: 6px;" class="glyphicon glyphicon-plus" style=padding-right: 5px;></span>Crear</button></th>
+                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearP"><span style="padding-right: 6px;" class="glyphicon glyphicon-plus" style=padding-right: 5px;></span>Crear</button></th>
                              </tr>
                         </thead>
                     </table>
                 </div>
-
+            </div>
+            <div>
+                <form id="frmCrearPortero" action="" method="PUT" >
+                    <input type="hidden" id="idPorteroC" name="idEspectaculoC" value="0">
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalCrearP" tabindex="-1" role="dialog" aria-labelledby="modalCrearLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalCrearLabel">Formulario para crear usuario Portero</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="formularioTabla">
+                                        <tr>
+                                            <th><label for="nombrePorteroC" class=" control-label">Nombre</label></th>
+                                            <th><div class="col-sm-12"><input id="nombrePorteroC" name="nombrePorteroC" type="text" class="form-control"  autofocus></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="apellidoPorteroC" class=" control-label">Apellido</label></th>
+                                            <th><div class="col-sm-12"><input id="apellidoPorteroC" name="apellidoPorteroC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="cedulaPorteroC" class="control-label">Cedula</label></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="cedulaPorteroC" name="cedulaPorteroC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="passwordPortero" class="control-label">Contraseña</label></th>
+                                            <th><div class="col-sm-12"><input  id="passwordPortero" name="passwordPortero" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="crear-port" class="btn btn-primary" onclick="return btnCrearPortero();">Crear</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                </form>
+            </div>
+            <div>
+                <form id="frmEditarEspectaculo" action="" method="PUT" >
+                    <input type="hidden" id="idPortero" name="idPortero" value="0">
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalEditarPortero" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalEditarLabel">Formulario para editar usuario Portero</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="formularioTabla">
+                                        <tr>
+                                            <th><label for="nombrePorteroE" class=" control-label">Nombre</label></th>
+                                            <th><div class="col-sm-12"><input id="nombrePorteroE" name="nombreEspetaculo" type="text" class="form-control"  autofocus></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="apellidoPorteroE" class=" control-label">Apellido</label></th>
+                                            <th><div class="col-sm-12"><input id="apellidoPorteroE" name="apellidoPorteroE" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="cedulaPorteroE" class="control-label">Cedula</label></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="cedulaPorteroE" name="cedulaPorteroE" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="passwordPorteroE" class="control-label">Contraseña</label></th>
+                                            <th><div class="col-sm-12"><input  id="passwordPorteroE" name="passwordPorteroE" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="editar-portero" class="btn btn-primary" onclick="return btnEditarPortero();">Guardar</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                </form>
             </div>
         </div>
         <div id="divEspectaculos" style="display:none;">
@@ -159,7 +240,7 @@
 	      	                     <th>Nombre</th>
 	      	                     <th>Descripcion</th>
 	                             <th>Tipo Espectaculo</th>
-                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearE"><span style="padding-right: 6px;" class="glyphicon glyphicon-plus" style=padding-right: 5px;></span>Crear</button></th>
+                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearE"><span class="glyphicon glyphicon-plus" style="padding-right: 5px";></span>Crear</button></th>
 	                           </tr>
 	                       </thead>
 	                 </table>
@@ -265,7 +346,7 @@
                                  <th>Nombre</th>
                                  <th>Direccion</th>
                                  <th>Cantidad de localidaddes</th>
-                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearS"><span style="padding-right: 6px;" class="glyphicon glyphicon-plus" style=padding-right: 5px;></span>Crear</button></th>
+                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearS"><span style="padding-right: 5px;" class="glyphicon glyphicon-plus"></span>Crear</button></th>
                              </tr>
                         </thead>
                     </table>

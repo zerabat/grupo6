@@ -1,9 +1,11 @@
-//carga con la seleccion los dropdowns
-function dropdowns(){
-	$(".dropdown-menu li a").click(function(){
-		  var selText = $(this).text();
-		  $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
-});
+//muestra el elementro del drop seleccionado
+function dropFechaCompra() {
+    var x = document.getElementById("dropFecha").value;
+    document.getElementById("fechaElegida").innerHTML = "Fecha:" + x;
+}
+function dropSectorCompra() {
+    var y = document.getElementById("dropSector").value;
+    document.getElementById("sectorElegido").innerHTML = "Sector:" + y;
 }
 
 //Funcion para seleccionar entradas
@@ -87,53 +89,53 @@ function cantEntradas() {
 
 // inicia el calendario(index.jsp)
 function cargaCalendario() {
-	    $('#calendar').fullCalendar({
-	    })
+        $('#calendar').fullCalendar({
+        })
 }
 
 //carga data table de espectaculo (index.jsp)
 function cargaDatatable(){
 
-		var table= $('#espectaculo').dataTable( {
-	    "ajax": {
-	           "url": '/verProximosEspectaculosYSusRealizaciones/',
-	           "dataType": 'json',
-	           "dataSrc": "content",
-	           "type": "GET",
-	           "data": {
-						"_start":"1",
-						"_end":"1000"
-	                   },
-	           "beforeSend": function(xhr){
-	                   var pathname = window.location.pathname;
-	                   xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
-	           }
-	    },
-	    "columns" :  [
-	          { "data": "id"},
-			  { "data": "realizacionEspectaculo.0.fecha",
-		    		"render": function (data) {
-				          var date = new Date(data);
-				          var month = date.getMonth() + 1;
-				          if (month < 10)
-				          	 month= "0" + month;
-				          return date.getDate() + "/" + month + "/" + date.getFullYear();
-			      	}
-				},
-	            { "data": "nombre",
-	              "render": function ( data, type, full ) {
-	            	  return '<a href="infoEspectaculo?id=' + full['id'] + '">' + data + '</a>';
-	            	  }
-	            },
-	            { "data": "realizacionEspectaculo.0.sala.nombre" },
-	            { "data": "realizacionEspectaculo.0.sala.direccion" }
+        var table= $('#espectaculo').dataTable( {
+        "ajax": {
+               "url": '/verProximosEspectaculosYSusRealizaciones/',
+               "dataType": 'json',
+               "dataSrc": "content",
+               "type": "GET",
+               "data": {
+                        "_start":"1",
+                        "_end":"1000"
+                       },
+               "beforeSend": function(xhr){
+                       var pathname = window.location.pathname;
+                       xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+               }
+        },
+        "columns" :  [
+              { "data": "id"},
+              { "data": "realizacionEspectaculo.0.fecha",
+                    "render": function (data) {
+                          var date = new Date(data);
+                          var month = date.getMonth() + 1;
+                          if (month < 10)
+                               month= "0" + month;
+                          return date.getDate() + "/" + month + "/" + date.getFullYear();
+                      }
+                },
+                { "data": "nombre",
+                  "render": function ( data, type, full ) {
+                      return '<a href="infoEspectaculo?id=' + full['id'] + '">' + data + '</a>';
+                      }
+                },
+                { "data": "realizacionEspectaculo.0.sala.nombre" },
+                { "data": "realizacionEspectaculo.0.sala.direccion" }
 
-	     ],
-	    "columnDefs": [
-	        { "visible": false, "targets": [0] }
-	                    ],
-		});
-	}
+         ],
+        "columnDefs": [
+            { "visible": false, "targets": [0] }
+                        ],
+        });
+    }
 
 //toma de la url el id del espectaculo(infoEspectaculo.jsp)
 function getGET()
@@ -160,67 +162,67 @@ function getGET()
 
 //carga la info del espectaculo y sus realizaciones(infoEspectaculo.jsp)
 function cargaInfoEspectaculo(){
-	var valores=getGET();
+    var valores=getGET();
 
-	 $.ajax({
-	        url: "/verEspectaculoYSusRealizaciones/",
-	 		dataType: "json",
-     		dataSrc: "",
-     		type: "GET",
-     		data: {
-				idEspectaculo: valores["id"]
+     $.ajax({
+            url: "/verEspectaculoYSusRealizaciones/",
+             dataType: "json",
+             dataSrc: "",
+             type: "GET",
+             data: {
+                idEspectaculo: valores["id"]
              },
              beforeSend: function(xhr){
                  var pathname = window.location.pathname;
                  xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
          }
-	    }).then(function(data) {
-    	   $("#evento").append(data.nombre);
-    	   $("#nomEspectaculo").append(data.nombre);
-    	   $("#descripcion").append(data.descripcion);
-    	   $("#tipoEspectaculo").append(data.tipoEspectaculo[0].nombre);
-	       $("#sala").append(data.realizacionEspectaculo[0].sala.nombre);
-	       $("#direccion").append(data.realizacionEspectaculo[0].sala.direccion);
-	       $("#localidades").append(data.realizacionEspectaculo[0].sala.total_localidad);
-	       $("#lugarMapa").append(data.realizacionEspectaculo[0].sala.nombre);
+        }).then(function(data) {
+           $("#evento").append(data.nombre);
+           $("#nomEspectaculo").append(data.nombre);
+           $("#descripcion").append(data.descripcion);
+           $("#tipoEspectaculo").append(data.tipoEspectaculo[0].nombre);
+           $("#sala").append(data.realizacionEspectaculo[0].sala.nombre);
+           $("#direccion").append(data.realizacionEspectaculo[0].sala.direccion);
+           $("#localidades").append(data.realizacionEspectaculo[0].sala.total_localidad);
+           $("#lugarMapa").append(data.realizacionEspectaculo[0].sala.nombre);
 
-	       //Envia direccion al mapa
-	       var direccion = data.realizacionEspectaculo[0].sala.direccion;
-	   		// Creamos el Objeto Geocoder
-	       var geocoder = new google.maps.Geocoder();
-	       //se envia la direccion y se invoca la funcion
-	       geocoder.geocode({ 'address': direccion}, geocodeResult);
+           //Envia direccion al mapa
+           var direccion = data.realizacionEspectaculo[0].sala.direccion;
+               // Creamos el Objeto Geocoder
+           var geocoder = new google.maps.Geocoder();
+           //se envia la direccion y se invoca la funcion
+           geocoder.geocode({ 'address': direccion}, geocodeResult);
 
-	       for (index in data.realizacionEspectaculo) {
-				var fecha = data.realizacionEspectaculo[index].fecha;
-				var date = new Date(fecha);
-				var month = date.getMonth() + 1;
-				if (month < 10) {
-					 month= "0" + month;
-				}
-				var nuevafecha = date.getDate() + "/" + month + "/" + date.getFullYear() + " <b>" + date.getHours() + ":" + date.getMinutes() + "hs</b>" ;
+           for (index in data.realizacionEspectaculo) {
+                var fecha = data.realizacionEspectaculo[index].fecha;
+                var date = new Date(fecha);
+                var month = date.getMonth() + 1;
+                if (month < 10) {
+                     month= "0" + month;
+                }
+                var nuevafecha = date.getDate() + "/" + month + "/" + date.getFullYear() + " <b>" + date.getHours() + ":" + date.getMinutes() + "hs</b>" ;
 
-				// Si hay mas de una fecha agrega un guion "-" separador
-				if (index > 0)
-					nuevafecha = " - " + nuevafecha;
+                // Si hay mas de una fecha agrega un guion "-" separador
+                if (index > 0)
+                    nuevafecha = " - " + nuevafecha;
 
-				$("#fecha").append(nuevafecha);
+                $("#fecha").append(nuevafecha);
 
-				var fechaLista = "<li><a href=\"#\">" + date.getDate() + "/" + month + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() +"</a></li>";
-				$("#listaFecha").append(fechaLista);
-	       }
-	       for (index in data.realizacionEspectaculo[0].sectores) {
-	    	   var sector = data.realizacionEspectaculo[0].sectores[index];
+                var listaFecha = "<option value=\" "+ date.getDate() + "/" + month + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() +"\">" + date.getDate() + "/" + month + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+                $("#dropFecha").append(listaFecha);
+           }
+           for (index in data.realizacionEspectaculo[0].sectores) {
+               var sector = data.realizacionEspectaculo[0].sectores[index];
 
-	    	   var sectorYPrecio = "<tr><th value>"+ sector.nombre +"</th><th><span class=\"glyphicon glyphicon-usd\" aria-hidden=\"true\"></span><span id=\"precio\">"+ sector.precio +"</span></th></tr>";
-	    	   $("#sectorTabla").append(sectorYPrecio );
+               var sectorYPrecio = "<tr><th value>"+ sector.nombre +"</th><th><span class=\"glyphicon glyphicon-usd\" aria-hidden=\"true\"></span><span id=\"precio\">"+ sector.precio +"</span></th></tr>";
+               $("#sectorTabla").append(sectorYPrecio);
 
-	    	   var listaSector = "<li><a href=\"#\">" +sector.nombre +"</a></li>";
-	    	   $("#listaSector").append(listaSector );
+               var listaSector = "<option value=\" "+sector.nombre + " $ " + sector.precio +"\">"+sector.nombre + " $ " + sector.precio;
+               $("#dropSector").append(listaSector);
 
-	       }
-	       cargaImagenSala(data.realizacionEspectaculo[0].sala.id);
-	     });
+           }
+           cargaImagenSala(data.realizacionEspectaculo[0].sala.id);
+         });
 
 }
 
@@ -247,42 +249,42 @@ function geocodeResult(results, status) {
 }
 
 function cargaImagenEsp(){
-	var valores=getGET();
+    var valores=getGET();
 
-	 $.ajax({
-	        url: "/obtenerImagenesEspectaculoString/",
-	 		dataType: "json",
-     		dataSrc: "",
-     		type: "GET",
-     		data: {
-     			espectaculoId: valores["id"]
+     $.ajax({
+            url: "/obtenerImagenesEspectaculoString/",
+             dataType: "json",
+             dataSrc: "",
+             type: "GET",
+             data: {
+                 espectaculoId: valores["id"]
              },
              beforeSend: function(xhr){
                  var pathname = window.location.pathname;
                  xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
          }
-	    }).then(function(data) {
-    	   document.getElementById("imgEsp").src= "data:image/jpg;base64,"+data[0];
-	     });
+        }).then(function(data) {
+           document.getElementById("imgEsp").src= "data:image/jpg;base64,"+data[0];
+         });
 
 }
 
 function cargaImagenSala(id){
-	 $.ajax({
-	        url: "/obtenerImagenSalaString/",
-	 		dataType: "json",
-     		dataSrc: "",
-     		type: "GET",
-     		data: {
-     			salaId: id
+     $.ajax({
+            url: "/obtenerImagenSalaString/",
+             dataType: "json",
+             dataSrc: "",
+             type: "GET",
+             data: {
+                 salaId: id
              },
              beforeSend: function(xhr){
                  var pathname = window.location.pathname;
                  xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
          }
-	    }).then(function(data) {
-    	   document.getElementById("imgModalSala").src= "data:image/jpg;base64,"+data[0];
-	     });
+        }).then(function(data) {
+           document.getElementById("imgModalSala").src= "data:image/jpg;base64,"+data[0];
+         });
 
 }
 
@@ -295,7 +297,6 @@ function valida() {
         window.alert("Los campos E-mail y contraseña no pueden estar vacios");
     } else {
         var dataString = 'email='+email.value+'&password='+password.value;
-
         $.ajax({
             type: "get",
             url: "/loginUsuarioFinal/",
@@ -307,16 +308,20 @@ function valida() {
             },
             statusCode: {
                 200: function(data) {
+                    console.log('200');
                     window.location.assign("index");
                 },
                 204: function(data) {
+                    console.log('204');
                     alert("Error de usuario o clave.");
                 },
                 403: function(data) {
+                    console.log('403');
                     alert("Error de usuario o clave.");
                 }
             },
             error: function(data) {
+                console.log('error: ' + data.statusCode);
                 // Algo salio mal.
             }
         });
@@ -327,26 +332,45 @@ function valida() {
 
 
 function onSignIn(googleUser) {
-	var profile = googleUser.getBasicProfile();
-	console.log('ID: ' + profile.getId()); // habría que usar un token
-	console.log('Name: ' + profile.getName());
-	console.log('Image URL: ' + profile.getImageUrl());
-	console.log('Email: ' + profile.getEmail()); // podría ser null
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-//				document.getElementById("demo").innerHTML = this.responseText;
-		}
-	};
-	var urlAndParams = "/loginUsuarioFinalGmail/"
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // habría que usar un token
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // podría ser null
 
-	urlAndParams += "?id=" + profile.getId();
-	urlAndParams += "&email=" + profile.getEmail();
-	console.log(urlAndParams)
-	xhttp.open("POST", urlAndParams,
-			true);
-	xhttp.setRequestHeader("X-TenantID", window.location.pathname.split( '/' )[1]);
-	xhttp.send();
+    // Chequea que el usuario no se haya logueado antes y no exista la variable de storage
+    if (sessionStorage.getItem('myUserEntity') != null) {
+        console.log('storage found');
+        // Already logged in.
+        $('#email').prop('disabled', true);
+        $('#password').prop('disabled', true);
+        $('#btnEntrar').prop('disabled', true);
+    } else {
+        console.log('storage NOT found');
+        // Crea una variable de storage para chequear luego si el usuario esta logueado
+        var myUserEntity = {};
+        myUserEntity.Id = profile.getId();
+        myUserEntity.Name = profile.getName();
+
+        //Store the entity object in sessionStorage where it will be accessible from all pages of your site.
+        sessionStorage.setItem('myUserEntity', JSON.stringify(myUserEntity));
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                window.location.assign("index");
+            }
+        };
+        var urlAndParams = "/loginUsuarioFinalGmail/"
+
+        urlAndParams += "?id=" + profile.getId();
+        urlAndParams += "&email=" + profile.getEmail();
+        console.log(urlAndParams)
+        xhttp.open("POST", urlAndParams,
+                true);
+        xhttp.setRequestHeader("X-TenantID", window.location.pathname.split( '/' )[1]);
+        xhttp.send();
+    }
 }
 
 function register() {
@@ -396,7 +420,7 @@ function register() {
                 }
             },
             error: function(data) {
-                
+
             }
         });
     }
@@ -405,7 +429,16 @@ function register() {
 }
 
 function logout() {
-   
+    if (sessionStorage.getItem('myUserEntity') != null) {
+        sessionStorage.clear();
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+
+        auth2.disconnect();
+    }
+
     $.ajax({
         type: "get",
         url: "/cerrarSesionUsuario/",
@@ -418,7 +451,7 @@ function logout() {
             200: function(data) {
                 window.location.assign("index");
             }
-        },
+ },
         error: function(data) {
             // Algo salio mal.
         }
