@@ -6,7 +6,7 @@
     <head>
         	<meta charset="utf-8">
         	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        	<title>Iniciar sesion super administradores</title>
+        	<title>Iniciar sesión super administradores</title>
         	<!-- Scripts -->
             	<c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
             	<c:url value="/js/funcionesSuperAdmin.js" var="funcionesJS" />
@@ -33,7 +33,7 @@
         	<div class="container">
             	<div class="row">
                 	<div class="col-sm-12">
-                    	<h1>Iniciar Sesion Super Administradores</h1>
+                    	<h1>Iniciar Sesión Super Administradores</h1>
                 	</div>
             	</div>
 
@@ -41,7 +41,7 @@
                 	<div class="col-sm-6 col-sm-offset-3 form-cont">
                     	<div class="form-top">
                         	<div class="form-top-left">
-                            	<p>Ingrese contraseÃ±a</p>
+                            	<p>Ingrese contraseña</p>
                         	</div>
                         	<div class="form-top-right">
                             	<span class="glyphicon glyphicon-log-in">
@@ -52,7 +52,7 @@
                         	<form role="form" action="" method="POST">
                             	<div class="form-group">
                                 	<input type="password" id="password" name="password"
-                                    	placeholder="ContraseÃ±a" class="form-control">
+                                    	placeholder="Contraseña" class="form-control">
                             	</div>
 
                             	<button type="submit" class="btn" onclick="return valida();">Entrar</button>

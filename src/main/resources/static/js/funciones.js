@@ -1,12 +1,70 @@
 //muestra el elementro del drop seleccionado
 function dropFechaCompra() {
     var x = document.getElementById("dropFecha").value;
-    document.getElementById("fechaElegida").innerHTML = "Fecha:" + x;
+    document.getElementById("fechaElegida").innerHTML = "Fecha: " + x;
+    var dropFecha = document.getElementById("dropFecha");
+    var idReal = dropFecha.options[dropFecha.selectedIndex].id;
+    console.log(dropFecha.selectedIndex);
+    console.log(idReal);
+    document.getElementById("idRealizacion").value = idReal;
 }
 function dropSectorCompra() {
     var y = document.getElementById("dropSector").value;
-    document.getElementById("sectorElegido").innerHTML = "Sector:" + y;
+    document.getElementById("sectorElegido").innerHTML = "Sector: " + y;
+    var dropSector = document.getElementById("dropSector");
+    var idSec = dropSector.options[dropSector.selectedIndex].id;
+    console.log(dropSector.selectedIndex);
+    console.log(idSec);
+    document.getElementById("idSector").value = idSec;
+
+    // obtener total entradas
+    var cant = document.getElementById("entradas").value;
+    // obtener precio sector
+    var y = document.getElementById("dropSector").value;
+    var res = y.split("$ ");
+    // calcular total
+    if (isNaN(res[1])){
+        var total = (cant * 0) / 29;
+    }
+    else {
+        var total = (cant * res[1]) / 29;
+    }
+    total = Math.round(total * 100) / 100;
+    document.getElementById("precioTotal").innerHTML = "Total: U$S " + total;
+    document.getElementById("precioInput").value = total;
 }
+
+function obtenerEntradas(){
+    var cant = document.getElementById("entradas").value;
+    console.log(cant);
+    document.getElementById("cantEntradas").innerHTML = "Cantidad de entradas: " + cant;
+
+
+    // obtener total entradas
+    var cant = document.getElementById("entradas").value;
+    // obtener precio sector
+    var y = document.getElementById("dropSector").value;
+    var res = y.split("$ ");
+    // calcular total
+    if (isNaN(res[1])){
+        var total = (cant * 0) / 29;
+    }
+    else {
+        var total = (cant * res[1]) / 29;
+    }
+    total = Math.round(total * 100) / 100;
+    document.getElementById("precioTotal").innerHTML = "Total: U$S " + total;
+    document.getElementById("precioInput").value = total;
+}
+
+function obtenerIdSector(){
+    var dropSector = document.getElementById("dropSector");
+    var idSec = dropSector.options[dropSector.selectedIndex].id;
+    console.log(dropSector.selectedIndex);
+    console.log(idSec);
+    document.getElementById("idSector").innerHTML = idSec;
+}
+
 
 //Funcion para seleccionar entradas
 function cantEntradas() {
@@ -195,6 +253,7 @@ function cargaInfoEspectaculo(){
 
            for (index in data.realizacionEspectaculo) {
                 var fecha = data.realizacionEspectaculo[index].fecha;
+                var idReal = data.realizacionEspectaculo[index].id;
                 var date = new Date(fecha);
                 var month = date.getMonth() + 1;
                 if (month < 10) {
@@ -208,7 +267,7 @@ function cargaInfoEspectaculo(){
 
                 $("#fecha").append(nuevafecha);
 
-                var listaFecha = "<option value=\" "+ date.getDate() + "/" + month + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() +"\">" + date.getDate() + "/" + month + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+                var listaFecha = "<option id=\""+idReal+"\"value=\" "+ date.getDate() + "/" + month + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() +"\">" + date.getDate() + "/" + month + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
                 $("#dropFecha").append(listaFecha);
            }
            for (index in data.realizacionEspectaculo[0].sectores) {
@@ -217,8 +276,10 @@ function cargaInfoEspectaculo(){
                var sectorYPrecio = "<tr><th value>"+ sector.nombre +"</th><th><span class=\"glyphicon glyphicon-usd\" aria-hidden=\"true\"></span><span id=\"precio\">"+ sector.precio +"</span></th></tr>";
                $("#sectorTabla").append(sectorYPrecio);
 
-               var listaSector = "<option value=\" "+sector.nombre + " $ " + sector.precio +"\">"+sector.nombre + " $ " + sector.precio;
+               var listaSector = "<option id=\""+sector.id+"\" value=\" "+sector.nombre + " $ " + sector.precio +"\">"+sector.nombre + " $ " + sector.precio;
                $("#dropSector").append(listaSector);
+
+
 
            }
            cargaImagenSala(data.realizacionEspectaculo[0].sala.id);

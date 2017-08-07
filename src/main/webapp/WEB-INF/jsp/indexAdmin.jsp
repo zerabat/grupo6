@@ -49,7 +49,7 @@
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Panel del administrador<span class="sr-only">(current)</span></a></li>
+              <li class="active"><a href="#">Panel administrador<span class="sr-only">(current)</span></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <c:choose>
@@ -62,7 +62,7 @@
 
                      <c:otherwise>
                         <ul class="nav navbar-nav navbar-right">
-                          <li><a href="loginAdmin">Iniciar Sesion</a></li>
+                          <li><a href="loginAdmin">Iniciar Sesión</a></li>
                        </ul>
                    </c:otherwise>
                </c:choose>
@@ -97,19 +97,10 @@
     <div class="container" id="dashboard">
         <div id="panelIndex" class="col-md-12" >
         	<div class="panel panel-success" id="panelContenedor">
-    			  <div class="panel-heading">Panel heading</div>
+    			  <div class="panel-heading">Bienvenido</div>
     			  <div class="panel-body" id="panelAdmin">
-	    			  <p>Probando probanproabn</p>
-	    			  <p>Probando probanproabn</p>
-	    			  <p>Probando probanproabn</p>
-	    			  <p>Probando probanproabn</p>
-	    			  <p>Probando probanproabn</p>
-	    			  <p>Probando probanproabn</p>
-	    			  <p>Probando probanproabn</p>
-	    			  Panel content
-	    			    Guia
-	    			    <a href=#> lalalalallllalalalalal</a>
-	    			    <p>Probando probanproabn</p>
+	    			  <p>Aqui encontras el ABM de tu pagina, podras ingresar usuarios porteros, agregar espectáctulos, salas, relaizaciones</p>
+	    			  
     			  </div>
     		</div>
 

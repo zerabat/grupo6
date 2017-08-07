@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="google-signin-client_id" content="1044122178058-iv6un92qnetg6c58as6lks8gfk529p8e.apps.googleusercontent.com">
-        <title>Iniciar sesion administradores</title>
+        <title>Iniciar sesión administradores</title>
         <!-- Scripts -->
             <c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
             <c:url value="/js/funcionesAdmin.js" var="funcionesJS" />
@@ -42,7 +42,7 @@
                 <div class="col-sm-6 col-sm-offset-3 form-cont">
                     <div class="form-top">
                         <div class="form-top-left">
-                            <p>Ingresa E-mail y contraseÃ±a</p>
+                            <p>Ingresa E-mail y contraseña</p>
                         </div>
                         <div class="form-top-right">
                             <span class="glyphicon glyphicon-log-in">
@@ -56,7 +56,7 @@
                             </div>
                             <div class="form-group">
                                 <input type="password" id="password" name="password"
-                                    placeholder="Contraseï¿½a" class="form-control">
+                                    placeholder="Contraseña" class="form-control">
                             </div>
 <!--                             <button type="submit" class="btn">Entrar</button> -->
                             <button type="submit" class="btn" onclick="return valida()">Entrar</button>
@@ -66,11 +66,11 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 google-login">
-                    <h3>Ingresa tambien con:</h3>
+                    <h3></h3>
                     <div class="google-login-button">
-                        <a href="#" class="btn-social"> <i
-                            class="glyphicon glyphicon-envelope"> Gmail</i>
-                        </a>
+<!--                         <a href="#" class="btn-social"> <i -->
+<!--                             class="glyphicon glyphicon-envelope"> Gmail</i> -->
+<!--                         </a> -->
 <!-- <div class="g-signin2 " data-onsuccess="onSignIn"></div> -->
 
 

@@ -116,7 +116,8 @@ public class ImagenesController {
 	public List<String> obtenerImagenesEspectaculoString(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 			@RequestParam("espectaculoId") Long espectaculoId) throws IOException {
 
-		String pathImagen = imagenesPath + "\\" + tenantName + "\\" + String.valueOf(espectaculoId) + "\\";
+		TenantContext.setCurrentTenant(tenantName);
+		String pathImagen = imagenesPath + "\\" + TenantContext.getCurrentTenant() + "\\" + String.valueOf(espectaculoId) + "\\";
 		File[] files = Paths.get(pathImagen).toFile().listFiles();
 		List <String> ret = new ArrayList<String>();
 		FileInputStream fileInputStreamReader = null; 
@@ -207,7 +208,8 @@ public class ImagenesController {
 	public List<String> obtenerImagensalaString(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 			 @RequestParam("salaId") Long salaId) throws IOException {
 
-		String pathImagen = imagenesSalaPath + "\\" + tenantName + "\\" + String.valueOf(salaId) + "\\";
+		TenantContext.setCurrentTenant(tenantName);
+		String pathImagen = imagenesSalaPath + "\\" + TenantContext.getCurrentTenant() + "\\" + String.valueOf(salaId) + "\\";
 		File[] files = Paths.get(pathImagen).toFile().listFiles();
 		List <String> ret = new ArrayList<String>();
 		FileInputStream fileInputStreamReader = null; 

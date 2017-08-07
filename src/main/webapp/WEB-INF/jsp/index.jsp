@@ -78,13 +78,13 @@
 				            <li class="active"><a href="index">Inicio<span class="sr-only">(current)</span></a></li>
 
 				            <li class="dropdown">
-				                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Espectaculos <span class="caret"></span></a>
+				                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Espectáculos <span class="caret"></span></a>
 
                                 <ul class="dropdown-menu" role="menu">
-					                <li><a href="#">Musica</a></li>
+					                <li><a href="#">Música</a></li>
 					                <li><a href="#">Teatro</a></li>
 					                <li><a href="#">Deportes</a></li>
-					                <li><a href="#">Infantiles</a></li>
+<!-- 					                <li><a href="#">Infantiles</a></li> -->
 				                </ul>
 				            </li>
 
@@ -109,7 +109,7 @@
 
                               <c:otherwise>
                                  <ul class="nav navbar-nav navbar-right">
-                                   <li><a href="login">Iniciar Sesiï¿½n</a></li>
+                                   <li><a href="login">Iniciar Sesión</a></li>
                                    <li><a href="register">Registrarse</a></li>
                                 </ul>
                             </c:otherwise>
@@ -206,7 +206,7 @@
 	        <div class="col-md-9" id="listaEspectaculos">
 	            <div class="panel panel-primary" >
 	              <div class="panel-heading">
-	                   <h3 class="panel-title">Espectaculos</h3>
+	                   <h3 class="panel-title">Espectáculos</h3>
 	                 </div>
 
 	                 <div class="panel-body">
@@ -237,13 +237,19 @@
 	        <div class="col-md-3 hidden-xs hidden-sm" id="informacion">
 	            <div class="panel panel-info" >
 	              <div class="panel-heading">
-	                <h3 class="panel-title">Informaciï¿½n</h3>
+	                <h3 class="panel-title">Información</h3>
 	              </div>
 
 	              <div class="panel-body">
 	                Para poder comprar entradas a los eventos, previamente debe estar registrado
 	              </div>
 	            </div>
+	            <div class="panel panel-primary " id="eticketPanel">
+                    <div class="panel-body" id="eticket" >
+                        <c:url value="/img/Eticket.png" var="eticket" />
+                        <img src="${eticket}" class="img-responsive-info" alt="" width="100%" height= "100%" >
+                    </div>
+                </div>
 	        </div>
     	</div>
 
@@ -256,11 +262,11 @@
 	                        <a id="aFotter" href="#"><h4 id="h4Fotter">TicketYa!</h4></a>
 	                    </li>
 	                    <li>
-	                        <p id="pFooter">Proyecto Fin de carrera - Tecnï¿½logo en informï¿½tica</p>
+	                        <p id="pFooter">Proyecto Fin de carrera - Tecnólogo en informática</p>
 	                    </li>
 	                </ul>
 	                <ul class="nav navbar-nav navbar-right">
-	                    <li><p id="pFooter">Santiago Tabï¿½rez, Verï¿½nica Pï¿½rez y Camilo Orquera</p></li>
+	                    <li><p id="pFooter">Santiago Tabárez, Verónica Pérez y Camilo Orquera</p></li>
 	                </ul>
 	            </div>
         	</nav>
