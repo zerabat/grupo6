@@ -69,17 +69,17 @@
                           </div>
                       </div>
 
-<!--                       <div class="row"> -->
-<!--                           <div class="col-sm-12 google-login"> -->
-<!--                               <h3>Ingresa tambien con: </h3> -->
+                      <div class="row">
+                          <div class="col-sm-12 google-login">
+                              <h3> </h3>
 
 <!--                               <div class="google-login-button"> -->
 <!--                                   <a href="#" class="btn-social"> -->
 <!--                                       <i class="glyphicon glyphicon-envelope"> Gmail</i> -->
 <!--                                   </a> -->
 <!--                               </div> -->
-<!--                           </div> -->
-<!--                       </div> -->
+                          </div>
+                      </div>
                   </div>
               </div>
 

@@ -6,7 +6,7 @@
 <html lang="es">
     <head>
         <meta charset="utf-8">
-        <title>Info Espectaculo</title>
+        <title>Info Espectáculo</title>
         <!-- scripts -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <c:url value="/js/jquery-3.2.1.min.js" var="jqueryJS" />
@@ -39,6 +39,8 @@
                 cargaImagenEsp();
                 dropSectorCompra();
                 dropFechaCompra();
+                obtenerEntradas();
+                obtenerIdSector()
                 });
         </script>
         <!-- styles -->
@@ -64,12 +66,12 @@
                 <ul class="nav navbar-nav">
                   <li><a href="index">Inicio<span class="sr-only">(current)</span></a></li>
                   <li class="active dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Espectaculos <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Espectáculos <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">Musica</a></li>
+                      <li><a href="#">Música</a></li>
                       <li><a href="#">Teatro</a></li>
                       <li><a href="#">Deportes</a></li>
-                      <li><a href="#">Infantiles</a></li>
+<!--                       <li><a href="#">Infantiles</a></li> -->
                     </ul>
                   </li>
                   <li><a href="#">Contacto</a></li>
@@ -91,7 +93,7 @@
 
                       <c:otherwise>
                          <ul class="nav navbar-nav navbar-right">
-                           <li><a href="login">Iniciar Sesion</a></li>
+                           <li><a href="login">Iniciar Sesión</a></li>
                            <li><a href="register">Registrarse</a></li>
                         </ul>
                     </c:otherwise>
@@ -139,7 +141,7 @@
                             </c:when>
 
                             <c:otherwise>
-                                <a href="login">Debe iniciar sesion para comprar.</a>
+                                <a href="login">Debe iniciar sesión para comprar.</a>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -221,9 +223,9 @@
                                             <span class="glyphicon glyphicon-minus"></span>
                                           </button>
                                       </span>
-                                      <input type="text" name="quant[2]" class="form-control input-sm input-number" value="1" min="1" max="100">
+                                      <input id="entradas" type="text" name="quant[2]" class="form-control input-sm input-number" value="1" min="1" max="100" onchange="obtenerEntradas();">
                                       <span class="input-group-btn">
-                                          <button type="button" class="btn btn-success btn-sm btn-number" data-type="plus" data-field="quant[2]">
+                                          <button type="button" class="btn btn-success btn-sm btn-number" data-type="plus" data-field="quant[2]" >
                                               <span class="glyphicon glyphicon-plus"></span>
                                           </button>
                                       </span>
@@ -238,6 +240,12 @@
                             <div class="col-md-3">
                                 <p id="fechaElegida"></p>
                                 <p id="sectorElegido"></p>
+                                <p id="cantEntradas"></p>
+                                <p id="precioTotal" class="negrita"></p>
+                                <input type="hidden" id="precioInput" value="">
+                                <input type="hidden" id="idSector" value="">
+                                <input type="hidden" id="idRealizacion" value="">
+
                             </div>
                         </form>
                     </div>
@@ -249,6 +257,7 @@
                                     <button id="paypal-button-container" class="btn"></button>
 
                                     <script>
+
                                         paypal.Button.render({
 
                                             env: 'sandbox',
@@ -261,13 +270,15 @@
                                             commit: true,
 
                                             payment: function(data, actions) {
-
+                                                var totalPaypal = document.getElementById("precioInput").value;
+                                                // Pasamos a dolares porque hay problemas para mostrar en UYU
+                                                console.log(totalPaypal);
                                                 return actions.payment.create({
                                                     payment: {
                                                         transactions: [
                                                             {
                                                                  // Aca hay que cargarle el monto y la moneda cuando se hace el pego
-                                                                amount: { total: '0.01', currency: 'USD' }
+                                                                amount: { total: totalPaypal, currency: 'USD' }
                                                             }
                                                         ]
                                                     }
@@ -276,13 +287,14 @@
 
                                             // onAuthorize() se ejecuta cuando ya se realizï¿½ el pago
                                             onAuthorize: function(data, actions) {
-
+												var idRealizacion = document.getElementById("idRealizacion").value;
+												var idSector = document.getElementById("idSector").value;
                                                 var xhttp = new XMLHttpRequest();
                                                 var urlAndParams = "/comprarEntradaEspectaculo/"
 
-                                                urlAndParams += "&email=" + "maucarr2-buyer@gmail.com" ;
-                                                urlAndParams += "?idRealizacion=" + 1 ;
-                                                urlAndParams += "?idSector=" + 1;
+                                                urlAndParams += "?email=" + "veronicapr88@gmail.com" ;
+                                                urlAndParams += "&idRealizacion=" + idRealizacion ;
+                                                urlAndParams += "&idSector=" + idSector;
                                                 console.log(urlAndParams)
                                                 xhttp.open("POST", urlAndParams,
                                                         true);
@@ -321,11 +333,11 @@
                             <a id="aFotter" href="#"><h4 id="h4Fotter">TicketYa!</h4></a>
                         </li>
                         <li>
-                            <p id="pFooter">Proyecto Fin de carrera - Tecnologo en informatica</p>
+                            <p id="pFooter">Proyecto Fin de carrera - Tecnólogo en informática</p>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><p id="pFooter">Santiago Tabarez, Veronica Perez y Camilo Orquera</p></li>
+                        <li><p id="pFooter">Santiago Tábarez, Verónica Pérez y Camilo Orquera</p></li>
                     </ul>
                 </div>
             </nav>

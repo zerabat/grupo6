@@ -363,8 +363,9 @@ function btnCrearSala(){
 //carga data tabla de porteros
 function cargaDataTablePorteros(){
     var tableSala= $('#tablaPortero').DataTable( {
-	    "ajax": {
-            "destroy": true,
+    	 "destroy": true,
+    	"ajax": {
+           
 	        "url": '/obtenerPorteros/',
 	        "dataType": 'json',
 	        "dataSrc": "",
