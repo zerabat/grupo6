@@ -7,12 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.grupo6.persistence.model.Entrada;
 import com.grupo6.persistence.model.HistorialEntradas;
 import com.grupo6.persistence.model.Usuario;
-import com.grupo6.persistence.repository.EspectaculoRepository;
 import com.grupo6.persistence.repository.HistorialEntradasRepository;
-import com.grupo6.persistence.repository.RealizacionEspectaculoRepository;
 import com.grupo6.persistence.repository.UsuarioRepository;
 import com.grupo6.rest.dto.EntradaHistorialDTO;
 import com.grupo6.service.UserService;
@@ -26,12 +23,6 @@ public class UserServiceBean implements UserService {
 	@Autowired
 	private HistorialEntradasRepository historialEntradasRepository;
 	
-	@Autowired
-	private RealizacionEspectaculoRepository realizacionEspectaculoRepository;
-
-	@Autowired
-	private EspectaculoRepository espectaculoRepository;
-
 	
 	@Override
 	public Optional<Usuario> altaUsuario(Usuario dtos) {

@@ -58,6 +58,7 @@ public class TenantContext {
 
 	
 	public static Object getCurrentTenant() {
+		
 		return currentTenant.get();
 	}
 }
