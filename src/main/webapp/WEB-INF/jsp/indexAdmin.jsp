@@ -87,8 +87,9 @@
                 </li>
                 <li ><a id="espectaculos" onclick="cargaDataTableEspectaculo();" href="#">Espectaculos<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-star"></span></a></li>
                 <li ><a id="salas" onclick="cargaDataTableSalas();" href="#">Salas<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
-                <li ><a id="realizaciones" href="#">Realizaciones<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a></li>
-                <li ><a id="reportes" href="#">Reportes<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-stats"></span></a></li>
+                <li ><a id="sectores" href="#">Sectores<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-star"></span></a></li>
+                <li ><a id="realizaciones" onclick="cargaDatatableRealizaciones();" href="#">Realizaciones<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a></li>
+<!--                 <li ><a id="reportes" href="#">Reportes<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-stats"></span></a></li> -->
               </ul>
             </div>
           </div>
@@ -157,7 +158,7 @@
                                             <th><div class="col-sm-12"><input type="number" min="0" step="1" id="cedulaPorteroC" name="cedulaPorteroC" type="text" class="form-control" ></div></th>
                                         </tr>
                                         <tr>
-                                            <th><label for="passwordPortero" class="control-label">ContraseÃ±a</label></th>
+                                            <th><label for="passwordPortero" class="control-label">Contraseña</label></th>
                                             <th><div class="col-sm-12"><input  id="passwordPortero" name="passwordPortero" type="text" class="form-control" ></div></th>
                                         </tr>
                                     </table>
@@ -198,8 +199,8 @@
                                             <th><div class="col-sm-12"><input type="number" min="0" step="1" id="cedulaPorteroE" name="cedulaPorteroE" type="text" class="form-control" ></div></th>
                                         </tr>
                                         <tr>
-                                            <th><label for="passwordPorteroE" class="control-label">ContraseÃ±a</label></th>
-                                            <th><div class="col-sm-12"><input  id="passwordPorteroE" name="passwordPorteroE" type="text" class="form-control" ></div></th>
+                                            <th><label for="passwordPorteroE" class="control-label">Contraseña</label></th>
+                                            <th><div class="col-sm-12"><input  id="passwordPorteroE" name="passwordPorteroE" type="password" class="form-control" ></div></th>
                                         </tr>
                                     </table>
                                 </div>
@@ -418,22 +419,127 @@
                 </form>
             </div>
 
+<!--             <div> -->
+<!--                 <form id="frmEliminarSala" action="" method="POST"> -->
+<!--                     <input type="hidden" id="idSalaE" name="idSalaE" value=""> -->
+<!--                     Modal -->
+<!--                     <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="modalEliminarLabel"> -->
+<!--                         <div class="modal-dialog" role="document"> -->
+<!--                             <div class="modal-content"> -->
+<!--                                 <div class="modal-header"> -->
+<!--                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+<!--                                     <h4 class="modal-title" id="modalEliminarLabel">Eliminar Sala</h4> -->
+<!--                                 </div> -->
+<!--                                 <div class="modal-body"> -->
+<!--                                     Esta seguro de eliminar la sala?<strong data-name=""></strong> -->
+<!--                                 </div> -->
+<!--                                 <div class="modal-footer"> -->
+<!--                                     <button type="button" id="eliminar-sala" class="btn btn-primary" onclick="btnEliminarSala();">Aceptar</button> -->
+<!--                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     Modal -->
+<!--                 </form> -->
+            </div>
+       
+         <div id="divSector" style="display:none;">
+            <div class="col-md-12" >
+                <ul class="breadcrumb">
+                  <li><a href="#">Inicio</a></li>
+                  <li class="active">Sector</li>
+                </ul>
+            </div>
+            <!--------Sectores------->
+            <div class="col-md-12" id="datatable">
+                <div class="table-responsive">
+                    <table id="tablaSector" class="table table-striped table-hover">
+                        <thead>
+                             <tr class="success">
+                             	 <th><label for="idSala" class="col-sm-2 control-label">Ingrese id de sala</label></th>
+                                 <th><div class="col-sm-4"><input id="idSalaSector" name=""idSalaSector"" type="number" class="form-control"  autofocus></div></th>
+                                 <th><button type="button" class="btn btn-primary btn-sm" ><span style="padding-right: 5px;" class="glyphicon glyphicon-search"></span>Buscar sectores</button></th>
+                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearSec"><span style="padding-right: 5px;" class="glyphicon glyphicon-plus"></span>Crear</button></th>
+                             </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
             <div>
-                <form id="frmEliminarSala" action="" method="POST">
-                    <input type="hidden" id="idSalaE" name="idSalaE" value="">
+                <form id="frmCrearSala" action="" method="PUT" >
+                    <input type="hidden" id="idSectorC" name="idSectorC" value="0">
                     <!-- Modal -->
-                    <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="modalEliminarLabel">
+                    <div class="modal fade" id="modalCrearSec" tabindex="-1" role="dialog" aria-labelledby="modalCrearLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="modalEliminarLabel">Eliminar Sala</h4>
+                                    <h4 class="modal-title" id="modalCrearLabel">Formulario para crear Sector</h4>
                                 </div>
                                 <div class="modal-body">
-                                    ï¿½Esta seguro de eliminar la sala?<strong data-name=""></strong>
+                                    <table class="formularioTabla">
+                                        <tr>
+                                            <th><label for="nombreC" class="col-sm-2 control-label">Nombre</label></th>
+                                            <th><div class="col-sm-12"><input id="nombreSectorC" name="nombreSectorC" type="text" class="form-control"  autofocus></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="capacidadSectorC" class="col-sm-2 control-label">Capacidad</label></th>
+                                            <th><div class="col-sm-12"><input id="capacidadSectorC" name="capacidadSectorC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="idSalaSec" class="col-sm-2 control-label">Id Sala</label></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="idSalaSecC" name="idSalaSec"  class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="nombreSalaSec" class="col-sm-2 control-label">Id Sala</label></th>
+                                            <th><div class="col-sm-12"><input type="text" min="0" step="1" id="nombreSalaSecC" name="nombreSalaSec"  class="form-control" ></div></th>
+                                        </tr>
+                                    </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" id="eliminar-sala" class="btn btn-primary" onclick="btnEliminarSala();">Aceptar</button>
+                                    <button type="submit" id="crear-sala" class="btn btn-primary" onclick="return btnCrearSector();">Guardar</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                </form>
+            </div>
+            <div>
+                <form id="frmEditarSector" action="" method="POST" >
+                    <input type="hidden" id="idSala" name="idSala" value="0">
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalEditarSector" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalEditarLabel">Formulario para editar Sector</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <   <table class="formularioTabla">
+                                        <tr>
+                                            <th><label for="nombreC" class="col-sm-2 control-label">Nombre</label></th>
+                                            <th><div class="col-sm-12"><input id="nombreSector" name="nombreSectorC" type="text" class="form-control"  autofocus></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="capacidadSectorC" class="col-sm-2 control-label">Capacidad</label></th>
+                                            <th><div class="col-sm-12"><input id="capacidadSector" name="capacidadSectorC" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="idSalaSec" class="col-sm-2 control-label">Id Sala</label></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="idSalaSec" name="idSalaSec"  class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="nombreSalaSec" class="col-sm-2 control-label">Id Sala</label></th>
+                                            <th><div class="col-sm-12"><input type="text" min="0" step="1" id="nombreSalaSec" name="nombreSalaSec"  class="form-control" ></div></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="editar-sala" class="btn btn-primary" onclick="return btnEditarSector();">Guardar</button>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                 </div>
                             </div>
@@ -454,43 +560,91 @@
             <!--------Realizaciones---------->
             <div class="col-md-12" id="datatable">
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover ">
+                    <table id="tablarealizaciones" class="table table-striped table-hover ">
                         <thead>
                              <tr class="success">
+                              	 <th>idEspectaculo</th>
+                                 <th>Nombre</th>
                                  <th>Fecha</th>
-                                 <th>idEspectaculo</th>
                                  <th>Sala</th>
+                                 <th>Direccion Sala</th>
+                                 <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalCrearReal"><span style="padding-right: 6px;" class="glyphicon glyphicon-plus" style=padding-right: 5px;></span>Crear</button></th>
                              </tr>
                         </thead>
                     </table>
                 </div>
-
+            </div>
+             <div>
+                <form id="frmCrearRealizacion" action="" method="" >
+                    <input type="hidden" id="idRealizacion" name="idRealizacion" value="0">
+                    <!-- Modal -->
+                    <div class="modal fade" id="#modalCrearReal" tabindex="-1" role="dialog" aria-labelledby="modalCrearLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalCrearLabel">Formulario para crear Realizaciones de espectaculos</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="formularioTabla">
+                                        <tr>
+                                            <th><label for="" class=" control-label">Id Espectaculo</label></th>
+                                            <th><div class="col-sm-12"><input id="idEspecReal" name="idEspecReal" type="number" class="form-control"  autofocus></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="" class=" control-label">Fecha</label></th>
+                                            <th><div class="col-sm-12"><input id="fecha" name="fecha" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="" class="control-label">Id Sala</label></th>
+                                            <th><div class="col-sm-12"><input type="number" min="0" step="1" id="idSalaReal" name="idSalaReal" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="" class="control-label">Id Sector</label></th>
+                                            <th><div class="col-sm-12"><input  id="idSectorReal" name="idSectorReal" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                        <tr>
+                                            <th><label for="" class="control-label">Precio Sector</label></th>
+                                            <th><div class="col-sm-12"><input  id="precioSector" name="precioSector" type="text" class="form-control" ></div></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="crear-port" class="btn btn-primary" onclick="return btnCrearPortero();">Crear</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                </form>
             </div>
         </div>
-        <div id="divReportes" style="display:none;">
-            <div class="col-md-12" >
-                <ul class="breadcrumb">
-                  <li><a href="#">Inicio</a></li>
-                  <li class="active">Reportes</li>
-                </ul>
-            </div>
-            <!-------------Reportes----------->
-            <div class="col-md-12" id="datatable">
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover ">
-                        <thead>
-                             <tr class="success">
-                                 <th>Cantidad de entradas</th>
-                                 <th>Evento</th>
-                                 <th>Recaudado</th>
-                             </tr>
-                        </thead>
-                    </table>
-                </div>
+  </div>
+<!--         <div id="divReportes" style="display:none;"> -->
+<!--             <div class="col-md-12" > -->
+<!--                 <ul class="breadcrumb"> -->
+<!--                   <li><a href="#">Inicio</a></li> -->
+<!--                   <li class="active">Reportes</li> -->
+<!--                 </ul> -->
+<!--             </div> -->
+<!--             -----------Reportes--------- -->
+<!--             <div class="col-md-12" id="datatable"> -->
+<!--                 <div class="table-responsive"> -->
+<!--                     <table class="table table-striped table-hover "> -->
+<!--                         <thead> -->
+<!--                              <tr class="success"> -->
+<!--                                  <th>Cantidad de entradas</th> -->
+<!--                                  <th>Evento</th> -->
+<!--                                  <th>Recaudado</th> -->
+<!--                              </tr> -->
+<!--                         </thead> -->
+<!--                     </table> -->
+<!--                 </div> -->
 
-            </div>
-        </div>
-    </div>
+<!--             </div> -->
+<!--         </div> -->
+   
 
 
     <footer>
@@ -505,11 +659,11 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-left">
                     <li>
-                        <p id="pFooter">Proyecto Fin de carrera - Tecnï¿½logo en informï¿½tica</p>
+                        <p id="pFooter">Proyecto Fin de carrera - Tecnólogo en informática</p>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><p id="pFooter">Santiago Tabï¿½rez, Verï¿½nica Pï¿½rez y Camilo Orquera</p></li>
+                    <li><p id="pFooter">Santiago Tabárez, Verónica Pérez y Camilo Orquera</p></li>
                 </ul>
             </div>
         </nav>

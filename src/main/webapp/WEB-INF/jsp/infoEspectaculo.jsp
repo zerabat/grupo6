@@ -303,6 +303,7 @@
 
                                                 return actions.payment.execute().then(function() {
                                                     window.alert('Pago realizado con exito!');
+                                                    $('#myModal').modal('hide');
                                                 });
                                             }
 

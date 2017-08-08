@@ -85,7 +85,8 @@ function cargaDataTableEspectaculo(){
 		});
         editar_espectaculos("#tablaEspectaculo tbody", table);
 }
-    //carga los datos para poder editar sala
+    
+//carga los datos para poder editar sala
 function editar_espectaculos(tbody, table){
 	$(tbody).on("click", "button.btnEditarEspectaculo", function(){
 		var data = table.row( $(this).parents("tr")).data();
@@ -155,6 +156,7 @@ function btnEditarEspectaculo(){
         }
         return false;
 }
+
 //crea espectaculo
 function btnCrearEspectaculo(){
     var nombre = document.getElementById("nombreEspetaculoC");
@@ -209,6 +211,7 @@ function btnCrearEspectaculo(){
         }
         return false;
 }
+
 //carga data tabla de salas
 function cargaDataTableSalas(){
     var table= $('#tablaSala').DataTable( {
@@ -242,6 +245,7 @@ function cargaDataTableSalas(){
     editar_salas("#tablaSala tbody", table);
     obtener_id_salaEliminar("#tablaSala tbody", table);
 }
+
 //carga los datos para poder editar sala
 function editar_salas(tbody, table){
 	$(tbody).on("click", "button.btnEditarSala", function(){
@@ -262,6 +266,7 @@ function obtener_id_salaEliminar(tbody, table){
 	})
 
 }
+
 //modificar o editar sala
 function btnEditarSala(){
     var id = document.getElementById("idSala");
@@ -312,8 +317,10 @@ function btnEditarSala(){
         }
         return false;
 }
+
 //crear Sala
 function btnCrearSala(){
+
     var nombre = document.getElementById("nombreSalaC");
     var direccion = document.getElementById("direccionSalaC");
     var cantLocalidades = document.getElementById("cantLocalidadesSalaC");
@@ -360,10 +367,23 @@ function btnCrearSala(){
         }
         return false;
 }
+
+function editar_porteros(tbody, table){
+	$(tbody).on("click", "button.btnEditarPortero", function(){
+		var data = table.row( $(this).parents("tr")).data();
+	    var id= $("#idPortero").val (data.id);
+        var nombre = $("#nombrePorteroE").val (data.nombre);
+        var apellido = $("#apellidoPorteroE").val(data.apellido);
+        var cedula = $("#cedulaPorteroE").val(data.cedula);
+        var password = $("#passwordPorteroE").val(data.password);
+	})
+
+}
+
 //carga data tabla de porteros
 function cargaDataTablePorteros(){
-    var tableSala= $('#tablaPortero').DataTable( {
-    	 "destroy": true,
+    var table= $('#tablaPortero').DataTable( {
+    	"destroy": true,
     	"ajax": {
            
 	        "url": '/obtenerPorteros/',
@@ -399,7 +419,9 @@ function cargaDataTablePorteros(){
 	        	       ],
 
 		});
+    editar_porteros("#tablaPortero tbody", table)
 	}
+
 //crear nuevo portero
 function btnCrearPortero(){
         var nombre = document.getElementById("nombrePorteroC");
@@ -450,6 +472,139 @@ function btnCrearPortero(){
             }
             return false;
     }
+
+//edita porteros
+function btnEditarPortero(){
+    var nombre = document.getElementById("nombrePorteroE");
+    var apellido = document.getElementById("apellidoPorteroE");
+    var cedula = document.getElementById("cedulaPorteroE");
+    var pass = document.getElementById("passwordPorteroE");
+
+    var editarPortero = {
+                    apellido: apellido.value,
+                    cedula: cedula.value,
+                    nombre: nombre.value,
+                    password: pass.value
+                    };
+
+    if ((nombre.value == "") || (apellido.value == "") || (cedula.value == "")|| (pass.value == "")) {
+        window.alert("Los campos nombre,apellido, cedula y contraseña no pueden estar vacios");
+    } else {
+            $.ajax({
+                url: "/modificarPortero/?email=" + "admin@ticketya.com",
+                dataType: "json",
+                type: "PUT",
+                data: JSON.stringify(editarPortero),
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function(xhr){
+                    var pathname = window.location.pathname;
+                    xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+                    console.log("tenant: " + pathname.split('/')[1]);
+                },
+                statusCode: {
+                    200: function(data) {
+                        $('#modalEditarPortero').modal('hide');
+                        alert("Se guardado con exito los cambios del portero!");
+                        cargaDataTablePorteros()
+                    },
+                    204: function(data) {
+                        $('#modalEditarPortero').modal('hide');
+                        alert("Error al guardar cambios.");
+                    },
+                    403: function(data) {
+                        $('#modalEditarPortero').modal('hide');
+                        alert("Error al guardar cambios.");
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        }
+        return false;
+}
+
+function cargaDatatableRealizaciones(){
+
+    var table= $('#tablarealizaciones').dataTable( {
+    "destroy": true,
+    "ajax": {
+           "url": '/verProximosEspectaculosYSusRealizaciones/',
+           "dataType": 'json',
+           "dataSrc": "content",
+           "type": "GET",
+           "data": {
+                    "_start":"1",
+                    "_end":"1000"
+                   },
+           "beforeSend": function(xhr){
+                   var pathname = window.location.pathname;
+                   xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+           }
+    },
+    "columns" :  [
+          { "data": "id"},
+          { "data": "nombre"},
+          { "data": "realizacionEspectaculo.0.fecha",
+                "render": function (data) {
+                      var date = new Date(data);
+                      var month = date.getMonth() + 1;
+                      if (month < 10)
+                           month= "0" + month;
+                      return date.getDate() + "/" + month + "/" + date.getFullYear();
+                  }
+            },
+            { "data": "realizacionEspectaculo.0.sala.nombre" },
+            { "data": "realizacionEspectaculo.0.sala.direccion" }
+
+     ],
+
+    });
+}
+
+function busacarSector(){
+    var table= $('#tablaSector').DataTable( {
+    	"destroy": true,
+    	"ajax": {
+           
+	        "url": '/obtenerSectoresDeSala/',
+	        "dataType": 'json',
+	        "dataSrc": "",
+	        "type": "GET",
+	        "data": {
+					"email":"admin@ticketya.com",
+				
+						
+                },
+	        "beforeSend": function(xhr){
+	                   var pathname = window.location.pathname;
+	                   xhr.setRequestHeader("X-TenantID", pathname.split('/')[1]);
+	           }
+	    },
+	    "columns" :  [
+	          { "data": "id"},
+	          { "data": "password"},
+			  { "data": "nombre"},
+	          { "data": "apellido" },
+	          { "data": "cedula" },
+              { "defaultContent":
+                "<button type=\"button\" class=\"btnEditarPortero btn btn-default btn-sm\" data-toggle=\"modal\" data-target=\"#modalEditarPortero\"><span style=\"font-size:13px; padding-right: 5px;\" class=\"hidden-xs showopacity glyphicon glyphicon-pencil\"></span>Editar</button>"
+                //"<button type=\"button\" class=\"btnEliminarSala btn btn-danger btn-sm disabled\" data-toggle=\"modal\" data-target=\"#modalEliminar\"><span style=\"font-size:12px;\" class=\"pull-right hidden-xs showopacity glyphicon glyphicon-trash\"></span></button>"
+    	       }
+
+	     ],
+	     "columnDefs": [
+	        	        { "visible": false, "targets": 1 },
+                        { "width": "15%", "targets": 0 },
+                        { "width": "28%", "targets": 2 },
+                        { "width": "28%", "targets": 3 },
+                        { "width": "15%", "targets": 4 }
+	        	       ],
+
+		});
+    editar_porteros("#tablaPortero tbody", table)
+	}
+
 //muestra los diferentes div del menu
 function sidebarAdmin(){
 	 $("#nombreTenant").click(function(){
@@ -500,15 +655,14 @@ function sidebarAdmin(){
         $("#divReportes").hide();
         $("#panelIndex").hide();
     });
-    $("#reportes").click(function(){
-        $("#divReportes").show();
-        $("#divPortero").hide();
-        $("#divEspectaculos").hide();
-        $("#divSalas").hide();
-        $("#divRealizaciones").hide();
-        $("#panelIndex").hide();
-    });
-
+//    $("#sectores").click(function(){
+//        $("#divSector").show();
+//        $("#divPortero").hide();
+//        $("#divEspectaculos").hide();
+//        $("#divSalas").hide();
+//        $("#divRealizaciones").hide();
+//        $("#panelIndex").hide();
+//    });
 
 }
 
