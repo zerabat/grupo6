@@ -47,7 +47,7 @@
       	</div>
       	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         	<ul class="nav navbar-nav">
-          	<li class="active"><a href="#">Panel del administrador<span class="sr-only">(current)</span></a></li>
+          	<li class="active"><a href="#">Panel administrador<span class="sr-only">(current)</span></a></li>
         	</ul>
         	<c:choose>
             	<c:when test="${superAdmin != null}">
@@ -82,7 +82,7 @@
 	<div class="container" id="dashboard">
     	<div id="panelIndex" class="col-md-12" >
    		 <div class="panel panel-success" id="panelContenedor">
-   			   <div class="panel-heading">Panel heading</div>
+   			   <div class="panel-heading">Super Administrador</div>
    			   <div class="panel-body" id="panelAdmin">
    				   <p>Bienvenido</p>
    			   </div>
@@ -112,11 +112,11 @@
                      	</div>
 
                      	<div class="form-group">
-                         	<input type="password" id="password" name="password" placeholder="Contraseña" class="form-control" required>
+                         	<input type="password" id="password" name="password" placeholder="Contrase�a" class="form-control" required>
                      	</div>
 
                      	<div class="form-group">
-                         	<input type="password" id="passwordRepeat" name="passwordRepeat" placeholder="Repetir Contraseña" class="form-control" required>
+                         	<input type="password" id="passwordRepeat" name="passwordRepeat" placeholder="Repetir Contrase�a" class="form-control" required>
                      	</div>
 
                      	<div class="form-group">
@@ -178,11 +178,11 @@
             	</ul>
             	<ul class="nav navbar-nav navbar-left">
                 	<li>
-                    	<p id="pFooter">Proyecto Fin de carrera - Tecnï¿½logo en informï¿½tica</p>
+                    	<p id="pFooter">Proyecto Fin de carrera - Tecn�logo en inform�tica</p>
                 	</li>
             	</ul>
             	<ul class="nav navbar-nav navbar-right">
-                	<li><p id="pFooter">Santiago Tabï¿½rez, Verï¿½nica Pï¿½rez y Camilo Orquera</p></li>
+                	<li><p id="pFooter">Santiago Tab�rez, Ver�nica P�rez y Camilo Orquera</p></li>
             	</ul>
         	</div>
     	</nav>
