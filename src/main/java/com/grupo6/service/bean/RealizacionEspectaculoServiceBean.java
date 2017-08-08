@@ -364,9 +364,7 @@ public class RealizacionEspectaculoServiceBean implements RealizacionEspectaculo
 			Optional<Portero> p = porteroRepository.findByCedula(cedula);
 			Optional<Entrada> ent =entradaRepository.findOne(Long.parseLong(parts[parts.length-1]));
 			if (ent.isPresent()){
-				if (ent.get().getPortero() != null){
-					return false;
-				}
+				
 				ent.get().setPortero(p.get());
 				Optional<HistorialEntradas> hEnt = historialEntradasRepository.findByEntrada(ent.get());
 				hEnt.get().setPortero(p.get());
