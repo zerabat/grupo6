@@ -55,7 +55,8 @@ public class ImagenesController {
 		}
 
 		try {
-			String pathImagen = imagenesPath + "\\" + tenantName + "\\" + String.valueOf(espectaculoId) + "\\";
+			TenantContext.setCurrentTenant(tenantName);
+			String pathImagen = imagenesPath + "\\" + TenantContext.getCurrentTenant() + "\\" + String.valueOf(espectaculoId) + "\\";
 			byte[] bytes = file.getBytes();
 			File espectaculoPath = new File(pathImagen);
 			if (!espectaculoPath.exists()) {
@@ -83,8 +84,8 @@ public class ImagenesController {
 		if (a == null || !a.isPresent() || !a.get().getEmail().equals(adminEmail)) {
 			return "El email es incorrecto o el administrador no inició la sesión";
 		}
-
-		String pathImagen = imagenesPath + "\\" + tenantName + "\\" + String.valueOf(enventoId) + "\\";
+		TenantContext.setCurrentTenant(tenantName);
+		String pathImagen = imagenesPath + "\\" + TenantContext.getCurrentTenant() + "\\" + String.valueOf(enventoId) + "\\";
 		File espectaculoPath = new File(pathImagen);
 		if (espectaculoPath.exists()) {
 			ImagenesController.deleteFolder(espectaculoPath);
@@ -99,7 +100,8 @@ public class ImagenesController {
 	public List<byte[]> obtenerImagenesEspectaculo(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 			 @RequestParam("espectaculoId") Long espectaculoId) throws IOException {
 
-		String pathImagen = imagenesPath + "\\" + tenantName + "\\" + String.valueOf(espectaculoId) + "\\";
+		TenantContext.setCurrentTenant(tenantName);
+		String pathImagen = imagenesPath + "\\" + TenantContext.getCurrentTenant() + "\\" + String.valueOf(espectaculoId) + "\\";
 		File[] files = Paths.get(pathImagen).toFile().listFiles();
 		List <byte[]> ret = new ArrayList<byte[]>();
 		for(File f: files){
@@ -150,7 +152,7 @@ public class ImagenesController {
 		}
 
 		try {
-			String pathImagen = imagenesSalaPath + "\\" + tenantName + "\\" + String.valueOf(salaId) + "\\";
+			String pathImagen = imagenesSalaPath + "\\" + TenantContext.getCurrentTenant() + "\\" + String.valueOf(salaId) + "\\";
 			File convFile = new File(
 					pathImagen + "sala.jpg" );
 			File espectaculoPath = new File(pathImagen);
@@ -182,7 +184,7 @@ public class ImagenesController {
 			return "El email es incorrecto o el administrador no inició la sesión";
 		}
 
-		String pathImagen = imagenesSalaPath + "\\" + tenantName + "\\" + String.valueOf(salaId) + "\\";
+		String pathImagen = imagenesSalaPath + "\\" + TenantContext.getCurrentTenant() + "\\" + String.valueOf(salaId) + "\\";
 		File espectaculoPath = new File(pathImagen);
 		if (espectaculoPath.exists()) {
 			ImagenesController.deleteFolder(espectaculoPath);
@@ -196,7 +198,9 @@ public class ImagenesController {
 	public byte[] obtenerImagensala(@RequestHeader("X-TenantID") String tenantName, HttpServletRequest request,
 		@RequestParam("salaId") Long salaId) throws IOException {
 
-		String pathImagen = imagenesSalaPath + "\\" + tenantName + "\\" + String.valueOf(salaId) + "\\";
+		
+		TenantContext.setCurrentTenant(tenantName);
+		String pathImagen = imagenesSalaPath + "\\" + TenantContext.getCurrentTenant() + "\\" + String.valueOf(salaId) + "\\";
 		Path path = Paths.get(pathImagen + "sala.jpg");
 		byte[] data = Files.readAllBytes(path);
 		return data;
