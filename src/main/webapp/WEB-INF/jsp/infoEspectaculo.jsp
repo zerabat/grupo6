@@ -68,9 +68,10 @@
                   <li class="active dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Espectáculos <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">Música</a></li>
-                      <li><a href="#">Teatro</a></li>
-                      <li><a href="#">Deportes</a></li>
+                       <li><a href="#">Deportes</a></li>
+					                <li><a href="#">Cine</a></li>
+					                <li><a href="#">Teatro</a></li>
+					                <li><a href="#">Música</a></li>
 <!--                       <li><a href="#">Infantiles</a></li> -->
                     </ul>
                   </li>

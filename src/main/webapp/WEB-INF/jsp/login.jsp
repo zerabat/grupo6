@@ -65,7 +65,7 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-12 google-login">
-					<h3>Ingresa también con:</h3>
+					<h3>Ingresa también con Gmail</h3>
 					<div class="google-login-button">
 <!-- 						<a href="#" class="btn-social"> <i -->
 <!-- 							class="glyphicon glyphicon-envelope"> Gmail</i> -->

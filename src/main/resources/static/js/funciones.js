@@ -391,6 +391,9 @@ function valida() {
     return false;
 }
 
+function buscar(){
+	
+}
 
 function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();

@@ -575,10 +575,10 @@
                 </div>
             </div>
              <div>
-                <form id="frmCrearRealizacion" action="" method="" >
+                <form id="frmCrearRealizacion" action="" method="Post" >
                     <input type="hidden" id="idRealizacion" name="idRealizacion" value="0">
                     <!-- Modal -->
-                    <div class="modal fade" id="#modalCrearReal" tabindex="-1" role="dialog" aria-labelledby="modalCrearLabel">
+                    <div class="modal fade" id="modalCrearReal" tabindex="-1" role="dialog" aria-labelledby="modalCrearLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">

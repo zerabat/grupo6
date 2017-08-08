@@ -80,15 +80,16 @@
 				            <li class="dropdown">
 				                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Espectáculos <span class="caret"></span></a>
 
-                                <ul class="dropdown-menu" role="menu">
-					                <li><a href="#">Música</a></li>
-					                <li><a href="#">Teatro</a></li>
+                                <ul class="dropdown-menu" role="menu"> 				                
 					                <li><a href="#">Deportes</a></li>
+					                <li><a href="#">Cine</a></li>
+					                <li><a href="#">Teatro</a></li>
+					                <li><a href="#">Música</a></li>
 <!-- 					                <li><a href="#">Infantiles</a></li> -->
 				                </ul>
 				            </li>
 
-				            <li><a href="#">Contacto</a></li>
+<!-- 				            <li><a href="#">Contacto</a></li> -->
 				        </ul>
 
     				    <form class="navbar-form navbar-left" role="search">
@@ -102,7 +103,7 @@
 						<c:choose>
                             <c:when test="${username != null}">
                                  <ul class="nav navbar-nav navbar-right">
-                                   <li><a href="index" id="btnUser">${username}</a></li>
+                                   <li><a href="index" id="btnUser" >${username}</a></li>
                                    <a class="btn btn-link" title="Salir" id="btnLogout" onClick="logout();"><span class="glyphicon glyphicon-log-out"></span></a>
                                 </ul>
                               </c:when>
@@ -138,6 +139,7 @@
 	                      <li data-target="#carousel_index" data-slide-to="0" class="active"></li>
 	                      <li data-target="#carousel_index" data-slide-to="1"></li>
 	                      <li data-target="#carousel_index" data-slide-to="2"></li>
+	                      <li data-target="#carousel_index" data-slide-to="3"></li>
 	                </ol>
 
 	                <!--Contenedor del slide-->
@@ -154,23 +156,33 @@
 	                    </div>
 
 	                    <div class="item">
-							<c:url value="/img/calamaro.jpg" var="imgCalamaro" />
-	                        <img src="${imgCalamaro}" class="img-responsive" alt="" width="100%" >
+							<c:url value="/img/divididos.jpg" var="imgDivididos" />
+	                        <img src="${imgDivididos}" class="img-responsive" alt="" width="100%" >
 	                        <div class="carousel-caption hidden-xs hidden-sm">
 	                            <div class="banner">
-	                                <h3>Calamaro</h3>
-	                                <p>Auditorio del Sodre</p>
+	                                <h3>Dividios</h3>
+	                                <p>La aplanadora del Rock LANDIA</p>
 	                            </div>
 	                        </div>
 	                    </div>
 
 	                    <div class="item">
-							<c:url value="/img/midachi.jpg" var="imgMidachi" />
-	                        <img src="${imgMidachi}" class="img-responsive" alt="" width="100%"  >
+							<c:url value="/img/juanes_370.jpg" var="imgJuanes" />
+	                        <img src="${imgJuanes}" class="img-responsive" alt="" width="100%"  >
 	                        <div class="carousel-caption hidden-xs hidden-sm">
 	                            <div class="banner">
-	                                <h3>MIDACHI</h3>
-	                                <p>Agosto en Landia</p>
+	                                <h3>JUANES</h3>
+	                                <p>Presentando su nuevo material</p>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="item">
+							<c:url value="/img/miranda.jpg" var="imgMiranda" />
+	                        <img src="${imgMiranda}" class="img-responsive" alt="" width="100%"  >
+	                        <div class="carousel-caption hidden-xs hidden-sm">
+	                            <div class="banner">
+	                                <h3>MIRANDA</h3>
+	                                <p>Presenta su nuevo disco</p>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -251,7 +263,9 @@
                     </div>
                 </div>
 	        </div>
+			
     	</div>
+    	
 
 	    <!-- Pie de pagina -->
 	    <footer>
@@ -271,5 +285,25 @@
 	            </div>
         	</nav>
 	    </footer>
+	    
+	     <!-- Modal -->
+					  <div class="modal fade" id="entradasUsuario" role="dialog">
+					    <div class="modal-dialog">
+					    
+					      <!-- Modal content-->
+					      <div class="modal-content">
+					        <div class="modal-header">
+					          <h4 class="modal-title">Panel usuario</h4>
+					        </div>
+					        <div class="modal-body">
+					          <p>Entradas compradas</p>
+					        </div>
+					        <div class="modal-footer">
+					          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					        </div>
+					      </div>
+					      
+					    </div>
+					  </div>
 	</body>
 </html>
